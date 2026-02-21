@@ -1,0 +1,1001 @@
+=== PRD CONTENT ===
+TRAILS AND MILES
+Product Requirements Document (PRD)
+Smart Travel Planning Platform for Indian Travellers
+Version 1.0  |  February 2026
+[TABLE START]
+Document Title | Trails and Miles – Product Requirements Document
+Version | 1.0
+Date | February 2026
+Author | Trails and Miles Product Team
+Status | Draft – For Review
+Confidentiality | Internal / Stakeholders Only
+[TABLE END]
+Table of Contents
+1. Executive Summary
+2. Product Vision & Objectives
+3. Target Audience & User Personas
+4. Core Feature Requirements
+5. Personalization Engine
+6. Information Architecture
+7. User Journeys & Flows
+8. Chatbot – Smart Itinerary Assistant
+9. Content Strategy
+10. Monetization Strategy
+11. Success Metrics & KPIs
+12. Release Phases & Roadmap
+13. Risks & Mitigations
+14. Appendix
+1. Executive Summary
+Trails and Miles is a next-generation travel intelligence platform designed exclusively for Indian travellers. The platform combines destination intelligence, AI-powered personalized itinerary generation, and community-driven travel content to deliver a premium, end-to-end trip planning experience.
+Unlike generic travel aggregators, Trails and Miles learns from each user’s travel history, preferences, and behavioral patterns to generate hyper-personalized itineraries. The platform covers international destinations (starting with East Asia and Southeast Asia) and domestic Indian travel, including curated bike tours and offbeat exploration.
+Core Value Proposition: Destination intelligence + AI-personalized itinerary builder + chatbot-assisted planning, all tailored for Indian travellers.
+Key Differentiators
+Travel history-driven personalization – itineraries adapt based on past trips, stated preferences, and inferred interests
+India-specific context – visa requirements, budget in INR, Indian food availability, safety advisories for Indian passport holders
+Smart Itinerary Assistant (AI Chatbot) – conversational trip planning with natural language input
+Progressive content disclosure – information-dense but uncluttered interface
+Community layer – user-generated itineraries, reviews, and tips from verified Indian travellers
+2. Product Vision & Objectives
+Vision Statement
+To become the most trusted and intelligent travel planning companion for Indian travellers – combining data-driven destination insights with deeply personalized recommendations that evolve with every trip.
+Strategic Objectives
+[TABLE START]
+Objective | Target | Timeline
+Build comprehensive destination database | 5 countries, 25+ cities (East Asia) | Q1 2026
+Launch personalized itinerary engine | 80%+ user satisfaction on generated plans | Q2 2026
+Achieve product-market fit | 10,000 monthly active users | Q3 2026
+Launch AI chatbot (V1) | 70% itinerary completion rate via chat | Q2 2026
+Visa Hub with 100% accuracy | 15+ countries covered | Q1 2026
+Enable community itineraries | 500+ shared itineraries | Q4 2026
+Monetization activation | Revenue from affiliate + premium | Q4 2026
+[TABLE END]
+3. Target Audience & User Personas
+Primary Audience
+Indian travellers aged 22–45, digitally savvy, planning international or domestic trips. They seek reliable, India-contextualized travel information and prefer planning tools over raw content.
+User Personas
+Persona 1: Aarav – The First-Time International Traveller
+Age: 26 | Software Engineer | Bangalore
+Travel Experience: Domestic only – Goa, Manali, Pondicherry
+Goal: Plan his first solo international trip to Vietnam on a moderate budget
+Pain Points: Overwhelmed by scattered info; needs visa clarity, budget in INR, day-wise plans
+Platform Need: Step-by-step guided itinerary builder, visa checklist, budget calculator
+Persona 2: Priya – The Experienced Explorer
+Age: 32 | Marketing Manager | Mumbai
+Travel Experience: 15+ countries – Thailand, Bali, Japan, Europe
+Goal: Discover unique, offbeat experiences she hasn’t tried before
+Pain Points: Generic recommendations; wants the platform to learn from her history and suggest new adventures
+Platform Need: Personalization engine that avoids repeating past destinations and surfaces novel experiences
+Persona 3: Rajesh & Family – The Comfort Seekers
+Age: 40 | Business Owner | Delhi
+Travel Experience: Singapore, Dubai, Maldives with family
+Goal: Plan a hassle-free 7-day family trip to Thailand
+Pain Points: Needs kid-friendly activities, vegetarian food options, reliable visa info
+Platform Need: Family-mode itinerary with filters for dietary needs, child-safe activities, and luxury stays
+4. Core Feature Requirements
+4.1 Destination Intelligence Hub
+A comprehensive, structured knowledge base for each destination, designed for progressive disclosure.
+[TABLE START]
+Feature | Description | Priority
+Country Overview Page | Hero visual, quick facts bar (currency, visa, best season, budget), city cards, experience categories | P0
+City / Region Pages | Detailed guides with attractions, food, accommodation zones, local transport, safety tips | P0
+Experience Categorization | Nature, Food, Culture, Adventure, Luxury, Island & Beach – filterable tags across all destinations | P0
+Sample Itineraries | Pre-built 3/5/7/10-day plans for each country, linked to experiences | P0
+Budget & Cost Guides | Real-time or frequently updated cost breakdowns in INR | P1
+Best Time to Visit Engine | Month-by-month scoring with weather, crowd level, price index | P1
+Interactive Maps | Zoomable maps with points of interest, transit routes, walking tours | P2
+[TABLE END]
+4.2 Personalized Itinerary Engine
+The flagship feature – generates tailored day-by-day itineraries using a combination of user profile data, travel history, and real-time preferences.
+Input Parameters
+[TABLE START]
+Parameter | Type | Options / Range
+Destination | Selection | Country → City multi-select
+Trip Duration | Numeric | 1–30 days
+Travel Style | Single Select | Leisure / Adventure / Luxury / Budget / Cultural
+Budget Range | Slider | ₹10,000 – ₹10,00,000+ per person
+Pace Preference | Single Select | Relaxed / Balanced / Fast-paced
+Travel Companions | Single Select | Solo / Couple / Family / Friends Group
+Interest Tags | Multi-select | Beaches, Food, Culture, Nature, Nightlife, Shopping, Wellness
+Dietary Preference | Multi-select | Vegetarian / Vegan / Jain / No Preference
+Accessibility Needs | Toggle | Wheelchair-friendly / Senior-friendly
+Previously Visited | Auto-populated | From user travel history
+[TABLE END]
+Output Deliverables
+Day-wise structured itinerary with morning / afternoon / evening blocks
+Sightseeing list per day with estimated time at each location
+Estimated daily and total budget breakdown (accommodation, food, transport, activities)
+Travel time and mode between points (walking, taxi, public transit)
+Restaurant and food recommendations (with veg/non-veg filters)
+Alternative suggestions for each slot (swap-ready)
+Weather advisory for selected dates
+Exportable as PDF / shareable link / add to calendar
+4.3 Visa Hub
+India-specific visa intelligence with 100% accuracy as the non-negotiable target.
+[TABLE START]
+Feature | Description | Priority
+Country Selector | Search or browse countries by visa type | P0
+Visa Categories | Visa-Free, Visa on Arrival, E-Visa, Embassy Visa – with clear badges | P0
+Document Checklist | Step-by-step list of required documents with tick-off capability | P0
+Processing Timeline | Expected processing time with buffer recommendations | P0
+Fees Calculator | Visa fees in INR with service charge transparency | P1
+Common Mistakes | Curated list of rejection reasons and how to avoid them | P1
+Downloadable Checklist | PDF export of document requirements | P1
+Status Tracker | Integration with embassy APIs where available (future) | P3
+[TABLE END]
+4.4 Domestic Travel Module
+Bike Tours
+Himalayan Bike Tours – Leh-Ladakh, Spiti Valley, Uttarakhand circuits
+Northeast Circuits – Meghalaya, Arunachal Pradesh, Nagaland loops
+Coastal Routes – Konkan, Kerala backwaters, Andaman trails
+Each tour includes: interactive route map, day-wise riding plan, difficulty rating (1–5), best season window, safety checklist, gear recommendations, and estimated costs.
+Hidden & Unexplored Gems
+Offbeat hill towns (Chitkul, Ziro, Tawang, Sandakphu)
+Remote beaches (Gokarna alternatives, Lakshadweep, Dhanushkodi)
+Tribal & cultural regions (Chhattisgarh, Jharkhand, Northeast)
+Content format: story-driven narratives, practical access info, responsible tourism guidelines, and community impact notes.
+4.5 Guides & Blog Engine
+SEO-first, research-backed content engine with the following categories:
+Destination Guides – comprehensive country and city guides
+Budget Travel – cost-saving strategies, hostel guides, street food maps
+Luxury Travel – premium stays, fine dining, private experiences
+Solo Travel – safety tips for Indian solo travellers (with gender-specific advice)
+Travel Tips for Indians – forex, SIM cards abroad, Indian food abroad, cultural etiquette
+Each blog links to relevant destinations, itineraries, and visa pages for maximum internal linking and user retention.
+5. Personalization Engine – Deep Dive
+The personalization engine is the core differentiator of Trails and Miles. It transforms the platform from a static travel guide into an adaptive travel companion that grows smarter with every interaction.
+5.1 Data Collection Layers
+[TABLE START]
+Layer | Data Points | Collection Method
+Explicit Profile | Age, location, passport details, dietary preferences, travel companions | User registration & profile settings
+Travel History | Past destinations, trip duration, travel style, budget spent, ratings given | Manual input + trip logging
+Behavioral Signals | Pages viewed, experiences bookmarked, itinerary edits, time on content | Analytics & event tracking
+Chatbot Interactions | Stated preferences, rejected suggestions, follow-up questions | Conversation logs (with consent)
+Social & Community | Itineraries shared, reviews written, users followed | Community activity tracking
+[TABLE END]
+5.2 Personalization Logic
+Recommendation Algorithms
+Collaborative Filtering – “Travellers similar to you also loved...” based on travel history clustering
+Content-Based Filtering – Match user interest tags with destination/experience attributes
+Contextual Bandits – Optimize recommendations based on real-time feedback (clicks, saves, dismissals)
+Temporal Modeling – Factor in seasonality, upcoming holidays, visa processing windows
+Novelty Scoring – Actively deprioritize previously visited destinations and repetitive experience types
+5.3 Personalization Touchpoints
+[TABLE START]
+Touchpoint | How Personalization Manifests
+Homepage | Featured destinations, trending experiences, and CTAs change based on user profile and history
+Destination Pages | Highlighted experiences and sample itineraries match user’s interest tags
+Itinerary Builder | Pre-filled suggestions, smart defaults (pace, budget, style) based on past behavior
+Chatbot | Context-aware conversation – references past trips, avoids repeating suggestions
+Visa Hub | Auto-suggests visa pages for destinations the user is browsing
+Blog Feed | Personalized content feed based on reading history and bookmarks
+Push Notifications | Price drops, visa policy changes, and seasonal alerts for saved destinations
+Email Digests | Weekly personalized travel inspiration with “because you visited X” reasoning
+[TABLE END]
+6. Information Architecture
+6.1 Global Elements
+Sticky Header
+Logo (Trails and Miles – left-aligned)
+Primary Navigation: Destinations | Plan Your Itinerary | Experiences | Visa Hub | Domestic Travel | Guides & Blogs
+CTA Button: “Plan Your Trip” (primary action, always visible)
+Global Search (destinations, experiences, visa info – unified search)
+User Avatar / Login / Sign Up
+Footer
+Columns: About | Destinations | Domestic | Visa Hub | Blogs | Contact
+Legal: Privacy Policy | Terms of Service | Cookie Policy
+Social Links | Newsletter Signup | App Download (future)
+6.2 Primary Navigation Structure
+[TABLE START]
+Menu Item | Type | Children
+Destinations | Mega-menu | Region groups → Country cards → Sub-pages (Overview, Cities, Experiences, Itineraries, Budget, Visa)
+Plan Your Itinerary | Dropdown | Build Itinerary (Manual) | Smart Builder (Chatbot) | Sample Itineraries | Budget Calculator
+Experiences | Dropdown | Nature | Food & Markets | Culture | Adventure | Luxury | Island & Beach
+Visa Hub | Dropdown | Visa-Free | Visa on Arrival | E-Visa | Embassy Visa
+Domestic Travel | Dropdown | Bike Tours (Himalayan, Northeast, Coastal) | Hidden Gems (Hills, Beaches, Tribal)
+Guides & Blogs | Dropdown | Destination Guides | Budget | Luxury | Solo | Tips for Indians
+[TABLE END]
+6.3 Homepage Section Breakdown
+Hero Section – Rotating destination visuals + value proposition + primary CTA (“Start Planning”)
+Smart Planning Widget – Inline mini-form: Where? When? How many days? Budget? → instant itinerary generation
+Personalized Destinations – “Recommended for You” carousel based on user profile (or trending for new users)
+Smart Itinerary Highlight – Showcase the AI builder with a sample output preview
+Visa Simplified Section – Quick-access visa cards for top destinations
+Domestic Highlights – Bike tours and hidden gems carousel
+Social Proof – User testimonials, partner logos, media mentions
+Newsletter Signup – Travel inspiration + early access to new features
+7. User Journeys & Flows
+Journey 1: First-Time Visitor → Itinerary Generation
+User lands on homepage via SEO or social media
+Sees hero section with “Plan Your Dream Trip” CTA
+Uses inline planning widget (destination, days, budget)
+System generates a sample itinerary (no login required for preview)
+Prompted to sign up to save, customize, and export
+Completes onboarding (travel history, interests, dietary preferences)
+Receives personalized itinerary with full day-wise plan
+Edits, saves, exports PDF, or shares link
+Journey 2: Returning User → Discovery
+User logs in and sees personalized homepage
+Homepage reflects: “Since you loved Bali, explore Phu Quoc”
+Browses recommended destinations and experiences
+Opens chatbot: “I want somewhere like Thailand but less touristy”
+Chatbot suggests Cambodia, Laos, or Vietnam’s Central Highlands
+User selects and generates a fresh itinerary
+Journey 3: Visa Research → Trip Planning
+User searches “visa on arrival for Indians”
+Lands on Visa Hub → Visa on Arrival category
+Selects Thailand → sees full document checklist and fees
+Cross-linked CTA: “Plan your Thailand trip”
+Enters itinerary builder with Thailand pre-selected
+8. Chatbot – Smart Itinerary Assistant
+8.1 Overview
+The AI-powered Smart Itinerary Assistant is a conversational trip planner that guides users through itinerary creation using natural language. It leverages the personalization engine to deliver context-aware, history-informed recommendations.
+8.2 Entry Points
+Floating button on all pages: “Plan with AI” (bottom-right)
+Dedicated page: /plan/smart-builder
+Homepage inline widget CTA
+Post-destination page CTA: “Let AI plan your [country] trip”
+8.3 Conversation Flow
+[TABLE START]
+Step | Bot Question | Input Type | Personalization
+1 | Where are you travelling to? | Text / Selection | Pre-suggests destinations based on history
+2 | How many days do you have? | Numeric | Suggests optimal duration based on destination
+3 | What’s your budget per person? | Range slider | Defaults to user’s typical budget range
+4 | What’s your travel style? | Single select | Pre-selects based on past trips
+5 | Who are you travelling with? | Single select | Remembers from last trip
+6 | What interests you most? | Multi-select tags | Pre-checks based on user profile
+7 | Any dietary preferences? | Multi-select | Auto-filled from profile
+[TABLE END]
+8.4 Output Capabilities
+Complete day-wise itinerary with time blocks
+Inline edit mode – swap activities, change days, add rest periods
+Real-time budget recalculation on changes
+Save to user profile
+Export as PDF (branded, print-ready)
+Generate shareable link
+Add to Google Calendar integration (future)
+Collaborative editing – invite co-travellers (future)
+9. Content Strategy
+9.1 Content Pillars
+[TABLE START]
+Pillar | Purpose | Format
+Destination Intelligence | Comprehensive, structured destination data | Database-driven pages with editorial overlays
+Travel Narratives | Inspire through storytelling | Long-form blogs, photo essays, video (future)
+Practical Guides | Solve specific planning problems | Visa guides, packing lists, budget breakdowns
+Community Content | Peer-validated recommendations | User itineraries, reviews, tips, forums (future)
+SEO Content | Organic traffic acquisition | Keyword-targeted articles, FAQ schema, listicles
+[TABLE END]
+9.2 Content Guidelines
+Tone: Clean, crisp, premium, information-dense but never cluttered
+Audience lens: Always write for Indian travellers – INR budgets, Indian food availability, cultural context
+Accuracy: Every fact must be verifiable; cost data updated quarterly
+SEO: Every page must have target keywords, meta descriptions, schema markup, and internal links
+Accessibility: Alt text for all images, readable fonts, WCAG 2.1 AA compliance
+10. Monetization Strategy
+[TABLE START]
+Revenue Stream | Description | Timeline
+Affiliate Commissions | Hotels (Booking.com, Agoda), flights (Skyscanner), activities (GetYourGuide, Klook) | Phase 2
+Premium Subscriptions | Advanced personalization, unlimited itinerary saves, offline access, priority chatbot | Phase 3
+Sponsored Placements | Tourism boards, airlines, hotel chains – native content, not banner ads | Phase 3
+Visa Assistance Service | Premium document review and application support (partner-fulfilled) | Phase 3
+B2B API Access | Itinerary engine as a service for travel agencies and corporates | Phase 4
+Community Marketplace | Verified local guides, curated experiences booked via platform | Phase 4
+[TABLE END]
+11. Success Metrics & KPIs
+[TABLE START]
+Category | Metric | Target (6 Months)
+Acquisition | Monthly Active Users (MAU) | 10,000
+Acquisition | Organic Traffic (monthly sessions) | 50,000
+Engagement | Itineraries Generated / Month | 5,000
+Engagement | Avg. Session Duration | > 4 minutes
+Engagement | Chatbot Completion Rate | > 70%
+Retention | 30-Day Return Rate | > 35%
+Retention | Itinerary Save Rate | > 50%
+Conversion | Signup Conversion (visitor → user) | > 8%
+Conversion | Affiliate Click-Through Rate | > 3%
+Satisfaction | NPS Score | > 50
+Satisfaction | Itinerary Satisfaction Rating | > 4.2 / 5
+[TABLE END]
+12. Release Phases & Roadmap
+Phase 1: Foundation (Q1 2026)
+Destination pages for 5 East Asian countries (Vietnam, Thailand, Indonesia, Singapore, Maldives)
+Manual itinerary builder with core input parameters
+Visa Hub with document checklists and processing info
+Blog engine with 20+ launch articles
+User registration and basic profile
+Responsive web (mobile-first design)
+Phase 2: Intelligence (Q2 2026)
+AI Chatbot V1 (conversational itinerary assistant)
+Personalization engine V1 (travel history + interest-based)
+Budget calculator with INR conversion
+Sample itinerary library (50+ curated plans)
+Affiliate integration (hotels, flights, activities)
+Push notification system
+Phase 3: Scale (Q3–Q4 2026)
+Domestic travel module (bike tours + hidden gems)
+Community features (shared itineraries, user reviews, ratings)
+Premium subscription tier
+Advanced personalization (collaborative filtering, novelty scoring)
+Expand to 15+ countries (Japan, South Korea, Sri Lanka, Nepal, Europe entry)
+Mobile app development (iOS + Android)
+Phase 4: Ecosystem (2027)
+B2B itinerary API
+Offline access in mobile app
+Local guide marketplace
+Trip expense tracker
+Collaborative trip planning (multi-user editing)
+AI travel journal and post-trip analytics
+13. Risks & Mitigations
+[TABLE START]
+Risk | Impact | Likelihood | Mitigation
+Content accuracy (outdated visa/cost info) | High | Medium | Quarterly content audits; user-reported corrections; admin review pipeline
+Low initial engagement | High | Medium | SEO-first launch; social media seeding; early-access program with travel community
+Chatbot hallucination / bad recommendations | High | Medium | RAG-based architecture (grounded in curated DB); human review for flagged outputs
+Personalization cold-start problem | Medium | High | Robust onboarding flow; trending/popular defaults for new users
+Technical scalability | Medium | Low | Cloud-native architecture; auto-scaling; CDN for static content
+Competitor response | Medium | Medium | Differentiate on India-specific context; deepen personalization moat
+Data privacy concerns | High | Low | GDPR-aligned privacy framework; transparent data usage; opt-out controls
+[TABLE END]
+14. Appendix
+A. Design Principles
+White space heavy – breathable layouts that let content shine
+Card-based layout – modular, scannable, mobile-friendly
+Minimal color palette – earth tones with accent highlights
+Icons over text – visual communication where possible
+Progressive disclosure – dropdowns and expandable sections instead of long pages
+Premium typography – clean sans-serif, generous line heights
+Micro-interactions – subtle animations on hover, scroll, and transitions
+B. Glossary
+[TABLE START]
+Term | Definition
+PRD | Product Requirements Document
+MVP | Minimum Viable Product
+RAG | Retrieval Augmented Generation – AI grounded in curated data
+MAU | Monthly Active Users
+NPS | Net Promoter Score
+WCAG | Web Content Accessibility Guidelines
+CTA | Call to Action
+INR | Indian Rupee
+[TABLE END]
+End of Product Requirements Document
+
+
+=== TRD CONTENT ===
+TRAILS AND MILES
+Technical Requirements Document
+System Architecture, Technology Stack & Engineering Blueprint
+Version 1.0  |  February 2026
+CONFIDENTIAL — Engineering Team Only
+Document Control
+[TABLE START]
+Field | Detail
+Document Title | Trails and Miles — Technical Requirements Document (TRD)
+Version | 1.0
+Status | Draft
+Author | Engineering Team — Trails and Miles
+Last Updated | February 21, 2026
+Classification | Confidential — Engineering
+Companion Document | PRD v1.0 — Trails and Miles Product Requirements Document
+[TABLE END]
+Revision History
+[TABLE START]
+Version | Date | Author | Changes
+0.1 | Feb 2026 | Engineering Lead | Initial architecture draft
+1.0 | Feb 2026 | Engineering Team | Full TRD with all system specifications
+[TABLE END]
+Table of Contents
+Introduction
+Purpose
+This Technical Requirements Document (TRD) defines the complete system architecture, technology choices, data models, API contracts, infrastructure design, security framework, and engineering standards for the Trails and Miles platform. It serves as the authoritative technical reference for all engineering, DevOps, and QA teams.
+This document should be read alongside the Product Requirements Document (PRD v1.0) which defines feature specifications, user personas, and business logic.
+Scope
+The TRD covers the following systems and subsystems:
+Frontend web application (responsive, mobile-first)
+Backend API services (microservices architecture)
+AI/ML personalization engine and recommendation system
+Smart Itinerary Assistant (conversational AI chatbot)
+Content management system (headless CMS)
+Database architecture (relational + document + vector stores)
+Search and discovery infrastructure
+Authentication, authorization, and user management
+Cloud infrastructure, CI/CD, monitoring, and observability
+Third-party integrations (maps, payments, affiliates, visa APIs)
+Security, compliance, and data privacy framework
+Architecture Principles
+The system is designed around the following non-negotiable engineering principles:
+Cloud-Native First: All services containerized, orchestrated with Kubernetes, deployed on AWS.
+API-First Design: Every capability exposed as a versioned REST/GraphQL API before any UI is built.
+Event-Driven Architecture: Asynchronous communication via message queues for decoupled, scalable services.
+Personalization as Infrastructure: The recommendation engine is a core platform service, not an add-on.
+Security by Design: Zero-trust networking, encrypted at rest and in transit, OWASP Top 10 compliant.
+Progressive Enhancement: Core experience works without JS; advanced features layer on top.
+Observability-First: Structured logging, distributed tracing, and real-time alerting from day one.
+System Architecture Overview
+High-Level Architecture
+Trails and Miles follows a modular microservices architecture with a React-based frontend, a Node.js/Python hybrid backend, and managed cloud services for data, search, and AI workloads. The system is organized into four architectural tiers:
+[TABLE START]
+Tier | Components | Technology
+Presentation Tier | Web App, Mobile Web (PWA), Admin Dashboard | Next.js 15 (App Router), React 19, TailwindCSS 4, Framer Motion
+API Gateway Tier | API Gateway, Rate Limiter, Auth Middleware, CDN | AWS API Gateway, CloudFront, Cognito
+Application Tier | Microservices (Destination, Itinerary, User, Visa, Content, Search, Recommendation, Chatbot) | Node.js 22 (Fastify), Python 3.12 (FastAPI), gRPC for inter-service
+Data Tier | Primary DB, Document Store, Cache, Vector DB, Object Storage, Message Queue | PostgreSQL 16, MongoDB 7, Redis 7, Pinecone, S3, Amazon SQS/SNS
+[TABLE END]
+Service Architecture Map
+The backend is decomposed into the following bounded-context microservices, each independently deployable and scalable:
+[TABLE START]
+Service | Responsibility | Tech Stack | Database
+user-service | Registration, auth, profiles, travel history, preferences | Node.js / Fastify | PostgreSQL
+destination-service | Country, city, region, POI data; experience catalog | Node.js / Fastify | PostgreSQL + MongoDB (rich content)
+itinerary-service | Manual builder, AI-generated plans, CRUD, sharing, export | Python / FastAPI | PostgreSQL + Redis (draft cache)
+visa-service | Visa types, document checklists, fees, processing times | Node.js / Fastify | PostgreSQL
+content-service | Blog engine, guides, editorial content, media management | Node.js / Fastify | MongoDB + S3
+search-service | Unified search across destinations, experiences, blogs, visa | Python / FastAPI | Elasticsearch 8
+recommendation-service | Personalization engine, collaborative filtering, ranking | Python / FastAPI | PostgreSQL + Pinecone (embeddings)
+chatbot-service | Conversational AI, intent recognition, itinerary generation | Python / FastAPI | Redis (session) + Pinecone (RAG)
+notification-service | Email, push, in-app notifications, digests | Node.js / Fastify | PostgreSQL + SQS
+analytics-service | Event tracking, user behavior, A/B test framework | Python / FastAPI | ClickHouse
+[TABLE END]
+Inter-Service Communication
+Services communicate through two patterns based on latency and coupling requirements:
+Synchronous (gRPC): Used for real-time, request-response flows. Example: itinerary-service calls destination-service to fetch POI data during plan generation. Protocol Buffers for schema enforcement.
+Asynchronous (SQS/SNS): Used for event-driven, fire-and-forget flows. Example: user-service publishes a UserTripLogged event; recommendation-service consumes it to update personalization models.
+Key event channels:
+[TABLE START]
+Event | Publisher | Consumer(s) | Purpose
+user.registered | user-service | recommendation-service, notification-service | Initialize user profile, send welcome email
+user.trip_logged | user-service | recommendation-service, analytics-service | Update travel history, retrain model
+itinerary.generated | itinerary-service | analytics-service, notification-service | Track generation metrics, prompt save
+itinerary.saved | itinerary-service | recommendation-service | Feed saved preferences back into model
+content.published | content-service | search-service | Index new content for search
+visa.updated | visa-service | notification-service | Alert users tracking that country
+[TABLE END]
+Technology Stack
+Frontend Stack
+[TABLE START]
+Layer | Technology | Version | Rationale
+Framework | Next.js (App Router) | 15.x | Server components, streaming SSR, edge runtime, SEO-first
+UI Library | React | 19.x | Concurrent rendering, Server Components, Suspense boundaries
+Styling | TailwindCSS + Radix UI | 4.x / 1.x | Utility-first CSS, accessible headless components
+State Management | Zustand + TanStack Query | 5.x / 5.x | Lightweight global state + server state caching
+Animation | Framer Motion | 11.x | Declarative animations, layout transitions, gesture support
+Maps | Mapbox GL JS | 3.x | Vector tiles, 3D terrain, custom styling, offline capability
+Forms | React Hook Form + Zod | 7.x / 3.x | Performant forms with schema validation
+Testing | Vitest + Playwright | 2.x / 1.x | Unit/integration + E2E browser testing
+Build Tool | Turbopack (via Next.js) | Latest | Incremental builds, fast HMR
+PWA | next-pwa + Workbox | Latest | Offline shell, asset caching, push notifications
+[TABLE END]
+Backend Stack
+[TABLE START]
+Layer | Technology | Version | Rationale
+Primary Runtime | Node.js + Fastify | 22.x / 5.x | High throughput, schema-based validation, TypeScript-native
+AI/ML Runtime | Python + FastAPI | 3.12 / 0.115 | ML ecosystem, async-native, auto-generated OpenAPI docs
+API Protocol | REST + GraphQL (BFF) | OpenAPI 3.1 / Apollo 4 | REST for services, GraphQL BFF for frontend aggregation
+Inter-Service | gRPC + Protocol Buffers | 1.62 / proto3 | Low-latency, strongly typed, bi-directional streaming
+Auth | AWS Cognito + JWT | Latest | Managed auth, social login, MFA, device tracking
+Task Queue | BullMQ (Redis-backed) | 5.x | Job scheduling, retries, rate limiting, delayed jobs
+PDF Generation | Puppeteer (headless Chrome) | 23.x | High-fidelity branded PDF export for itineraries
+Email | Amazon SES + React Email | Latest | Transactional email with React-based templates
+Logging | Pino (Node) + structlog (Python) | Latest | Structured JSON logging, correlation IDs
+[TABLE END]
+AI/ML Stack
+[TABLE START]
+Component | Technology | Purpose
+LLM Provider | Anthropic Claude API (claude-sonnet-4-5-20250929) | Chatbot conversation, itinerary narrative generation
+RAG Framework | LangChain + LlamaIndex | Retrieval-augmented generation grounded in destination database
+Vector Database | Pinecone (Serverless) | Semantic search, embedding storage for destinations and experiences
+Embedding Model | Voyage AI (voyage-3-large) | Text-to-vector embeddings for destinations, reviews, user profiles
+Recommendation Engine | Custom Python (scikit-learn + implicit) | Collaborative filtering, content-based filtering, hybrid ranking
+Feature Store | Redis + PostgreSQL | Real-time feature serving for recommendation model
+Experiment Framework | GrowthBook | A/B testing, feature flags, ML model rollout
+Model Serving | AWS SageMaker Endpoints | Scalable model inference for recommendation and ranking
+[TABLE END]
+Data & Infrastructure Stack
+[TABLE START]
+Component | Technology | Purpose
+Primary Database | PostgreSQL 16 (AWS RDS) | User data, itineraries, visa info, structured destination data
+Document Store | MongoDB 7 (Atlas) | Rich content (blogs, guides), flexible destination metadata
+Cache Layer | Redis 7 (AWS ElastiCache) | Session store, API cache, rate limiting, real-time features
+Search Engine | Elasticsearch 8 (Elastic Cloud) | Full-text search, faceted filtering, autocomplete, geo-search
+Analytics DB | ClickHouse (Cloud) | Event analytics, user behavior tracking, funnel analysis
+Object Storage | AWS S3 + CloudFront CDN | Images, PDFs, static assets with edge delivery
+Message Queue | Amazon SQS + SNS | Async event processing, pub/sub for microservices
+Container Orchestration | AWS EKS (Kubernetes) | Service deployment, auto-scaling, rolling updates
+CI/CD | GitHub Actions + ArgoCD | Automated testing, container builds, GitOps deployment
+IaC | Terraform + Terragrunt | Infrastructure as Code for all AWS resources
+Monitoring | Datadog (APM + Logs + Infra) | Full-stack observability, alerting, dashboards
+Error Tracking | Sentry | Real-time error capture with source maps, breadcrumbs
+Secrets Management | AWS Secrets Manager + SOPS | Encrypted secrets, rotation policies, audit trails
+[TABLE END]
+Database Architecture
+PostgreSQL Schema Design
+The primary relational database uses a normalized schema with strategic denormalization for read-heavy patterns. Key schemas are organized by bounded context with cross-referencing via foreign keys.
+Users Schema
+users (id UUID PK, email VARCHAR UNIQUE, password_hash TEXT, full_name VARCHAR, avatar_url TEXT, passport_nationality VARCHAR DEFAULT 'IN', dietary_preferences JSONB, accessibility_needs JSONB, created_at TIMESTAMPTZ, updated_at TIMESTAMPTZ)
+user_travel_profiles (id UUID PK, user_id UUID FK, default_travel_style VARCHAR, default_pace VARCHAR, default_budget_range INT4RANGE, preferred_interests TEXT[], preferred_companions VARCHAR, updated_at TIMESTAMPTZ)
+user_travel_history (id UUID PK, user_id UUID FK, destination_id UUID FK, trip_date DATE, duration_days INT, travel_style VARCHAR, budget_spent_inr NUMERIC, rating SMALLINT, notes TEXT, created_at TIMESTAMPTZ)
+Destinations Schema
+countries (id UUID PK, name VARCHAR, slug VARCHAR UNIQUE, region VARCHAR, currency_code CHAR(3), timezone VARCHAR, hero_image_url TEXT, quick_facts JSONB, status VARCHAR DEFAULT 'draft', created_at TIMESTAMPTZ)
+cities (id UUID PK, country_id UUID FK, name VARCHAR, slug VARCHAR, lat DECIMAL(10,7), lng DECIMAL(10,7), description TEXT, hero_image_url TEXT, best_season JSONB, budget_tier VARCHAR, status VARCHAR, created_at TIMESTAMPTZ)
+points_of_interest (id UUID PK, city_id UUID FK, name VARCHAR, slug VARCHAR, category VARCHAR, subcategory VARCHAR, description TEXT, lat DECIMAL(10,7), lng DECIMAL(10,7), avg_duration_mins INT, avg_cost_inr NUMERIC, images JSONB, tags TEXT[], rating_avg DECIMAL(3,2), created_at TIMESTAMPTZ)
+experiences (id UUID PK, name VARCHAR, slug VARCHAR UNIQUE, category VARCHAR, description TEXT, best_destinations UUID[], ideal_duration_days INT4RANGE, budget_range_inr JSONB, hero_image_url TEXT, tags TEXT[], created_at TIMESTAMPTZ)
+Itineraries Schema
+itineraries (id UUID PK, user_id UUID FK, title VARCHAR, destination_ids UUID[], duration_days INT, travel_style VARCHAR, pace VARCHAR, budget_total_inr NUMERIC, status VARCHAR DEFAULT 'draft', is_ai_generated BOOLEAN, is_public BOOLEAN DEFAULT false, share_token VARCHAR UNIQUE, metadata JSONB, created_at TIMESTAMPTZ, updated_at TIMESTAMPTZ)
+itinerary_days (id UUID PK, itinerary_id UUID FK, day_number INT, city_id UUID FK, morning JSONB, afternoon JSONB, evening JSONB, daily_budget_inr NUMERIC, notes TEXT, UNIQUE(itinerary_id, day_number))
+itinerary_items (id UUID PK, day_id UUID FK, poi_id UUID FK, time_slot VARCHAR, start_time TIME, end_time TIME, estimated_cost_inr NUMERIC, transport_mode VARCHAR, transport_duration_mins INT, notes TEXT, sort_order INT)
+Visa Schema
+visa_info (id UUID PK, country_id UUID FK, visa_type VARCHAR, documents_required JSONB, processing_time_days INT4RANGE, fees JSONB, common_mistakes TEXT[], tips TEXT[], downloadable_checklist_url TEXT, last_verified_at TIMESTAMPTZ, created_at TIMESTAMPTZ, updated_at TIMESTAMPTZ)
+MongoDB Collections
+MongoDB stores flexible, content-heavy documents that benefit from schemaless design:
+blog_posts — Rich editorial content with embedded media, SEO metadata, related links, and nested sections
+destination_guides — Long-form structured guides with dynamic subsections, author info, version history
+user_chatbot_sessions — Conversation logs with message history, context state, generated outputs
+content_media — Image/video metadata with transformation variants, CDN URLs, alt text
+Vector Database (Pinecone)
+Pinecone indexes are organized by namespace for efficient retrieval:
+[TABLE START]
+Namespace | Content Indexed | Dimensions | Use Case
+destinations | Country + city + POI descriptions, tags, attributes | 1024 | Semantic destination search, similar place discovery
+experiences | Experience descriptions, categories, traveller reviews | 1024 | Experience matching based on user preferences
+user_profiles | Aggregated user preference embeddings | 1024 | Collaborative filtering, similar traveller matching
+blog_content | Blog paragraphs, guide sections | 1024 | RAG retrieval for chatbot context grounding
+itineraries | Itinerary summaries and day plans | 1024 | Similar itinerary recommendation, chatbot examples
+[TABLE END]
+Data Migration & Seeding Strategy
+Schema migrations managed via Prisma Migrate (PostgreSQL) with version-controlled migration files
+MongoDB schema validation enforced at application layer via Mongoose/Zod schemas
+Initial seed data: 5 countries, 25+ cities, 500+ POIs, 50+ sample itineraries, 15+ visa entries
+Content seeded from curated editorial team with structured JSON import pipeline
+Vector embeddings generated in batch via offline pipeline and incrementally on content publish events
+API Architecture
+API Design Standards
+All public-facing APIs follow RESTful conventions with JSON:API-inspired response formats. Internal service communication uses gRPC with Protocol Buffers.
+[TABLE START]
+Standard | Specification
+Base URL Pattern | https://api.trailsandmiles.com/v1/{resource}
+Authentication | Bearer JWT (access token) + Refresh token (httpOnly cookie)
+Versioning | URI path versioning (/v1/, /v2/)
+Pagination | Cursor-based (default) with limit parameter; offset for admin
+Filtering | Query params: ?region=east-asia&visa_type=on-arrival
+Sorting | ?sort=-created_at,name (prefix '-' for descending)
+Error Format | RFC 7807 Problem Details: { type, title, status, detail, instance }
+Rate Limiting | 100 req/min (anonymous), 300 req/min (authenticated), 1000 req/min (premium)
+Response Envelope | { data: T | T[], meta: { pagination, total }, links: { self, next, prev } }
+Compression | gzip / brotli via Accept-Encoding
+CORS | Allowed origins: trailsandmiles.com, *.trailsandmiles.com
+Documentation | Auto-generated OpenAPI 3.1 specs; Swagger UI at /docs
+[TABLE END]
+Core API Endpoints
+Destinations API
+[TABLE START]
+Method | Endpoint | Description | Auth
+GET | /v1/countries | List all countries with filtering (region, visa type) | Public
+GET | /v1/countries/:slug | Country detail with cities, quick facts, hero content | Public
+GET | /v1/countries/:slug/cities | Cities within a country with POI counts | Public
+GET | /v1/cities/:slug | City detail with POIs, experiences, budget info | Public
+GET | /v1/cities/:slug/pois | Points of interest with category/tag filtering | Public
+GET | /v1/experiences | Browse experiences with category and destination filtering | Public
+GET | /v1/experiences/:slug | Experience detail with best destinations, budget range | Public
+[TABLE END]
+Itinerary API
+[TABLE START]
+Method | Endpoint | Description | Auth
+POST | /v1/itineraries | Create new itinerary (manual or AI-generated) | Required
+GET | /v1/itineraries | List user’s itineraries with status filtering | Required
+GET | /v1/itineraries/:id | Full itinerary with day-wise plan and items | Owner/Shared
+PATCH | /v1/itineraries/:id | Update itinerary metadata or day items | Owner
+DELETE | /v1/itineraries/:id | Soft-delete itinerary | Owner
+POST | /v1/itineraries/:id/duplicate | Clone itinerary to user’s collection | Required
+POST | /v1/itineraries/:id/export/pdf | Generate branded PDF export (async, returns job ID) | Required
+POST | /v1/itineraries/:id/share | Generate shareable link with optional expiry | Owner
+GET | /v1/itineraries/samples | Browse curated sample itineraries | Public
+POST | /v1/itineraries/generate | AI itinerary generation endpoint (async SSE stream) | Required
+[TABLE END]
+User & Personalization API
+[TABLE START]
+Method | Endpoint | Description | Auth
+POST | /v1/auth/register | User registration with email or social OAuth | Public
+POST | /v1/auth/login | Login with credentials, returns JWT + refresh token | Public
+POST | /v1/auth/refresh | Rotate access token using refresh token | Cookie
+GET | /v1/users/me | Current user profile with travel preferences | Required
+PATCH | /v1/users/me | Update profile, dietary prefs, accessibility needs | Required
+GET | /v1/users/me/travel-history | User’s logged trips with ratings | Required
+POST | /v1/users/me/travel-history | Log a completed trip | Required
+GET | /v1/users/me/recommendations | Personalized destination and experience suggestions | Required
+GET | /v1/users/me/feed | Personalized content feed (blogs, itineraries, deals) | Required
+[TABLE END]
+Chatbot API
+[TABLE START]
+Method | Endpoint | Description | Auth
+POST | /v1/chatbot/sessions | Create new chat session with optional context (destination, etc.) | Required
+POST | /v1/chatbot/sessions/:id/message | Send message; response streamed via SSE | Required
+GET | /v1/chatbot/sessions/:id/history | Retrieve full conversation history | Required
+POST | /v1/chatbot/sessions/:id/generate-itinerary | Trigger itinerary generation from conversation context | Required
+DELETE | /v1/chatbot/sessions/:id | End and archive chat session | Required
+[TABLE END]
+Visa & Search APIs
+[TABLE START]
+Method | Endpoint | Description | Auth
+GET | /v1/visa/:country_slug | Visa info for a country (India-specific) | Public
+GET | /v1/visa/categories/:type | Countries grouped by visa type | Public
+GET | /v1/search | Unified search across destinations, experiences, blogs, visa | Public
+GET | /v1/search/autocomplete | Typeahead suggestions (debounced, top 8 results) | Public
+[TABLE END]
+AI/ML System Architecture
+Smart Itinerary Assistant (Chatbot)
+The chatbot is the platform’s flagship AI feature, powered by a Retrieval-Augmented Generation (RAG) architecture that grounds Claude’s responses in Trails and Miles’ curated destination database.
+RAG Pipeline Architecture
+User message received via SSE-enabled endpoint
+Intent classifier categorizes message (destination_query, itinerary_request, visa_question, general_chat, clarification)
+Query reformulation: extract entities (destination, dates, budget) and expand with conversation context
+Vector retrieval: query Pinecone across relevant namespaces (destinations, experiences, itineraries, blogs)
+Context assembly: top-k results ranked by relevance, recency, and user profile affinity
+Prompt construction: system prompt + user profile + travel history + retrieved context + conversation history + user message
+Claude API call with streaming response (claude-sonnet-4-5-20250929)
+Post-processing: extract structured data (suggested POIs, budget estimates) from response
+Response streamed to client with inline interactive elements (maps, cards, quick-reply buttons)
+Conversation State Management
+[TABLE START]
+State Component | Storage | TTL | Purpose
+Session Context | Redis Hash | 24 hours | Active conversation state, extracted entities, preferences
+Conversation History | MongoDB | 90 days | Full message history for context window management
+Generated Itinerary Draft | Redis + PostgreSQL | 7 days (Redis), permanent (PG) | Draft itinerary being built through conversation
+User Profile Snapshot | Redis (cached) | 1 hour | Cached user preferences and travel history for prompt context
+[TABLE END]
+Guardrails & Safety
+RAG grounding: all destination-specific claims must be traceable to curated database entries
+Budget validation: AI-suggested costs cross-checked against destination-service cost data
+Hallucination detection: post-processing validates POI names, city-country relationships, and visa claims
+Scope limitation: chatbot gracefully declines non-travel queries, redirecting to appropriate resources
+Feedback loop: user ratings on generated itineraries feed into prompt optimization pipeline
+Personalization Engine
+Recommendation Pipeline
+The personalization engine operates as a multi-stage pipeline that combines multiple signal sources into a unified ranking:
+[TABLE START]
+Stage | Algorithm | Input | Output
+Candidate Generation | Content-Based Filtering | User interest tags, travel style, budget | 500+ candidate destinations/experiences
+Collaborative Filtering | ALS Matrix Factorization (implicit library) | User-item interaction matrix (views, saves, trips) | Ranked by similar-user preferences
+Novelty Scoring | Inverse frequency + history exclusion | User travel history, global popularity scores | Deprioritize visited places, boost novel discoveries
+Contextual Ranking | Gradient Boosted Trees (LightGBM) | All features + temporal signals (season, holidays) | Final ranked list with confidence scores
+Diversity Injection | MMR (Maximal Marginal Relevance) | Ranked list + category distribution | Ensure variety across categories and regions
+[TABLE END]
+Cold Start Strategy
+New users without travel history receive progressively personalized recommendations through a multi-phase approach:
+Phase 0 (Anonymous): Trending destinations, seasonally optimized content, editorially curated highlights
+Phase 1 (Onboarding): 5-question preference quiz (travel style, budget tier, interests, companion type, dream destination)
+Phase 2 (Early Usage): Behavioral signals from first 3 sessions (pages viewed, time spent, bookmarks, search queries)
+Phase 3 (Engaged): Full personalization active after first saved itinerary or logged trip
+Model Training & Update Cadence
+[TABLE START]
+Model | Training Frequency | Data Source | Deployment
+Collaborative Filtering | Daily (incremental), Weekly (full retrain) | User-item interactions | SageMaker endpoint, blue-green deploy
+Content Embeddings | On publish (incremental), Monthly (full reindex) | Destination + experience metadata | Pinecone batch upsert
+User Profile Embeddings | Real-time (on interaction) | User preference vectors | Pinecone upsert per user
+Ranking Model (LightGBM) | Weekly retrain | Click/save/trip logs with features | SageMaker endpoint
+[TABLE END]
+Frontend Architecture
+Application Structure
+The frontend follows a Next.js App Router architecture with a clear separation between server and client components. The project is organized as a monorepo managed by Turborepo:
+apps/web          — Main consumer web application (Next.js 15)
+apps/admin         — Admin dashboard for content management (Next.js 15)
+packages/ui        — Shared component library (Radix UI + Tailwind)
+packages/api-client— Type-safe API client (generated from OpenAPI specs)
+packages/config     — Shared ESLint, TypeScript, Tailwind configs
+packages/types      — Shared TypeScript type definitions
+Rendering Strategy
+[TABLE START]
+Page Type | Rendering | Cache Strategy | Rationale
+Homepage | ISR (Incremental Static Regeneration) | Revalidate every 60 seconds | Near-static with personalized widgets hydrated client-side
+Country/City Pages | SSG with on-demand revalidation | Stale-while-revalidate | Content changes infrequently; instant load critical for SEO
+Experience Pages | SSG with on-demand revalidation | Stale-while-revalidate | Same as destination pages
+Itinerary Builder | CSR (Client-Side Rendering) | TanStack Query cache (5 min) | Highly interactive, user-specific, real-time updates
+Chatbot Interface | CSR with SSE streaming | No cache (real-time) | Live conversation, streamed AI responses
+Blog/Guide Pages | SSG at build + ISR | CDN cached, revalidate on publish | Maximum SEO performance, content rarely changes
+Visa Hub Pages | SSG with on-demand revalidation | Revalidate on visa data update | Accuracy-critical; triggered by visa-service webhook
+User Dashboard | SSR (per request) | Private cache (TanStack Query) | User-specific data, must be fresh
+Search Results | CSR with prefetch | Short-lived cache (30 seconds) | Dynamic, query-dependent results
+[TABLE END]
+Component Architecture
+The UI component library follows Atomic Design principles with three tiers:
+Atoms: Button, Input, Badge, Avatar, Icon, Skeleton, Tooltip — built on Radix UI primitives
+Molecules: SearchBar, DestinationCard, POICard, BudgetSlider, DateRangePicker, ItineraryDayBlock
+Organisms: MegaMenu, HeroSection, ItineraryTimeline, ChatWindow, MapExplorer, VisaChecklist
+All components follow strict accessibility standards (WCAG 2.1 AA), support keyboard navigation, and include comprehensive Storybook documentation.
+Performance Targets
+[TABLE START]
+Metric | Target | Measurement Tool
+Largest Contentful Paint (LCP) | < 1.5 seconds | Lighthouse CI / Web Vitals
+First Input Delay (FID) | < 50 milliseconds | Chrome UX Report
+Cumulative Layout Shift (CLS) | < 0.05 | Lighthouse CI
+Interaction to Next Paint (INP) | < 150 milliseconds | Chrome UX Report
+Time to First Byte (TTFB) | < 200 milliseconds | Synthetic monitoring (Datadog)
+JavaScript Bundle Size (initial) | < 120 KB (gzipped) | Bundlewatch CI check
+Lighthouse Performance Score | > 95 (mobile) | Lighthouse CI on every PR
+[TABLE END]
+Infrastructure & DevOps
+Cloud Architecture (AWS)
+The platform is deployed on AWS using a multi-AZ architecture in the Mumbai region (ap-south-1) as the primary region, with edge caching via CloudFront PoPs globally.
+[TABLE START]
+Component | AWS Service | Configuration | Scaling
+Container Orchestration | EKS (Kubernetes 1.29) | 3 node groups (general, compute, spot), managed node pools | Horizontal Pod Autoscaler + Karpenter
+API Gateway | AWS API Gateway (HTTP) | Custom domain, request validation, usage plans | Auto-scaling (managed)
+CDN | CloudFront | Custom origins, Lambda@Edge for geo-routing, Brotli compression | Global PoP network
+Primary Database | RDS PostgreSQL 16 | db.r6g.xlarge, Multi-AZ, 500GB gp3, read replicas | Vertical + read replica scaling
+Cache | ElastiCache Redis 7 | cache.r6g.large, cluster mode, 2 replicas | Cluster auto-scaling
+Object Storage | S3 (Standard + IA) | Lifecycle policies, versioning, cross-region replication | Unlimited (managed)
+Message Queue | SQS (Standard + FIFO) | Dead-letter queues, visibility timeout tuning | Auto-scaling (managed)
+DNS | Route 53 | Latency-based routing, health checks, failover | Global anycast
+SSL/TLS | ACM | Wildcard cert for *.trailsandmiles.com | Auto-renewal
+Secrets | Secrets Manager | Auto-rotation for DB credentials, API keys | Managed
+WAF | AWS WAF v2 | OWASP rule set, rate limiting, geo-blocking, bot control | Managed rules + custom
+[TABLE END]
+CI/CD Pipeline
+The deployment pipeline follows GitOps principles with GitHub Actions for CI and ArgoCD for CD:
+[TABLE START]
+Stage | Trigger | Actions | Duration Target
+Lint & Type Check | Every push | ESLint, Prettier, TypeScript compiler, Python mypy/ruff | < 2 minutes
+Unit Tests | Every push | Vitest (frontend), pytest (backend), coverage gates (> 80%) | < 5 minutes
+Integration Tests | PR to main | API contract tests, database migration tests | < 10 minutes
+E2E Tests | PR to main | Playwright (critical user journeys: 15 scenarios) | < 15 minutes
+Security Scan | PR to main | Snyk (dependencies), Trivy (container), CodeQL (SAST) | < 5 minutes
+Build & Push | Merge to main | Docker multi-stage build, push to ECR, tag with SHA | < 5 minutes
+Deploy Staging | Merge to main | ArgoCD sync to staging namespace, smoke tests | < 3 minutes
+Deploy Production | Manual approval | ArgoCD sync to production, canary rollout (10% → 50% → 100%) | < 10 minutes
+Post-Deploy | After prod deploy | Synthetic monitoring, Lighthouse CI, error rate watch (15 min) | 15 minutes
+[TABLE END]
+Environment Strategy
+[TABLE START]
+Environment | Purpose | Data | Access
+Local (Docker Compose) | Developer workstation | Seeded test data, local DB | Individual developer
+Dev (EKS namespace) | Feature integration | Sanitized production snapshot | Engineering team
+Staging (EKS namespace) | Pre-production validation | Full production mirror (anonymized) | Engineering + QA + Product
+Production (EKS namespace) | Live user traffic | Real production data | SRE team (deploy), all (read-only dashboards)
+[TABLE END]
+Security & Compliance
+Authentication & Authorization
+[TABLE START]
+Aspect | Implementation
+Identity Provider | AWS Cognito with custom UI (hosted in Next.js); supports email/password + Google + Apple OAuth
+Token Strategy | Short-lived JWT access tokens (15 min) + long-lived refresh tokens (httpOnly secure cookie, 30 days)
+MFA | Optional TOTP-based MFA via authenticator app; SMS OTP as fallback
+Authorization Model | Role-Based Access Control (RBAC): user, premium_user, content_editor, admin, super_admin
+API Security | All endpoints require valid JWT except explicitly public routes; scoped permissions per role
+Session Management | Redis-backed session store with device fingerprinting; concurrent session limit (5 devices)
+Password Policy | Minimum 8 chars, 1 uppercase, 1 number, 1 special char; bcrypt hashing (cost factor 12)
+Brute Force Protection | Account lockout after 5 failed attempts (30 min cooldown); progressive CAPTCHA
+[TABLE END]
+Data Security
+[TABLE START]
+Layer | Protection
+In Transit | TLS 1.3 enforced on all connections; HSTS with 1-year max-age and includeSubDomains
+At Rest | AES-256 encryption for all databases (RDS, ElastiCache, S3); KMS managed keys
+PII Handling | Personal data tagged and isolated; encrypted at field level for sensitive fields (email, passport)
+API Keys | Stored in AWS Secrets Manager; auto-rotated; never committed to code; SOPS for local dev
+Backup Encryption | All database backups encrypted with separate KMS key; cross-region replication for DR
+Log Sanitization | PII auto-redacted from application logs via structured logging middleware
+[TABLE END]
+Compliance Framework
+OWASP Top 10 2021: All vulnerabilities addressed in architecture and code review checklist
+IT Act 2000 (India): Compliant data handling and grievance officer designation
+GDPR Alignment: Consent management, data portability (export user data), right to deletion
+DPDP Act 2023 (India): Data Processing Purpose limitation, storage limitation, consent framework
+SOC 2 Type II: Planned for Phase 3; logging and access controls designed for audit readiness
+PCI DSS: Not in scope (no direct payment processing); affiliate links redirect to partner platforms
+Vulnerability Management
+Automated dependency scanning via Snyk on every PR and weekly full-repo scan
+Container image scanning via Trivy on every build; no critical/high CVEs allowed in production
+Static Application Security Testing (SAST) via CodeQL on every PR
+Dynamic Application Security Testing (DAST) via OWASP ZAP on staging after every deploy
+Penetration testing: Annual third-party pentest; quarterly internal red team exercises
+Bug bounty program planned for Phase 3 launch
+Monitoring, Observability & SRE
+Observability Stack
+[TABLE START]
+Pillar | Tool | Scope
+Metrics | Datadog APM + Infrastructure | Request latency (p50/p95/p99), throughput, error rates, CPU/memory, DB query times
+Logs | Datadog Log Management | Structured JSON logs from all services; correlation IDs for request tracing
+Traces | Datadog APM (distributed tracing) | End-to-end request traces across microservices; flame graphs for optimization
+Error Tracking | Sentry | Real-time error capture with stack traces, breadcrumbs, release tracking
+Uptime Monitoring | Datadog Synthetics | Critical endpoint monitoring from 5 global locations; every 60 seconds
+Real User Monitoring | Datadog RUM | Core Web Vitals, page load performance, user session replay
+Alerting | Datadog Monitors + PagerDuty | Tiered alerting (P1-P4) with escalation policies; Slack integration
+[TABLE END]
+SLO Definitions
+Service Level Objectives define the reliability targets for core platform capabilities:
+[TABLE START]
+Service | SLI | SLO Target | Error Budget (30 days)
+API Availability | Successful responses (non-5xx) / total requests | 99.9% | 43 minutes downtime
+API Latency (p95) | 95th percentile response time | < 300ms | N/A (latency target)
+Itinerary Generation | Successful generations / total requests | 99.5% | 3.6 hours
+Chatbot Response | Responses delivered within 5 seconds | 99.0% | 7.2 hours
+Search Availability | Successful search responses / total queries | 99.9% | 43 minutes
+PDF Export | Successful exports / total requests | 99.0% | 7.2 hours
+[TABLE END]
+Incident Response
+[TABLE START]
+Severity | Definition | Response Time | Resolution Target
+P1 — Critical | Platform fully down or data breach | < 15 minutes | < 1 hour
+P2 — High | Major feature broken (itinerary gen, chatbot, auth) | < 30 minutes | < 4 hours
+P3 — Medium | Non-critical feature degraded (search slow, PDF delay) | < 2 hours | < 24 hours
+P4 — Low | Cosmetic issues, minor bugs, non-urgent improvements | Next business day | Next sprint
+[TABLE END]
+Testing Strategy
+Testing Pyramid
+[TABLE START]
+Level | Scope | Tools | Coverage Target | Run Frequency
+Unit Tests | Individual functions, components, utilities | Vitest, React Testing Library, pytest | > 80% line coverage | Every push
+Integration Tests | API endpoints, service interactions, DB queries | Supertest (Node), httpx (Python), Testcontainers | > 70% endpoint coverage | Every PR
+Component Tests | UI component behavior, accessibility | Storybook + Chromatic, axe-core | All shared components | Every PR
+E2E Tests | Critical user journeys across full stack | Playwright (3 browsers: Chrome, Firefox, Safari) | 15+ critical flows | Every PR to main
+Performance Tests | Load testing, stress testing | k6 (Grafana) | Handle 10x expected traffic | Weekly + pre-release
+Security Tests | SAST, DAST, dependency scanning | CodeQL, OWASP ZAP, Snyk, Trivy | Zero critical/high CVEs | Every PR + weekly
+Visual Regression | UI screenshot comparison | Chromatic (Storybook) | All component states | Every PR
+Accessibility Tests | WCAG 2.1 AA compliance | axe-core, Lighthouse CI | Zero critical a11y violations | Every PR
+[TABLE END]
+Critical E2E Test Scenarios
+The following user journeys must pass on every deployment to production:
+New user registration → onboarding quiz → personalized homepage
+Homepage → destination search → country page → city page → POI detail
+Itinerary builder → parameter selection → AI generation → edit → save
+Chatbot open → multi-turn conversation → itinerary generated → export PDF
+Visa hub → country search → checklist view → download PDF
+Returning user login → personalized recommendations → save to collection
+Blog listing → article read → related destination CTA → itinerary builder
+Mobile responsive: all above flows on 375px viewport (iPhone SE)
+Scalability & Performance Engineering
+Scaling Strategy by Component
+[TABLE START]
+Component | Scaling Type | Trigger | Max Capacity (Phase 1)
+Next.js Frontend (Vercel) | Auto-scale (serverless) | Request volume | 100K concurrent users
+Fastify API Services | Horizontal (HPA) | CPU > 60% or p95 latency > 200ms | 20 pods per service
+FastAPI AI Services | Horizontal (HPA) + GPU | Queue depth > 100 or GPU utilization > 70% | 10 pods (CPU) + 4 GPU instances
+PostgreSQL | Vertical + Read Replicas | Connection count > 80% or query latency > 50ms | 1 primary + 3 read replicas
+Redis | Cluster mode | Memory > 70% or eviction rate > 0 | 6-node cluster
+Elasticsearch | Horizontal (data nodes) | Disk > 75% or search latency > 100ms | 3 data nodes + 2 master
+Pinecone | Serverless (managed) | Auto-scales with query volume | Unlimited (pay-per-use)
+[TABLE END]
+Caching Architecture
+[TABLE START]
+Cache Layer | Technology | TTL | Invalidation Strategy
+CDN (Static Assets) | CloudFront | 1 year (immutable hashed filenames) | Deploy-time invalidation
+CDN (API Responses) | CloudFront | 60 seconds (public pages) | TTL expiry + manual invalidation API
+Application Cache | Redis | 5–60 minutes (varies by data type) | Event-driven invalidation on data mutation
+API Response Cache | TanStack Query (client) | 5 minutes (default), 30 seconds (search) | Stale-while-revalidate + manual invalidation
+Database Query Cache | Redis | 10 minutes | Write-through invalidation on mutation
+Embedding Cache | Redis | 24 hours | Refresh on content update event
+[TABLE END]
+Capacity Planning (Phase 1 Targets)
+[TABLE START]
+Metric | Target | Headroom
+Monthly Active Users | 10,000 | Infrastructure sized for 50,000
+Daily Itinerary Generations | 500 | Capacity for 2,500
+Concurrent Chatbot Sessions | 100 | Capacity for 500
+API Requests per Second | 200 RPS | Tested to 2,000 RPS
+Database Storage | 50 GB | Provisioned 500 GB
+Search Index Size | 10 GB | Provisioned 50 GB
+Monthly Cloud Cost (estimated) | USD 2,500–3,500 | Budget approved to USD 8,000
+[TABLE END]
+Third-Party Integrations
+[TABLE START]
+Integration | Provider | Purpose | Phase
+Maps & Geocoding | Mapbox | Interactive maps, route visualization, POI geocoding, distance calculation | Phase 1
+LLM API | Anthropic (Claude) | Chatbot conversations, itinerary narrative generation, content assistance | Phase 2
+Vector Search | Pinecone | Semantic search and embedding storage for RAG pipeline | Phase 2
+Email Delivery | Amazon SES | Transactional emails (verification, password reset, itinerary export) | Phase 1
+Push Notifications | Firebase Cloud Messaging | Browser push and mobile push notifications | Phase 2
+Analytics | Mixpanel + Google Analytics 4 | User behavior analytics, funnel tracking, conversion events | Phase 1
+Hotel Affiliates | Booking.com Affiliate API | Hotel search, pricing, deep links for commission | Phase 2
+Flight Affiliates | Skyscanner Widget / API | Flight comparison, deep links | Phase 2
+Activity Affiliates | GetYourGuide / Klook API | Activity booking deep links | Phase 2
+Currency Exchange | Open Exchange Rates API | Real-time INR conversion for budget calculations | Phase 1
+Weather Data | OpenWeatherMap API | Destination weather for date-based itinerary optimization | Phase 2
+Image CDN | Cloudinary | Image optimization, responsive sizing, WebP/AVIF conversion, lazy loading | Phase 1
+PDF Generation | Puppeteer (self-hosted) | Branded itinerary PDF export with maps and visuals | Phase 1
+Feature Flags | GrowthBook | Feature rollout, A/B testing, experiment management | Phase 1
+Error Tracking | Sentry | Real-time error monitoring with source maps and breadcrumbs | Phase 1
+Payments (Future) | Razorpay | Premium subscription billing for Indian users | Phase 3
+[TABLE END]
+Non-Functional Requirements
+[TABLE START]
+Category | Requirement | Target | Validation Method
+Availability | Platform uptime | 99.9% (monthly) | Datadog Synthetics monitoring
+Latency | API response time (p95) | < 300ms | Datadog APM dashboards
+Latency | Page load time (LCP, mobile) | < 1.5 seconds | Lighthouse CI + RUM
+Throughput | Concurrent API requests | 2,000 RPS sustained | k6 load testing
+Scalability | User growth handling | 10x current capacity without re-architecture | Architecture review + load tests
+Reliability | Data durability | 99.999999999% (S3 standard) | AWS SLA
+Backup | Recovery Point Objective (RPO) | < 1 hour | Automated backup verification
+Recovery | Recovery Time Objective (RTO) | < 4 hours | DR drill (quarterly)
+Security | OWASP Top 10 compliance | Zero critical vulnerabilities | SAST + DAST + annual pentest
+Accessibility | WCAG 2.1 AA compliance | Zero critical violations | axe-core + manual audit
+SEO | Lighthouse SEO score | > 95 (all public pages) | Lighthouse CI on every deploy
+Internationalization | Multi-language support readiness | English (launch); Hindi, Tamil, Bengali (Phase 3) | i18n framework from day one
+Browser Support | Cross-browser compatibility | Chrome, Safari, Firefox, Edge (last 2 versions) | Playwright E2E matrix
+Mobile | Responsive design | Fully functional at 320px–2560px | Playwright viewport tests
+[TABLE END]
+Development Timeline & Engineering Milestones
+Phase 1: Foundation (Q1 2026 — Weeks 1–12)
+[TABLE START]
+Sprint | Focus Area | Deliverables
+Sprint 1–2 (W1–W4) | Infrastructure & Core Setup | AWS infrastructure (Terraform), CI/CD pipeline, DB schemas, Next.js scaffold, API gateway, auth system
+Sprint 3–4 (W5–W8) | Destination Hub & Visa | Destination-service + APIs, country/city/POI pages, Visa-service + checklist pages, search (Elasticsearch), Mapbox integration
+Sprint 5–6 (W9–W12) | Itinerary Builder (Manual) & Content | Manual itinerary builder UI + API, sample itineraries, blog engine (MongoDB), PDF export, responsive QA, SEO audit
+[TABLE END]
+Phase 2: Intelligence (Q2 2026 — Weeks 13–24)
+[TABLE START]
+Sprint | Focus Area | Deliverables
+Sprint 7–8 (W13–W16) | Personalization Engine V1 | User travel history, preference collection, content-based recommendations, homepage personalization
+Sprint 9–10 (W17–W20) | AI Chatbot V1 | RAG pipeline (Pinecone + Claude), chatbot UI with SSE streaming, session management, itinerary generation from chat
+Sprint 11–12 (W21–W24) | Affiliates & Polish | Affiliate integrations (hotels, flights, activities), budget calculator with live rates, performance optimization, load testing
+[TABLE END]
+Phase 3: Scale (Q3–Q4 2026 — Weeks 25–48)
+[TABLE START]
+Sprint | Focus Area | Deliverables
+Sprint 13–16 (W25–W32) | Domestic Travel & Community | Bike tour module, hidden gems content, community itinerary sharing, user reviews and ratings
+Sprint 17–20 (W33–W40) | Advanced Personalization & Premium | Collaborative filtering, novelty scoring, premium subscription (Razorpay), advanced chatbot (multi-destination, group trips)
+Sprint 21–24 (W41–W48) | Mobile App & Expansion | React Native app (iOS + Android), offline mode, expanded to 15+ countries, SOC 2 readiness
+[TABLE END]
+Team Structure & Resourcing
+Phase 1 Core Team (12 Weeks)
+[TABLE START]
+Role | Count | Key Responsibilities
+Tech Lead / Architect | 1 | System design, code review, infra decisions, cross-team coordination
+Senior Frontend Engineer | 2 | Next.js app, component library, responsive design, performance
+Senior Backend Engineer | 2 | Microservices (Node.js), API design, database schema, integrations
+ML/AI Engineer | 1 | Personalization engine, RAG pipeline, chatbot, embedding pipelines
+DevOps / SRE Engineer | 1 | AWS infra (Terraform), CI/CD, monitoring, security hardening
+QA Engineer | 1 | Test strategy, E2E automation, accessibility testing, load testing
+UI/UX Designer | 1 | Design system, page designs, prototyping, user testing
+Content Strategist | 1 | Destination data seeding, blog content, SEO strategy
+[TABLE END]
+Phase 2+ Team Expansion
+Add 1 Frontend Engineer (chatbot UI, PWA features)
+Add 1 Backend Engineer (affiliate integrations, notification system)
+Add 1 ML Engineer (collaborative filtering, ranking model, A/B testing)
+Add 1 Mobile Engineer (React Native, offline mode) in Phase 3
+Add 1 Security Engineer (SOC 2 preparation, penetration testing) in Phase 3
+Technical Risks & Mitigations
+[TABLE START]
+Risk | Impact | Likelihood | Mitigation Strategy
+LLM API latency spikes affecting chatbot UX | High | Medium | SSE streaming for progressive response; fallback to cached sample itineraries; circuit breaker pattern
+Chatbot hallucination (incorrect destination info) | High | Medium | RAG grounding in curated DB; post-generation validation pipeline; user feedback loop for corrections
+Cold start: poor recommendations for new users | Medium | High | Onboarding quiz; trending/seasonal defaults; behavioral signal capture from first session
+Data freshness (outdated visa/cost information) | High | Medium | Automated scraping pipelines; content expiry alerts; user-reported corrections; quarterly manual audit
+Cloud cost overrun during scaling | Medium | Medium | Right-sizing with Karpenter; spot instances for non-critical workloads; cost alerts at 80% budget
+Search relevance issues | Medium | Medium | A/B tested ranking algorithms; click-through rate monitoring; manual relevance evaluation quarterly
+Third-party API deprecation (Mapbox, affiliates) | Medium | Low | Abstraction layer for all integrations; contract tests; fallback providers identified
+Security breach / data leak | Critical | Low | Zero-trust architecture; encryption at rest + transit; WAF; regular pentests; incident response playbook
+Key person dependency | Medium | Medium | Comprehensive documentation; pair programming; knowledge sharing sessions; cross-training
+[TABLE END]
+Appendix
+A. Glossary
+[TABLE START]
+Term | Definition
+TRD | Technical Requirements Document
+RAG | Retrieval-Augmented Generation — AI technique that grounds LLM responses in curated data
+SSE | Server-Sent Events — HTTP-based one-way streaming from server to client
+gRPC | Google Remote Procedure Call — high-performance inter-service communication protocol
+HPA | Horizontal Pod Autoscaler — Kubernetes auto-scaling based on metrics
+BFF | Backend for Frontend — GraphQL aggregation layer tailored to frontend needs
+ISR | Incremental Static Regeneration — Next.js feature for on-demand static page updates
+SLO / SLI | Service Level Objective / Indicator — reliability targets and measurements
+RPO / RTO | Recovery Point / Time Objective — data loss and downtime tolerance targets
+DPDP Act | Digital Personal Data Protection Act, 2023 (India)
+MMR | Maximal Marginal Relevance — algorithm for diverse recommendation results
+ALS | Alternating Least Squares — matrix factorization algorithm for collaborative filtering
+WAF | Web Application Firewall — layer 7 security filtering for web traffic
+[TABLE END]
+B. Reference Documents
+Trails and Miles — Product Requirements Document (PRD v1.0)
+Trails and Miles — Website Information Architecture & Feature Blueprint
+AWS Well-Architected Framework (latest)
+OWASP Application Security Verification Standard (ASVS) v4.0
+Google Web Vitals documentation
+Anthropic Claude API documentation
+C. Document Approval
+[TABLE START]
+Role | Name | Signature | Date
+CTO / Tech Lead |  |  | 
+Engineering Manager |  |  | 
+Product Manager |  |  | 
+Security Lead |  |  | 
+[TABLE END]
+End of Technical Requirements Document

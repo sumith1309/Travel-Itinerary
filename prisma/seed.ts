@@ -1,0 +1,1451 @@
+// ============================================================
+// TRAILS AND MILES — Database Seed Script
+// Production-quality data for 5 countries + cities + POIs + visa + more
+// Run: npx tsx prisma/seed.ts
+// ============================================================
+
+import { PrismaClient, ContentStatus, VisaType, ExperienceCategory, DifficultyLevel } from '@prisma/client';
+
+const prisma = new PrismaClient();
+
+async function main() {
+  console.log('🌱 Starting seed...');
+
+  // ── REGIONS ─────────────────────────────────────────────
+  console.log('📍 Seeding regions...');
+
+  const eastSoutheastAsia = await prisma.region.upsert({
+    where: { slug: 'east-southeast-asia' },
+    update: {},
+    create: {
+      name: 'East & Southeast Asia',
+      slug: 'east-southeast-asia',
+      description: 'A diverse tapestry of ancient temples, pristine beaches, street food paradise, and vibrant cities — perfect for budget to luxury Indian travellers.',
+      sortOrder: 1,
+    },
+  });
+
+  const southAsia = await prisma.region.upsert({
+    where: { slug: 'south-asia' },
+    update: {},
+    create: {
+      name: 'South Asia',
+      slug: 'south-asia',
+      description: 'Exotic island paradises and rich cultural neighbours — visa-friendly destinations within easy reach of India.',
+      sortOrder: 2,
+    },
+  });
+
+  // ── COUNTRIES ───────────────────────────────────────────
+  console.log('🌍 Seeding countries...');
+
+  const vietnam = await prisma.country.upsert({
+    where: { slug: 'vietnam' },
+    update: {},
+    create: {
+      regionId: eastSoutheastAsia.id,
+      name: 'Vietnam',
+      slug: 'vietnam',
+      description: 'A country of breathtaking natural beauty and fascinating history, Vietnam rewards travellers with mouthwatering street food, UNESCO-listed heritage sites, and stunning landscapes from the rice terraces of Sapa to the limestone karsts of Ha Long Bay. For Indian travellers, it offers excellent value, vegetarian-friendly cuisine, and an e-visa that takes just 3-5 days.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=1600',
+      currencyCode: 'VND',
+      currencyName: 'Vietnamese Dong',
+      timezone: 'Asia/Ho_Chi_Minh',
+      language: 'Vietnamese',
+      capitalCity: 'Hanoi',
+      budgetTier: 'budget',
+      safetyRating: 4,
+      status: ContentStatus.PUBLISHED,
+      tags: ['budget-friendly', 'street-food', 'culture', 'beaches', 'nature', 'backpacking', 'history', 'temples', 'islands'],
+      bestSeasons: {
+        months: [2, 3, 4, 10, 11],
+        description: 'Feb–Apr and Oct–Nov are ideal — dry weather in most regions',
+        peak: [12, 1],
+        shoulder: [9, 10, 11],
+        avoid: [7, 8],
+      },
+      quickFacts: {
+        population: '97 million',
+        capital: 'Hanoi',
+        language: 'Vietnamese',
+        currency: 'Vietnamese Dong (VND). 1 INR ≈ 290 VND',
+        electricalPlug: 'Type A/C (220V) — Indian 2-pin works, 3-pin needs adapter',
+        emergencyNumber: '113 (police), 115 (ambulance)',
+        indianFoodAvailability: 'medium',
+        simCardCost: '₹300–500 for 10GB data (Viettel/Mobifone at airport)',
+        upiAccepted: false,
+        drivingSide: 'right',
+        tipExpected: false,
+      },
+    },
+  });
+
+  const thailand = await prisma.country.upsert({
+    where: { slug: 'thailand' },
+    update: {},
+    create: {
+      regionId: eastSoutheastAsia.id,
+      name: 'Thailand',
+      slug: 'thailand',
+      description: 'The Land of Smiles welcomes Indian travellers with open arms and no visa requirements. From the golden temples of Bangkok to the turquoise waters of Phuket and the laid-back vibes of Chiang Mai, Thailand has something for every type of traveller. The food is extraordinary — with vegetarian Thai cuisine being one of the best in Southeast Asia.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1528181304800-259b08848526?w=1600',
+      currencyCode: 'THB',
+      currencyName: 'Thai Baht',
+      timezone: 'Asia/Bangkok',
+      language: 'Thai',
+      capitalCity: 'Bangkok',
+      budgetTier: 'budget',
+      safetyRating: 4,
+      status: ContentStatus.PUBLISHED,
+      tags: ['beaches', 'temples', 'street-food', 'nightlife', 'islands', 'budget-friendly', 'wellness', 'yoga', 'diving', 'family-friendly'],
+      bestSeasons: {
+        months: [11, 12, 1, 2, 3],
+        description: 'Nov–Mar is the cool and dry season — perfect weather across Thailand',
+        peak: [12, 1, 2],
+        shoulder: [3, 4, 11],
+        avoid: [8, 9, 10],
+      },
+      quickFacts: {
+        population: '70 million',
+        capital: 'Bangkok',
+        language: 'Thai',
+        currency: 'Thai Baht (THB). 1 INR ≈ 0.42 THB',
+        electricalPlug: 'Type A/B/C (220V) — Indian 2-pin works directly',
+        emergencyNumber: '191 (police), 1669 (ambulance)',
+        indianFoodAvailability: 'high',
+        simCardCost: '₹400–700 for 15GB tourist SIM (AIS/DTAC at airport)',
+        upiAccepted: false,
+        drivingSide: 'left',
+        tipExpected: false,
+      },
+    },
+  });
+
+  const indonesia = await prisma.country.upsert({
+    where: { slug: 'indonesia' },
+    update: {},
+    create: {
+      regionId: eastSoutheastAsia.id,
+      name: 'Indonesia',
+      slug: 'indonesia',
+      description: 'The world\'s largest archipelago, Indonesia is a land of volcanic peaks, ancient Hindu temples, world-class surf breaks, and vibrant reef systems. Bali remains the crown jewel for Indian travellers — deeply spiritual, vegetarian-friendly (lots of Hindu temples and sattvic food), and incredibly scenic. Visa on arrival makes it easy and affordable.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1600',
+      currencyCode: 'IDR',
+      currencyName: 'Indonesian Rupiah',
+      timezone: 'Asia/Makassar',
+      language: 'Indonesian (Bahasa)',
+      capitalCity: 'Jakarta',
+      budgetTier: 'budget',
+      safetyRating: 4,
+      status: ContentStatus.PUBLISHED,
+      tags: ['beaches', 'islands', 'surfing', 'temples', 'nature', 'diving', 'budget-friendly', 'wellness', 'culture', 'yoga', 'rice-terraces'],
+      bestSeasons: {
+        months: [4, 5, 6, 7, 8, 9, 10],
+        description: 'Apr–Oct is dry season — ideal for Bali and Lombok',
+        peak: [7, 8],
+        shoulder: [4, 5, 9, 10],
+        avoid: [1, 2, 3],
+      },
+      quickFacts: {
+        population: '277 million',
+        capital: 'Jakarta',
+        language: 'Bahasa Indonesia',
+        currency: 'Indonesian Rupiah (IDR). 1 INR ≈ 185 IDR',
+        electricalPlug: 'Type C/F (220V) — Indian 2-pin works directly',
+        emergencyNumber: '110 (police), 118 (ambulance)',
+        indianFoodAvailability: 'medium',
+        simCardCost: '₹500–800 for 20GB data (Telkomsel/XL at airport)',
+        upiAccepted: false,
+        drivingSide: 'left',
+        tipExpected: false,
+      },
+    },
+  });
+
+  const singapore = await prisma.country.upsert({
+    where: { slug: 'singapore' },
+    update: {},
+    create: {
+      regionId: eastSoutheastAsia.id,
+      name: 'Singapore',
+      slug: 'singapore',
+      description: 'A gleaming city-state that packs extraordinary experiences into a tiny footprint. Singapore\'s legendary food scene has some of the best Indian restaurants outside India, the city is spotlessly clean, English is widely spoken, and public transport is world-class. It\'s the perfect first international destination for first-time Indian travellers, and a reliable favourite for families.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=1600',
+      currencyCode: 'SGD',
+      currencyName: 'Singapore Dollar',
+      timezone: 'Asia/Singapore',
+      language: 'English, Mandarin, Malay, Tamil',
+      capitalCity: 'Singapore',
+      budgetTier: 'premium',
+      safetyRating: 5,
+      status: ContentStatus.PUBLISHED,
+      tags: ['luxury', 'food', 'shopping', 'family-friendly', 'clean', 'modern', 'gardens', 'culture', 'safe', 'english-speaking', 'first-international-trip'],
+      bestSeasons: {
+        months: [2, 3, 4, 5, 6, 7, 8],
+        description: 'Singapore is good year-round, but Feb–Aug sees less rain',
+        peak: [6, 7, 12],
+        shoulder: [2, 3, 4, 5],
+        avoid: [],
+      },
+      quickFacts: {
+        population: '5.9 million',
+        capital: 'Singapore',
+        language: 'English (official), Mandarin, Malay, Tamil',
+        currency: 'Singapore Dollar (SGD). 1 SGD ≈ ₹62',
+        electricalPlug: 'Type G (230V) — Need adapter for Indian plugs',
+        emergencyNumber: '999 (police), 995 (ambulance)',
+        indianFoodAvailability: 'high',
+        simCardCost: '₹600–1000 for 10GB tourist SIM (Singtel/StarHub at airport)',
+        upiAccepted: false,
+        drivingSide: 'left',
+        tipExpected: false,
+      },
+    },
+  });
+
+  const maldives = await prisma.country.upsert({
+    where: { slug: 'maldives' },
+    update: {},
+    create: {
+      regionId: southAsia.id,
+      name: 'Maldives',
+      slug: 'maldives',
+      description: 'The ultimate bucket-list destination for honeymoons and luxury escapes, the Maldives is famous for its overwater bungalows, crystal-clear lagoons, and some of the world\'s best snorkelling and diving. Indian travellers get visa on arrival for free, and the country is just a 2.5-hour flight from Mumbai or Delhi. A growing number of resorts now offer Indian vegetarian menus.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=1600',
+      currencyCode: 'MVR',
+      currencyName: 'Maldivian Rufiyaa',
+      timezone: 'Indian/Maldives',
+      language: 'Dhivehi',
+      capitalCity: 'Malé',
+      budgetTier: 'premium',
+      safetyRating: 5,
+      status: ContentStatus.PUBLISHED,
+      tags: ['luxury', 'beaches', 'honeymoon', 'diving', 'snorkelling', 'islands', 'overwater-villas', 'romance', 'coral-reefs', 'sunset'],
+      bestSeasons: {
+        months: [11, 12, 1, 2, 3, 4],
+        description: 'Nov–Apr is dry season with calm seas — ideal for snorkelling and diving',
+        peak: [12, 1, 2],
+        shoulder: [3, 4, 11],
+        avoid: [6, 7, 8],
+      },
+      quickFacts: {
+        population: '540,000',
+        capital: 'Malé',
+        language: 'Dhivehi (English widely spoken in resorts)',
+        currency: 'Maldivian Rufiyaa (MVR). USD widely accepted. 1 USD ≈ ₹83',
+        electricalPlug: 'Type G (230V) — Need adapter for Indian plugs',
+        emergencyNumber: '119 (police), 102 (ambulance)',
+        indianFoodAvailability: 'medium',
+        simCardCost: '₹800–1200 for tourist SIM (Dhiraagu at airport)',
+        upiAccepted: false,
+        drivingSide: 'left',
+        tipExpected: false,
+      },
+    },
+  });
+
+  // ── CITIES ──────────────────────────────────────────────
+  console.log('🏙️  Seeding cities...');
+
+  // Vietnam cities
+  const hanoi = await prisma.city.upsert({
+    where: { slug: 'hanoi' },
+    update: {},
+    create: {
+      countryId: vietnam.id,
+      name: 'Hanoi',
+      slug: 'hanoi',
+      description: 'Vietnam\'s elegant capital is a captivating blend of French colonial architecture, ancient temples, and one of Asia\'s finest street food scenes. The Old Quarter\'s 36 streets are a UNESCO heritage site, and the city\'s café culture is legendary.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?w=1600',
+      latitude: 21.0285,
+      longitude: 105.8542,
+      isCapital: true,
+      avgDailyBudgetINR: 3500,
+      budgetTier: 'budget',
+      status: ContentStatus.PUBLISHED,
+      tags: ['capital', 'heritage', 'street-food', 'temples', 'old-quarter', 'lakes', 'cafes', 'history'],
+      safetyTips: [
+        'Use Grab (ride-hailing app) instead of street taxis to avoid overcharging',
+        'Keep bags close in the Old Quarter — pickpocketing can occur in crowded areas',
+        'Traffic is chaotic — walk confidently and steadily when crossing streets',
+        'Negotiate prices before boarding cyclos or xe om (motorbike taxis)',
+      ],
+      foodHighlights: {
+        mustTry: ['Bun Cha (grilled pork noodles)', 'Pho Bo (beef noodle soup)', 'Banh Mi', 'Cha Ca (turmeric fish)', 'Egg Coffee'],
+        vegetarianOptions: ['Pho Chay (vegetarian pho)', 'Com Chay (vegetarian rice dishes)', 'Banh Cuon Chay', 'Chay restaurants in Old Quarter near Hang Be Street'],
+        indianFoodAvailable: true,
+        topRestaurants: ['Bun Cha Huong Lien (Obama\'s restaurant)', 'Pho Thin', 'Chay Garden (vegetarian)'],
+      },
+      localTransport: {
+        grab: true,
+        bus: 'BRT and local buses — cheap but complex for tourists',
+        cyclo: 'Traditional pedal rickshaw — negotiate price first (₹150–400/hr)',
+        motorbike: 'Motorbike rentals available (₹600–900/day). International license required.',
+        walking: 'Old Quarter is very walkable',
+      },
+      sortOrder: 1,
+    },
+  });
+
+  const hcmc = await prisma.city.upsert({
+    where: { slug: 'ho-chi-minh-city' },
+    update: {},
+    create: {
+      countryId: vietnam.id,
+      name: 'Ho Chi Minh City',
+      slug: 'ho-chi-minh-city',
+      description: 'Vietnam\'s dynamic economic capital pulses with energy. Skyscrapers mix with colonial landmarks, war museums sit beside chic rooftop bars, and the street food scene rivals Hanoi\'s in quality and variety.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1583417267826-aebc4d1537e4?w=1600',
+      latitude: 10.8231,
+      longitude: 106.6297,
+      isCapital: false,
+      avgDailyBudgetINR: 3800,
+      budgetTier: 'budget',
+      status: ContentStatus.PUBLISHED,
+      tags: ['urban', 'history', 'war-museums', 'street-food', 'nightlife', 'rooftop-bars', 'cu-chi-tunnels'],
+      safetyTips: ['Watch for bag-snatching from motorbikes — keep bags on the building side of sidewalks'],
+      foodHighlights: {
+        mustTry: ['Banh Mi Huynh Hoa', 'Hu Tieu (rice noodle soup)', 'Com Tam (broken rice)', 'Goi Cuon (fresh spring rolls)'],
+        vegetarianOptions: ['Quan Chay An Lac', 'Loving Hut chain (vegetarian)', 'Dem Cu Chi (veg options)'],
+        indianFoodAvailable: true,
+        topRestaurants: ['Banh Mi Huynh Hoa', 'Pho 2000', 'An Lac (vegetarian)'],
+      },
+      localTransport: { grab: true, metro: 'Metro Line 1 now operational', bus: 'Local buses', taxi: 'Use Grab app' },
+      sortOrder: 2,
+    },
+  });
+
+  const danang = await prisma.city.upsert({
+    where: { slug: 'da-nang' },
+    update: {},
+    create: {
+      countryId: vietnam.id,
+      name: 'Da Nang',
+      slug: 'da-nang',
+      description: 'Vietnam\'s beach city is the perfect base for exploring Central Vietnam. Wide sandy beaches, the ancient Marble Mountains, and proximity to both Hoi An and Hue make it a must-visit.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1589394815804-964ed0be2eb5?w=1600',
+      latitude: 16.0544,
+      longitude: 108.2022,
+      isCapital: false,
+      avgDailyBudgetINR: 3200,
+      budgetTier: 'budget',
+      status: ContentStatus.PUBLISHED,
+      tags: ['beaches', 'dragon-bridge', 'marble-mountains', 'base-for-hoi-an', 'seafood', 'resort'],
+      safetyTips: ['Relatively safe city — standard travel precautions apply'],
+      foodHighlights: {
+        mustTry: ['Mi Quang (turmeric noodles)', 'Banh Xeo (sizzling crepes)', 'Seafood at Han Market'],
+        vegetarianOptions: ['Vegetarian options at most restaurants', 'Bep Chay (vegetarian restaurant)'],
+        indianFoodAvailable: false,
+      },
+      localTransport: { grab: true, taxi: 'Taxis available', bicycle: 'City is flat — bicycle rental popular' },
+      sortOrder: 3,
+    },
+  });
+
+  const hoiAn = await prisma.city.upsert({
+    where: { slug: 'hoi-an' },
+    update: {},
+    create: {
+      countryId: vietnam.id,
+      name: 'Hoi An',
+      slug: 'hoi-an',
+      description: 'One of Southeast Asia\'s most romantic and photogenic towns, Hoi An\'s Ancient Town is a UNESCO World Heritage Site. Lantern-lit streets, tailor shops, Japanese covered bridge, and the best Cao Lau in the world.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=1600',
+      latitude: 15.8801,
+      longitude: 108.3380,
+      isCapital: false,
+      avgDailyBudgetINR: 2800,
+      budgetTier: 'budget',
+      status: ContentStatus.PUBLISHED,
+      tags: ['ancient-town', 'lanterns', 'tailors', 'beaches', 'cycling', 'heritage', 'romantic', 'photography'],
+      safetyTips: ['Very safe town — watch for bicycle traffic in narrow streets'],
+      foodHighlights: {
+        mustTry: ['Cao Lau (thick noodles)', 'White Rose Dumplings', 'Banh Mi Phuong', 'Com Ga (chicken rice)'],
+        vegetarianOptions: ['Morning Glory (famous restaurant has veg menu)', 'Nu Eatery', 'Reaching Out Tea House (silent café)'],
+        indianFoodAvailable: false,
+      },
+      localTransport: { bicycle: 'Bicycle is the best way to explore — ₹150–300/day rental', walking: 'Ancient town is pedestrian-only evenings' },
+      sortOrder: 4,
+    },
+  });
+
+  const haLongBay = await prisma.city.upsert({
+    where: { slug: 'ha-long-bay' },
+    update: {},
+    create: {
+      countryId: vietnam.id,
+      name: 'Ha Long Bay',
+      slug: 'ha-long-bay',
+      description: 'One of the world\'s great natural wonders — 1,600+ limestone karsts rising from emerald waters. A cruise on Ha Long Bay is an unmissable experience, combining stunning scenery with kayaking, cave exploration, and fresh seafood.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1573615565957-3e2f9e9e68cf?w=1600',
+      latitude: 20.9101,
+      longitude: 107.1839,
+      isCapital: false,
+      avgDailyBudgetINR: 8000,
+      budgetTier: 'moderate',
+      status: ContentStatus.PUBLISHED,
+      tags: ['natural-wonder', 'cruises', 'kayaking', 'caves', 'limestone-karsts', 'overnight-cruise', 'seafood', 'photography'],
+      safetyTips: ['Book cruises through reputable agencies only', 'Life jackets always available on boats'],
+      foodHighlights: {
+        mustTry: ['Fresh seafood on cruise (clams, oysters, squid)', 'Squid ink dishes'],
+        vegetarianOptions: ['Most cruise operators accommodate vegetarian requests with advance notice'],
+        indianFoodAvailable: false,
+      },
+      localTransport: { cruise: 'Overnight cruise from Hanoi (4hr drive) — book all-inclusive packages', daytrip: 'Day trips available but overnight strongly recommended' },
+      sortOrder: 5,
+    },
+  });
+
+  // Thailand cities
+  const bangkok = await prisma.city.upsert({
+    where: { slug: 'bangkok' },
+    update: {},
+    create: {
+      countryId: thailand.id,
+      name: 'Bangkok',
+      slug: 'bangkok',
+      description: 'Thailand\'s electric capital is a city of contrasts — ancient golden temples beside glittering skyscrapers, serene river cruises beside neon-lit nightlife. Bangkok is also one of the world\'s great food cities, with excellent Indian restaurants in the Silom and Sukhumvit areas.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=1600',
+      latitude: 13.7563,
+      longitude: 100.5018,
+      isCapital: true,
+      avgDailyBudgetINR: 4500,
+      budgetTier: 'budget',
+      status: ContentStatus.PUBLISHED,
+      tags: ['capital', 'temples', 'shopping', 'nightlife', 'street-food', 'rooftop-bars', 'canals', 'tuk-tuks', 'floating-market'],
+      safetyTips: [
+        'Use BTS Skytrain and MRT metro to avoid traffic',
+        'Tuk-tuks for short distances — negotiate price first',
+        'Gem scam: avoid anyone who offers to take you to gem stores',
+        'Dress modestly when visiting temples (shoulders and knees covered)',
+      ],
+      foodHighlights: {
+        mustTry: ['Pad Thai', 'Tom Yum', 'Massaman Curry', 'Mango Sticky Rice', 'Som Tam (papaya salad)'],
+        vegetarianOptions: ['Jay (เจ) symbol marks vegetarian/vegan restaurants', 'Govinda Restaurant (Indian veg)', 'Ethos Café (vegan)', 'Many vegetarian Thai restaurants in all areas'],
+        indianFoodAvailable: true,
+        topRestaurants: ['Govinda (Indian veg, Sukhumvit)', 'Gaggan Anand (modern Indian)', 'Bukhara Bangkok'],
+      },
+      localTransport: {
+        bts: 'BTS Skytrain — fast and air-conditioned (₹40–200 per journey)',
+        mrt: 'Metro — connects key areas',
+        grab: true,
+        tuktuk: 'For short distances and fun (₹150–400) — negotiate price',
+        boat: 'Chao Phraya Express Boat for river temples',
+      },
+      sortOrder: 1,
+    },
+  });
+
+  const phuket = await prisma.city.upsert({
+    where: { slug: 'phuket' },
+    update: {},
+    create: {
+      countryId: thailand.id,
+      name: 'Phuket',
+      slug: 'phuket',
+      description: 'Thailand\'s largest island is a classic beach destination with world-class diving, vibrant nightlife in Patong, and beautiful beaches ranging from the lively Patong to the serene Kata Noi. The Old Town has wonderful Sino-Portuguese architecture and excellent food.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1589394815804-964ed0be2eb5?w=1600',
+      latitude: 7.8804,
+      longitude: 98.3923,
+      isCapital: false,
+      avgDailyBudgetINR: 5500,
+      budgetTier: 'moderate',
+      status: ContentStatus.PUBLISHED,
+      tags: ['beaches', 'diving', 'nightlife', 'islands', 'phi-phi', 'james-bond-island', 'old-town', 'snorkelling'],
+      safetyTips: ['Only swim at beaches with lifeguard flags', 'Rip currents can be dangerous during monsoon', 'Book island tours only through registered operators'],
+      foodHighlights: {
+        mustTry: ['Massaman Curry', 'Phuket Lobster', 'Mee Hokkien (Hokkien noodles)', 'Roti (Indian-influenced flatbread)'],
+        vegetarianOptions: ['Phuket Vegetarian Festival (Oct/Nov)', 'Many veg options in Old Town', 'Sri Ganesh Indian Restaurant'],
+        indianFoodAvailable: true,
+      },
+      localTransport: { grab: true, songthaew: 'Shared pickup trucks — cheap local transport', scooter: 'Scooter rental ₹600–900/day (use with caution)' },
+      sortOrder: 2,
+    },
+  });
+
+  // Indonesia cities
+  const bali = await prisma.city.upsert({
+    where: { slug: 'bali' },
+    update: {},
+    create: {
+      countryId: indonesia.id,
+      name: 'Bali',
+      slug: 'bali',
+      description: 'The Island of the Gods is a deeply spiritual Hindu island with terraced rice fields, ornate temples, world-class surf, and a thriving wellness scene. For Indian travellers, Bali feels familiar — Hindu ceremonies, vegetarian-friendly food, and a warm welcome make it feel like a natural home away from home.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1600',
+      latitude: -8.4095,
+      longitude: 115.1889,
+      isCapital: false,
+      avgDailyBudgetINR: 4200,
+      budgetTier: 'budget',
+      status: ContentStatus.PUBLISHED,
+      tags: ['hindu-temples', 'rice-terraces', 'surfing', 'yoga', 'wellness', 'ubud', 'seminyak', 'kuta', 'spiritual', 'beaches', 'art'],
+      safetyTips: ['Dress modestly at temples (sarong required — usually provided)', 'Watch for strong currents at beach breaks', 'Book legitimate money changers at authorized kiosks'],
+      foodHighlights: {
+        mustTry: ['Nasi Goreng (fried rice)', 'Sate Lilit (Balinese satay)', 'Bebek Betutu (slow-cooked duck)', 'Babi Guling (suckling pig — non-veg)', 'Lawar'],
+        vegetarianOptions: ['Excellent vegetarian options everywhere', 'Mostly vegetarian in Ubud', 'Clear Café Ubud', 'Earth Café (vegan)', 'Warung Sopa (veg-friendly)'],
+        indianFoodAvailable: true,
+        topRestaurants: ['Mozaic Restaurant Ubud', 'Locavore (fine dining)', 'Warung Babi Guling Ibu Oka'],
+      },
+      localTransport: {
+        grab: true,
+        gojek: 'Gojek (local equivalent of Uber) — widely available and cheap',
+        scooter: 'Scooter rental ₹400–600/day — most popular way to explore',
+        taxi: 'Official Bluebird taxis are metered and trustworthy',
+      },
+      sortOrder: 1,
+    },
+  });
+
+  const jakarta = await prisma.city.upsert({
+    where: { slug: 'jakarta' },
+    update: {},
+    create: {
+      countryId: indonesia.id,
+      name: 'Jakarta',
+      slug: 'jakarta',
+      description: 'Indonesia\'s sprawling capital is a city of extremes — gleaming malls beside historical Dutch colonial buildings, luxury hotels beside traditional kampungs. It\'s primarily a transit city for most Indian tourists, but the National Museum and Kota Tua (Old Town) are worth exploring.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1555899434-94d1368aa7af?w=1600',
+      latitude: -6.2088,
+      longitude: 106.8456,
+      isCapital: true,
+      avgDailyBudgetINR: 5000,
+      budgetTier: 'moderate',
+      status: ContentStatus.PUBLISHED,
+      tags: ['capital', 'shopping', 'national-museum', 'old-town', 'transit', 'urban'],
+      safetyTips: ['Traffic is notorious — use Gojek/Grab to avoid issues', 'Keep valuables secure in crowds'],
+      foodHighlights: {
+        mustTry: ['Nasi Padang (Minang cuisine)', 'Soto Betawi (creamy beef soup)', 'Gado-Gado (peanut sauce salad — veg-friendly)'],
+        vegetarianOptions: ['Gado-Gado widely available', 'Vegetarian Warung restaurants around Kemang area'],
+        indianFoodAvailable: true,
+      },
+      localTransport: { grab: true, gojek: true, mrt: 'Jakarta MRT now operational', transjakarta: 'BRT bus network' },
+      sortOrder: 2,
+    },
+  });
+
+  // Singapore
+  const singaporeCity = await prisma.city.upsert({
+    where: { slug: 'singapore-city' },
+    update: {},
+    create: {
+      countryId: singapore.id,
+      name: 'Singapore City',
+      slug: 'singapore-city',
+      description: 'Singapore is effectively a city-state, and every neighbourhood has its own distinct character — from the buzzing hawker centres of Chinatown to the colonial elegance of the Civic District, the futuristic Gardens by the Bay, and the Indian heritage of Little India.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=1600',
+      latitude: 1.3521,
+      longitude: 103.8198,
+      isCapital: true,
+      avgDailyBudgetINR: 9000,
+      budgetTier: 'premium',
+      status: ContentStatus.PUBLISHED,
+      tags: ['gardens-by-the-bay', 'marina-bay-sands', 'little-india', 'chinatown', 'hawker-centres', 'universal-studios', 'sentosa', 'family-friendly', 'shopping'],
+      safetyTips: ['One of the world\'s safest cities — minimal concerns', 'Strict laws: no littering, no chewing gum, no jaywalking', 'Tap water is safe to drink'],
+      foodHighlights: {
+        mustTry: ['Chicken Rice', 'Laksa', 'Char Kway Teow', 'Chilli Crab', 'Kaya Toast with Soft-Boiled Eggs'],
+        vegetarianOptions: ['Komala Vilas (iconic Indian veg)', 'Ananda Bhavan', 'MTR Singapore', 'Little India hawker stalls', 'Vegetarian option at every hawker centre'],
+        indianFoodAvailable: true,
+        topRestaurants: ['Komala Vilas (Little India)', 'Ananda Bhavan', 'Jaggi\'s Northern Indian Cuisine'],
+      },
+      localTransport: {
+        mrt: 'MRT is the fastest way — EZ-Link card or Singapore Tourist Pass (₹1,200/3-day unlimited)',
+        bus: 'Comprehensive bus network',
+        grab: true,
+        walking: 'CBD and Marina Bay are walkable',
+      },
+      sortOrder: 1,
+    },
+  });
+
+  // Maldives
+  const male = await prisma.city.upsert({
+    where: { slug: 'male' },
+    update: {},
+    create: {
+      countryId: maldives.id,
+      name: 'Malé',
+      slug: 'male',
+      description: 'The compact, colourful capital of the Maldives is one of the world\'s most densely populated cities. Most tourists spend only a few hours here before speedboating to their resort island, but the Old Friday Mosque, fish market, and Republic Square are worth a brief visit.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=1600',
+      latitude: 4.1755,
+      longitude: 73.5093,
+      isCapital: true,
+      avgDailyBudgetINR: 15000,
+      budgetTier: 'premium',
+      status: ContentStatus.PUBLISHED,
+      tags: ['capital', 'transit', 'friday-mosque', 'fish-market', 'colourful-buildings', 'ferry-terminal'],
+      safetyTips: ['Very safe capital', 'Conservative dress code outside resort islands (shoulders and knees covered)', 'Alcohol is not permitted in Malé — only at resort islands'],
+      foodHighlights: {
+        mustTry: ['Mas Huni (tuna breakfast)', 'Garudhiya (fish broth)', 'Bis Keemiya (samosa-like snack)', 'Fresh tuna dishes'],
+        vegetarianOptions: ['Limited options — most local restaurants serve fish-based food', 'Resorts always have vegetarian menus'],
+        indianFoodAvailable: false,
+      },
+      localTransport: { ferry: 'Speedboat transfers to resort islands (20min–4hr)', taxi: 'Short taxi rides in Malé (₹150–300)' },
+      sortOrder: 1,
+    },
+  });
+
+  // ── POINTS OF INTEREST (Hanoi) ───────────────────────────
+  console.log('📍 Seeding Hanoi POIs...');
+
+  const poisData = [
+    {
+      slug: 'hanoi-old-quarter-walking-tour',
+      name: 'Old Quarter Walking Tour',
+      category: ExperienceCategory.CULTURE_HISTORY,
+      subcategory: 'Heritage Walk',
+      description: 'The 36 Streets of Hanoi\'s Old Quarter is one of Asia\'s most captivating urban environments. Each street was historically dedicated to a specific trade — Hang Bac for silver, Hang Gai for silk, Hang Ma for paper — and many still carry on their ancient crafts. The French Quarter sits adjacent, with wide boulevards and colonial-era buildings.',
+      shortDescription: 'UNESCO-listed 36 Streets neighbourhood dating back to the 13th century',
+      latitude: 21.0340,
+      longitude: 105.8483,
+      avgDurationMins: 120,
+      avgCostINR: 0,
+      tags: ['heritage', 'walking', 'history', 'shopping', 'free', 'photography', 'street-food'],
+      bestTimeToVisit: 'Early morning (7-9am) for fewer crowds, or evening when streets are pedestrianised',
+      tips: ['Download the "36 Streets" map app', 'Saturday and Sunday evenings the Old Quarter becomes a walking street', 'Look up — the architecture above eye level is stunning'],
+    },
+    {
+      slug: 'hoan-kiem-lake',
+      name: 'Hoan Kiem Lake',
+      category: ExperienceCategory.NATURE_LANDSCAPES,
+      subcategory: 'Lake & Garden',
+      description: 'Legend has it that King Le Loi was given a magical sword by the Golden Turtle God in this jade-green lake, and returned it here after defeating the Chinese Ming dynasty. Today, the lake is Hanoi\'s spiritual and social heart — locals gather here to exercise at dawn, couples stroll in the evenings, and the red Huc Bridge and Ngoc Son Temple create one of Vietnam\'s most iconic images.',
+      shortDescription: 'Hanoi\'s legendary "Lake of the Restored Sword" with Ngoc Son Temple',
+      latitude: 21.0287,
+      longitude: 105.8524,
+      avgDurationMins: 60,
+      avgCostINR: 150,
+      tags: ['lake', 'legend', 'temple', 'photography', 'morning-walk', 'romantic', 'free-surrounding'],
+      bestTimeToVisit: 'Sunrise (5:30-7am) for tai chi practitioners and beautiful light',
+      tips: ['Ngoc Son Temple entry fee is ₹150', 'Turtle Tower is visible on a small island in the lake', 'Walk the full perimeter — about 2km, 30 minutes'],
+    },
+    {
+      slug: 'temple-of-literature',
+      name: 'Temple of Literature',
+      category: ExperienceCategory.CULTURE_HISTORY,
+      subcategory: 'Temple & Museum',
+      description: 'Vietnam\'s first university, founded in 1070 and dedicated to Confucius, is one of Hanoi\'s best-preserved ancient monuments. Five courtyards lead through 900 years of Vietnamese scholarship — stone stelae with the names of doctoral graduates, beautifully restored pavilions, and tranquil garden spaces. Vietnamese students still visit before exams to pray for success.',
+      shortDescription: 'Vietnam\'s first university, dating to 1070 CE — a masterpiece of ancient Vietnamese architecture',
+      latitude: 21.0275,
+      longitude: 105.8351,
+      avgDurationMins: 90,
+      avgCostINR: 250,
+      tags: ['temple', 'history', 'culture', 'architecture', 'photography', 'education', 'ancient'],
+      bestTimeToVisit: 'Tuesday to Friday mornings (fewer crowds than weekends)',
+      tips: ['Entry fee is around ₹250 — very worth it', 'Audio guide available in English at the entrance', 'Check out the stelae (stone tablets) listing doctoral graduates since 1484'],
+    },
+    {
+      slug: 'hanoi-street-food-tour',
+      name: 'Hanoi Street Food Tour',
+      category: ExperienceCategory.FOOD_MARKETS,
+      subcategory: 'Food Experience',
+      description: 'Hanoi is widely considered to have Southeast Asia\'s finest street food culture, and eating like a local is the single best way to experience the city. A walking food tour covers Bun Cha (grilled pork and cold noodles — made famous by Anthony Bourdain and Barack Obama), Pho Bo from century-old shops, Banh Cuon (steamed rice rolls), Che (Vietnamese sweets), and the legendary Egg Coffee.',
+      shortDescription: 'Sample Hanoi\'s legendary street food: Bun Cha, Pho, Banh Mi, and Egg Coffee',
+      latitude: 21.0320,
+      longitude: 105.8480,
+      avgDurationMins: 180,
+      avgCostINR: 1200,
+      tags: ['food', 'street-food', 'local-experience', 'walking-tour', 'must-do', 'vegetarian-options'],
+      bestTimeToVisit: 'Morning (7-10am) for fresh Pho and Banh Cuon, or lunch (11am-1pm) for Bun Cha',
+      tips: ['Book a guided tour for ₹1,500–3,000 per person or self-explore', 'Vegetarian: ask for "Pho Chay" or "Com Chay" — widely available', 'Egg Coffee (Ca Phe Trung) at Giang Café is a must-try — ₹60 per cup'],
+    },
+    {
+      slug: 'ho-chi-minh-mausoleum',
+      name: 'Ho Chi Minh Mausoleum Complex',
+      category: ExperienceCategory.CULTURE_HISTORY,
+      subcategory: 'Historic Site',
+      description: 'The grand grey granite mausoleum houses the embalmed body of Uncle Ho — Vietnam\'s revolutionary leader. The surrounding complex includes the Presidential Palace (French-built, 1906), Uncle Ho\'s stilt house where he lived simply until his death, the One Pillar Pagoda, and the Ho Chi Minh Museum. The complex gives profound insight into modern Vietnamese history.',
+      shortDescription: 'Solemn mausoleum of Ho Chi Minh surrounded by historical buildings and gardens',
+      latitude: 21.0370,
+      longitude: 105.8349,
+      avgDurationMins: 120,
+      avgCostINR: 0,
+      tags: ['history', 'mausoleum', 'political-history', 'free', 'gardens', 'pagoda', 'must-see'],
+      bestTimeToVisit: 'Tuesday to Thursday, 8-11am (mausoleum is closed Monday and Friday)',
+      tips: ['Mausoleum is free but strict dress code — no shorts, tank tops, or exposed shoulders', 'Photography is not allowed inside the mausoleum', 'One Pillar Pagoda next door is beautiful and free'],
+    },
+    {
+      slug: 'hanoi-train-street',
+      name: 'Train Street (Phung Hung)',
+      category: ExperienceCategory.CULTURE_HISTORY,
+      subcategory: 'Unique Experience',
+      description: 'One of Hanoi\'s quirkiest attractions — a narrow residential street where houses are just inches from the railway tracks. Twice a day, a train passes through at low speed while residents quickly pull in their furniture and tourists scatter. Between trains, cafés along the track serve coffee while locals go about their daily lives.',
+      shortDescription: 'Famous narrow street where a live railway passes through residential buildings twice daily',
+      latitude: 21.0283,
+      longitude: 105.8461,
+      avgDurationMins: 45,
+      avgCostINR: 100,
+      tags: ['unique', 'photography', 'railway', 'local-life', 'cafe', 'quirky'],
+      bestTimeToVisit: 'Around 4pm or 7:30pm (train times, but verify locally as schedules change)',
+      tips: ['Trains pass around 4pm and 7:30pm but times change — ask your hotel', 'Stand well clear of the tracks when the train passes', 'Many cafés on the street charge a small seating fee (₹100)'],
+    },
+    {
+      slug: 'water-puppet-theatre',
+      name: 'Thang Long Water Puppet Theatre',
+      category: ExperienceCategory.CULTURE_HISTORY,
+      subcategory: 'Traditional Performance',
+      description: 'Water puppetry is an art form unique to northern Vietnam, originating in the 11th century when Red River Delta farmers staged performances on flooded rice paddies. The 45-minute show features 18 scenes depicting legends, folk tales, and farming life — all performed by puppets controlled by hidden artists standing waist-deep in water, accompanied by a live traditional orchestra.',
+      shortDescription: '1,000-year-old Vietnamese art form — puppets perform on water to live traditional music',
+      latitude: 21.0336,
+      longitude: 105.8524,
+      avgDurationMins: 60,
+      avgCostINR: 600,
+      tags: ['traditional', 'performance', 'culture', 'evening-activity', 'family-friendly', 'unique'],
+      bestTimeToVisit: 'Evening shows at 6pm or 8pm — book ahead during peak season',
+      tips: ['Book tickets in advance online — ₹500–800 depending on seat', 'Shows run multiple times daily', 'First two rows get slightly splashed — exciting or bring a poncho', 'No English narration but show is visual and engaging'],
+    },
+  ];
+
+  for (const poi of poisData) {
+    await prisma.pointOfInterest.upsert({
+      where: { slug: poi.slug },
+      update: {},
+      create: {
+        cityId: hanoi.id,
+        name: poi.name,
+        slug: poi.slug,
+        category: poi.category,
+        subcategory: poi.subcategory,
+        description: poi.description,
+        shortDescription: poi.shortDescription,
+        latitude: poi.latitude,
+        longitude: poi.longitude,
+        avgDurationMins: poi.avgDurationMins,
+        avgCostINR: poi.avgCostINR,
+        tags: poi.tags,
+        bestTimeToVisit: poi.bestTimeToVisit,
+        tips: poi.tips,
+        status: ContentStatus.PUBLISHED,
+        ratingAvg: 4.5,
+        ratingCount: Math.floor(Math.random() * 200) + 50,
+      },
+    });
+  }
+
+  // ── VISA INFO ────────────────────────────────────────────
+  console.log('📋 Seeding visa info...');
+
+  await prisma.visaInfo.upsert({
+    where: { countryId_visaType: { countryId: vietnam.id, visaType: VisaType.E_VISA } },
+    update: {},
+    create: {
+      countryId: vietnam.id,
+      visaType: VisaType.E_VISA,
+      description: 'Indian passport holders must apply for an e-visa before travelling to Vietnam. The process is straightforward and can be done entirely online through the official Vietnamese immigration portal.',
+      documentsRequired: [
+        { name: 'Valid Indian Passport', description: 'Must be valid for at least 6 months beyond your travel dates. Must have at least 2 blank pages.', mandatory: true },
+        { name: 'Digital passport photo', description: 'Recent colour photo (4x6cm), white background, no glasses. JPEG format.', mandatory: true },
+        { name: 'Passport biodata page scan', description: 'Clear colour scan of the page with your photo and personal details', mandatory: true },
+        { name: 'E-visa application form', description: 'Completed online at evisa.xuatnhapcanh.gov.vn', mandatory: true },
+        { name: 'Credit/debit card for fee payment', description: 'USD $25 fee paid online. International cards accepted.', mandatory: true },
+        { name: 'Proof of accommodation', description: 'Hotel booking confirmation for at least your first night', mandatory: false },
+        { name: 'Return flight booking', description: 'Onward/return flight confirmation recommended', mandatory: false },
+      ],
+      processingTimeDays: { min: 3, max: 5 },
+      fees: { currency: 'USD', amount: 25, inrApprox: 2100 },
+      commonMistakes: [
+        'Applying too close to travel date — apply at least 2 weeks before',
+        'Uploading a blurry or small passport photo — quality matters',
+        'Entering incorrect passport number (transcription errors)',
+        'Not printing the approved e-visa to carry physically',
+        'Choosing wrong entry type (single vs multiple entry)',
+      ],
+      tips: [
+        'E-visa validity: 90 days, single or multiple entry (select multiple if doing a loop)',
+        'Official website only: evisa.xuatnhapcanh.gov.vn — avoid third-party agents who charge extra',
+        'Print your e-visa and carry a physical copy — some border officers require paper',
+        'The e-visa is separate from your arrival card — fill both at the airport',
+        'Valid at all international land, sea, and air borders',
+      ],
+      applicationUrl: 'https://evisa.xuatnhapcanh.gov.vn',
+      status: ContentStatus.PUBLISHED,
+      lastVerifiedAt: new Date('2025-12-01'),
+    },
+  });
+
+  await prisma.visaInfo.upsert({
+    where: { countryId_visaType: { countryId: thailand.id, visaType: VisaType.VISA_FREE } },
+    update: {},
+    create: {
+      countryId: thailand.id,
+      visaType: VisaType.VISA_FREE,
+      description: 'Indian passport holders can visit Thailand visa-free for up to 30 days. No prior visa application is required — just arrive at the airport and pass through immigration.',
+      documentsRequired: [
+        { name: 'Valid Indian Passport', description: 'Must be valid for at least 6 months beyond your departure date. At least 2 blank pages required.', mandatory: true },
+        { name: 'Proof of sufficient funds', description: 'Must show THB 20,000 (~₹48,000) per person or THB 40,000 per family. Bank statement or cash.', mandatory: true },
+        { name: 'Return/onward flight booking', description: 'Confirmed flight out of Thailand before your 30-day visa-free period expires', mandatory: true },
+        { name: 'Hotel booking confirmation', description: 'First night hotel confirmation recommended. Some officers ask for this.', mandatory: false },
+      ],
+      processingTimeDays: { min: 0, max: 0 },
+      fees: { currency: 'THB', amount: 0, inrApprox: 0 },
+      commonMistakes: [
+        'Not having proof of sufficient funds — officers can deny entry if you cannot show funds',
+        'Not having a return or onward flight booked — this is essential',
+        'Trying to extend by doing a "border run" repeatedly — Thailand monitors this',
+        'Passport with less than 6 months validity — you will be denied boarding',
+        'Assuming 30-day entry at all borders — land border crossings may get fewer days',
+      ],
+      tips: [
+        'Fill out the TM6 arrival/departure card on the plane — helps speed through immigration',
+        'Immigration queue can be 30–60 minutes at Suvarnabhumi Airport — factor this in',
+        'If you want more than 30 days, apply for a Tourist Visa from the Thai embassy in India (60 days, extendable once for 30 more)',
+        'Thailand uses UTC+7 — adjust your clock on arrival',
+        'Keep your departure card safe — you surrender it on exit',
+      ],
+      status: ContentStatus.PUBLISHED,
+      lastVerifiedAt: new Date('2025-12-01'),
+    },
+  });
+
+  await prisma.visaInfo.upsert({
+    where: { countryId_visaType: { countryId: indonesia.id, visaType: VisaType.VISA_ON_ARRIVAL } },
+    update: {},
+    create: {
+      countryId: indonesia.id,
+      visaType: VisaType.VISA_ON_ARRIVAL,
+      description: 'Indian passport holders can get a Visa on Arrival at all major Indonesian international airports. The process takes 10–30 minutes at designated counters before the main immigration queue.',
+      documentsRequired: [
+        { name: 'Valid Indian Passport', description: 'Must be valid for at least 6 months. At least 2 blank pages required.', mandatory: true },
+        { name: 'Return or onward flight ticket', description: 'Confirmed return or onward flight booking is mandatory', mandatory: true },
+        { name: 'Proof of accommodation', description: 'Hotel booking for at least your first few nights in Indonesia', mandatory: true },
+        { name: 'Cash for visa fee', description: 'IDR 500,000 (~₹2,700) cash. USD 35 also accepted at most airports. Credit cards accepted at some airports.', mandatory: true },
+        { name: 'Completed arrival card', description: 'Filled out on the plane or available at the airport', mandatory: true },
+      ],
+      processingTimeDays: { min: 0, max: 0 },
+      fees: { currency: 'IDR', amount: 500000, inrApprox: 2700 },
+      commonMistakes: [
+        'Not having cash for the visa fee — card machines sometimes fail; carry USD 35 as backup',
+        'Joining the wrong queue — look for "Visa on Arrival" counters, not regular immigration',
+        'Not having hotel booking ready — officers check it',
+        'Overstaying the 30-day visa — extension is possible but complex',
+        'Forgetting to fill in the arrival card on the plane',
+      ],
+      tips: [
+        'VoA available at Bali (Ngurah Rai), Jakarta (Soekarno-Hatta), Lombok, and other major airports',
+        'Valid for 30 days, extendable once for 30 more days at an Immigration office',
+        'Alternatively apply for an e-Visa online before travel at molina.imigrasi.go.id — saves time at airport',
+        'Bring fresh USD bills if paying in cash — old or damaged notes sometimes rejected',
+        'Customs form is separate from the arrival card — fill both on the plane',
+      ],
+      status: ContentStatus.PUBLISHED,
+      lastVerifiedAt: new Date('2025-12-01'),
+    },
+  });
+
+  await prisma.visaInfo.upsert({
+    where: { countryId_visaType: { countryId: singapore.id, visaType: VisaType.E_VISA } },
+    update: {},
+    create: {
+      countryId: singapore.id,
+      visaType: VisaType.E_VISA,
+      description: 'Indian passport holders need to apply for a Singapore Tourist Visa before travel. The process is done online or through an authorised visa agent. Singapore immigration is strict — ensure all documents are in order.',
+      documentsRequired: [
+        { name: 'Valid Indian Passport', description: 'Must be valid for at least 6 months beyond your intended stay. Clean passport with no missing pages.', mandatory: true },
+        { name: 'Recent colour photograph', description: '35x45mm, white background, taken within the last 3 months', mandatory: true },
+        { name: 'Completed visa application form (14A)', description: 'Available online at ICA website or through a visa agent', mandatory: true },
+        { name: 'Return flight booking', description: 'Confirmed return flights to India', mandatory: true },
+        { name: 'Hotel reservation', description: 'Hotel booking confirmation for entire stay', mandatory: true },
+        { name: 'Bank statement (last 3-6 months)', description: 'Shows financial capacity — recommended minimum balance of ₹1,00,000', mandatory: true },
+        { name: 'Income Tax Return (ITR) / Salary slips', description: 'Proof of income and employment — last 2-3 months salary slips', mandatory: true },
+        { name: 'Cover letter', description: 'Brief letter explaining travel purpose, duration, and itinerary', mandatory: false },
+        { name: 'Employment letter', description: 'Letter from employer confirming employment and approved leave', mandatory: false },
+        { name: 'Travel insurance', description: 'Recommended but not mandatory', mandatory: false },
+      ],
+      processingTimeDays: { min: 3, max: 7 },
+      fees: { currency: 'SGD', amount: 30, inrApprox: 1900 },
+      commonMistakes: [
+        'Insufficient bank balance — minimum ₹75,000–1,00,000 recommended in account',
+        'Bank statement is too old — must be recent (within 3 months)',
+        'Not including a cover letter — this significantly helps approval',
+        'Applying too close to travel — apply 2-3 weeks in advance',
+        'Using unofficial visa agents — apply through ICA official channels or authorised agents',
+      ],
+      tips: [
+        'Apply through ICA (Immigration & Checkpoints Authority) or a registered visa agent',
+        'Multiple-entry visa is worth it if you plan to travel to Malaysia/Indonesia and return to Singapore',
+        'Singapore is very strict about immigration — be truthful in all your application details',
+        'Keep all documents (hotel bookings, return tickets) accessible during immigration',
+        'Singapore immigration at Changi Airport is fast — just have documents ready',
+      ],
+      applicationUrl: 'https://www.ica.gov.sg/enter-depart/entry_requirements/visa_requirements',
+      status: ContentStatus.PUBLISHED,
+      lastVerifiedAt: new Date('2025-12-01'),
+    },
+  });
+
+  await prisma.visaInfo.upsert({
+    where: { countryId_visaType: { countryId: maldives.id, visaType: VisaType.VISA_FREE } },
+    update: {},
+    create: {
+      countryId: maldives.id,
+      visaType: VisaType.VISA_FREE,
+      description: 'Indian passport holders receive a free 30-day tourist visa on arrival in the Maldives. No prior visa application is required. The process at Velana International Airport is simple and quick.',
+      documentsRequired: [
+        { name: 'Valid Indian Passport', description: 'Must be valid for at least 6 months beyond your departure date', mandatory: true },
+        { name: 'Return/onward flight ticket', description: 'Confirmed return flight booking', mandatory: true },
+        { name: 'Resort/hotel confirmation', description: 'Booking confirmation from your resort or guesthouse (required at immigration)', mandatory: true },
+        { name: 'Proof of sufficient funds', description: 'USD 100 per day recommended — bank card or cash', mandatory: false },
+        { name: 'Yellow fever certificate', description: 'Required if arriving from a yellow fever endemic country', mandatory: false },
+      ],
+      processingTimeDays: { min: 0, max: 0 },
+      fees: { currency: 'USD', amount: 0, inrApprox: 0 },
+      commonMistakes: [
+        'Not having resort booking confirmation ready for immigration — this is mandatory',
+        'Forgetting that alcohol is not permitted outside resort islands (Islamic law)',
+        'Not checking if your resort transfer (speedboat/seaplane) is included in the package',
+        'Converting currency at unfavourable rates — USD is widely accepted at all resorts',
+        'Missing the seaplane transfer time (usually only during daylight hours)',
+      ],
+      tips: [
+        'Velana International Airport is on Malé island — resort speedboat or seaplane transfers are separate',
+        'Seaplane transfers only operate during daylight (roughly 6am–4pm) — plan arrival timing carefully',
+        'Book an all-inclusive resort package to avoid bill shock — à la carte dining and activities are expensive',
+        'The outer atolls (Raa, Baa, Lhaviyani) have stunning reefs but longer travel times from Malé',
+        'Local guesthouses on inhabited islands are much cheaper than resort islands',
+      ],
+      status: ContentStatus.PUBLISHED,
+      lastVerifiedAt: new Date('2025-12-01'),
+    },
+  });
+
+  // ── EXPERIENCES ──────────────────────────────────────────
+  console.log('✨ Seeding experiences...');
+
+  const experiencesData = [
+    {
+      slug: 'street-food-adventures',
+      name: 'Street Food Adventures',
+      category: ExperienceCategory.FOOD_MARKETS,
+      shortDescription: 'Eat your way through Asia\'s most vibrant street food scenes',
+      description: 'From Hanoi\'s Bun Cha to Bangkok\'s Pad Thai, from Singapore\'s Chicken Rice to Bali\'s Nasi Goreng — Southeast Asia is a paradise for food lovers. Indian travellers will find both familiar flavours (curries, rice dishes, coconut-based cooking) and exciting new tastes. Many destinations offer excellent vegetarian street food.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=1600',
+      idealDurationDays: { min: 3, max: 14 },
+      budgetRangeINR: { budget: 2000, midRange: 4000, luxury: 8000 },
+      bestDestinations: ['vietnam', 'thailand', 'indonesia', 'singapore'],
+      tags: ['food', 'street-food', 'vegetarian-friendly', 'budget-friendly', 'local-experience', 'markets'],
+    },
+    {
+      slug: 'island-hopping',
+      name: 'Island Hopping',
+      category: ExperienceCategory.ISLAND_BEACH,
+      shortDescription: 'Hop between paradise islands with pristine beaches and crystal waters',
+      description: 'Southeast Asia has some of the world\'s most beautiful islands — Thailand\'s Phi Phi and Koh Lanta, Indonesia\'s Gili Islands and Komodo, the Maldives\' atolls, and Vietnam\'s Con Dao. Island hopping lets you experience multiple beach personalities — some party-focused, others serene and deserted.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1539367628448-4bc5c9d171c8?w=1600',
+      idealDurationDays: { min: 5, max: 14 },
+      budgetRangeINR: { budget: 5000, midRange: 10000, luxury: 30000 },
+      bestDestinations: ['thailand', 'indonesia', 'maldives', 'vietnam'],
+      tags: ['beaches', 'islands', 'snorkelling', 'diving', 'boat-trips', 'sunset', 'photography'],
+    },
+    {
+      slug: 'temple-heritage-trails',
+      name: 'Temple & Heritage Trails',
+      category: ExperienceCategory.CULTURE_HISTORY,
+      shortDescription: 'Explore ancient temples, UNESCO sites, and living cultural traditions',
+      description: 'For Indian travellers, the Hindu and Buddhist temples of Southeast Asia offer a deeply familiar yet beautifully different perspective. Bali\'s sea temple at Uluwatu, Thailand\'s Doi Suthep in Chiang Mai, Vietnam\'s Hoi An Ancient Town, and Cambodia\'s Angkor Wat (nearby) — each tells a different chapter of Asia\'s spiritual heritage.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=1600',
+      idealDurationDays: { min: 4, max: 10 },
+      budgetRangeINR: { budget: 3000, midRange: 6000, luxury: 15000 },
+      bestDestinations: ['vietnam', 'thailand', 'indonesia', 'singapore'],
+      tags: ['temples', 'heritage', 'history', 'culture', 'UNESCO', 'spiritual', 'architecture', 'photography'],
+    },
+    {
+      slug: 'luxury-overwater-experience',
+      name: 'Luxury Overwater Experience',
+      category: ExperienceCategory.LUXURY_STAYS,
+      shortDescription: 'Stay in iconic overwater villas with direct lagoon access',
+      description: 'The overwater bungalow experience, pioneered in the Maldives and now available in Bali and Thailand, is one of travel\'s ultimate luxuries. Wake up to the sound of waves beneath you, slide directly into a turquoise lagoon, and watch uninterrupted sunsets from your private deck. Many properties now offer Indian vegetarian menus on request.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=1600',
+      idealDurationDays: { min: 4, max: 10 },
+      budgetRangeINR: { budget: 30000, midRange: 70000, luxury: 200000 },
+      bestDestinations: ['maldives', 'indonesia', 'thailand'],
+      tags: ['luxury', 'overwater', 'honeymoon', 'romance', 'snorkelling', 'spa', 'sunset', 'private-pool'],
+    },
+    {
+      slug: 'motorbike-adventure',
+      name: 'Motorbike Adventures',
+      category: ExperienceCategory.ADVENTURE_ACTIVITIES,
+      shortDescription: 'Explore scenic countryside routes on two wheels',
+      description: 'Vietnam\'s Ho Chi Minh Trail, Bali\'s rice terrace loops, and Thailand\'s Mae Hong Son circuit are among Asia\'s great motorbike routes. Renting a scooter or motorbike gives you unparalleled freedom to explore at your own pace — stopping at villages, waterfalls, and viewpoints that tour buses can\'t reach.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1558383409-6807a60bcf5e?w=1600',
+      idealDurationDays: { min: 3, max: 10 },
+      budgetRangeINR: { budget: 3500, midRange: 7000, luxury: 15000 },
+      bestDestinations: ['vietnam', 'indonesia', 'thailand'],
+      tags: ['adventure', 'motorbike', 'freedom', 'countryside', 'rice-terraces', 'budget-friendly', 'scenic'],
+    },
+    {
+      slug: 'urban-skyline-nightlife',
+      name: 'Urban Skyline & Nightlife',
+      category: ExperienceCategory.ADVENTURE_ACTIVITIES,
+      shortDescription: 'Experience Asia\'s most spectacular city skylines, rooftop bars, and night scenes',
+      description: 'Singapore\'s Marina Bay Sands infinity pool, Bangkok\'s Vertigo rooftop bar, and Ho Chi Minh City\'s Bitexco Financial Tower observation deck offer some of Asia\'s most spectacular urban views. Cities like Singapore and Bangkok also offer superb nightlife — from night markets to world-class clubs — perfect for solo travellers and friends groups.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=1600',
+      idealDurationDays: { min: 2, max: 7 },
+      budgetRangeINR: { budget: 5000, midRange: 12000, luxury: 40000 },
+      bestDestinations: ['singapore', 'thailand', 'vietnam'],
+      tags: ['skyline', 'rooftop', 'nightlife', 'photography', 'urban', 'shopping', 'city-exploration'],
+    },
+  ];
+
+  for (const exp of experiencesData) {
+    await prisma.experience.upsert({
+      where: { slug: exp.slug },
+      update: {},
+      create: {
+        name: exp.name,
+        slug: exp.slug,
+        category: exp.category,
+        shortDescription: exp.shortDescription,
+        description: exp.description,
+        heroImageUrl: exp.heroImageUrl,
+        idealDurationDays: exp.idealDurationDays,
+        budgetRangeINR: exp.budgetRangeINR,
+        bestDestinations: exp.bestDestinations,
+        tags: exp.tags,
+        status: ContentStatus.PUBLISHED,
+      },
+    });
+  }
+
+  // ── SAMPLE ITINERARY ─────────────────────────────────────
+  console.log('🗺️  Seeding sample itinerary...');
+
+  const sampleItinerary = await prisma.itinerary.upsert({
+    where: { shareToken: 'vietnam-7-day-explorer' },
+    update: {},
+    create: {
+      title: 'Vietnam Explorer — 7 Days of Wonder',
+      description: 'The perfect introduction to Vietnam — combining Hanoi\'s ancient Old Quarter, the magical limestone karsts of Ha Long Bay, and the lantern-lit streets of Hoi An. This 7-day itinerary is suitable for first-time visitors and covers Vietnam\'s greatest highlights at a comfortable pace.',
+      destinationSlugs: ['vietnam'],
+      durationDays: 7,
+      travelStyle: 'CULTURAL',
+      pace: 'BALANCED',
+      companionType: 'SOLO',
+      budgetTotalINR: 65000,
+      interests: ['culture', 'food', 'nature', 'heritage'],
+      status: 'PUBLISHED',
+      isAiGenerated: false,
+      isPublic: true,
+      isSample: true,
+      shareToken: 'vietnam-7-day-explorer',
+      viewCount: 1247,
+      saveCount: 342,
+      days: {
+        create: [
+          {
+            dayNumber: 1,
+            title: 'Arrival in Hanoi — Old Quarter Exploration',
+            description: 'Arrive in Hanoi and immerse yourself in the ancient atmosphere of the Old Quarter',
+            dailyBudgetINR: 4500,
+            weatherAdvisory: 'Hanoi can be cool in winter (Dec-Feb) — bring a light jacket',
+            items: {
+              create: [
+                {
+                  timeSlot: 'morning',
+                  startTime: '09:00',
+                  endTime: '12:00',
+                  title: 'Hoan Kiem Lake & Ngoc Son Temple',
+                  description: 'Start your Hanoi journey at the city\'s spiritual heart. Walk around the lake, cross the red Huc Bridge, and visit Ngoc Son Temple. Watch elderly locals doing tai chi by the water.',
+                  estimatedCostINR: 150,
+                  transportMode: 'walking',
+                  tags: ['temple', 'lake', 'morning', 'iconic'],
+                  sortOrder: 0,
+                },
+                {
+                  timeSlot: 'afternoon',
+                  startTime: '14:00',
+                  endTime: '17:00',
+                  title: 'Old Quarter Walking Tour',
+                  description: 'Explore the 36 ancient streets. Visit Hang Gai (silk street), Hang Bac (silver street), and Dong Xuan Market. Taste Banh Cuon (steamed rice rolls) from street vendors.',
+                  estimatedCostINR: 800,
+                  transportMode: 'walking',
+                  tags: ['heritage', 'shopping', 'street-food'],
+                  sortOrder: 1,
+                },
+                {
+                  timeSlot: 'evening',
+                  startTime: '19:00',
+                  endTime: '21:00',
+                  title: 'Water Puppet Show at Thang Long Theatre',
+                  description: 'End your first day with the magical 1,000-year-old Vietnamese art form. Book the second row for the best view. After the show, have dinner at a nearby Old Quarter restaurant.',
+                  estimatedCostINR: 1500,
+                  transportMode: 'walking',
+                  tags: ['culture', 'evening', 'show'],
+                  sortOrder: 2,
+                },
+              ],
+            },
+          },
+          {
+            dayNumber: 2,
+            title: 'Hanoi Deeper Dive — Temples & Street Food',
+            description: 'Explore Hanoi\'s historic monuments and legendary food scene',
+            dailyBudgetINR: 3800,
+            items: {
+              create: [
+                {
+                  timeSlot: 'morning',
+                  startTime: '08:00',
+                  endTime: '10:30',
+                  title: 'Temple of Literature',
+                  description: 'Vietnam\'s first university, built in 1070. Explore the five beautiful courtyards, see the ancient doctoral stelae, and soak in 900 years of Vietnamese scholarship.',
+                  estimatedCostINR: 250,
+                  transportMode: 'taxi',
+                  transportDurationMins: 15,
+                  transportNotes: 'Take a Grab to avoid traffic hassle — about ₹150',
+                  tags: ['temple', 'history', 'morning'],
+                  sortOrder: 0,
+                },
+                {
+                  timeSlot: 'afternoon',
+                  startTime: '11:30',
+                  endTime: '14:00',
+                  title: 'Bun Cha Lunch + Street Food Tour',
+                  description: 'Head to Bun Cha Huong Lien for the famous Obama meal. Then explore the Old Quarter street food — Banh Mi, Cha Ca, and finish with Egg Coffee at Giang Café.',
+                  estimatedCostINR: 1200,
+                  transportMode: 'walking',
+                  tags: ['food', 'street-food', 'lunch', 'must-do'],
+                  sortOrder: 1,
+                },
+                {
+                  timeSlot: 'evening',
+                  startTime: '18:00',
+                  endTime: '21:00',
+                  title: 'Train Street & Night Market',
+                  description: 'Visit the famous Train Street at 4pm for the evening train, then explore Dong Kinh Nghia Thuc Square night market. Great for souvenirs and evening atmosphere.',
+                  estimatedCostINR: 800,
+                  transportMode: 'walking',
+                  tags: ['unique', 'evening', 'market', 'photography'],
+                  sortOrder: 2,
+                },
+              ],
+            },
+          },
+          {
+            dayNumber: 3,
+            title: 'Ha Long Bay — Overnight Cruise Day 1',
+            description: 'Journey to one of the world\'s great natural wonders',
+            dailyBudgetINR: 12000,
+            weatherAdvisory: 'Ha Long Bay can have fog in winter — the bay is beautiful year-round but visibility varies',
+            items: {
+              create: [
+                {
+                  timeSlot: 'morning',
+                  startTime: '08:00',
+                  endTime: '13:00',
+                  title: 'Transfer Hanoi → Ha Long Bay',
+                  description: 'Board your cruise transfer bus from Hanoi. The 4-hour journey passes through the Red River Delta countryside. Lunch is usually served on the cruise boat shortly after boarding.',
+                  estimatedCostINR: 8000,
+                  transportMode: 'bus',
+                  transportDurationMins: 240,
+                  transportNotes: 'Bus included in cruise package. Book a mid-range or luxury cruise for the best experience.',
+                  tags: ['transfer', 'scenic', 'cruise'],
+                  sortOrder: 0,
+                },
+                {
+                  timeSlot: 'afternoon',
+                  startTime: '14:00',
+                  endTime: '17:00',
+                  title: 'Kayaking Through Limestone Karsts',
+                  description: 'Paddle through hidden lagoons, sea caves, and floating fishing villages. The scale and beauty of Ha Long Bay from water level is breathtaking.',
+                  estimatedCostINR: 1500,
+                  transportMode: 'ferry',
+                  tags: ['kayaking', 'adventure', 'nature', 'highlight'],
+                  sortOrder: 1,
+                },
+                {
+                  timeSlot: 'evening',
+                  startTime: '18:00',
+                  endTime: '21:00',
+                  title: 'Sunset Cocktail & Fresh Seafood Dinner',
+                  description: 'Watch the sun set behind the karsts from the cruise deck with a cocktail. Dinner features fresh seafood — clams, oysters, prawns — cooked on the boat. Vegetarian dishes available on request.',
+                  estimatedCostINR: 2500,
+                  tags: ['sunset', 'seafood', 'romance', 'cruise'],
+                  sortOrder: 2,
+                },
+              ],
+            },
+          },
+          {
+            dayNumber: 4,
+            title: 'Ha Long Bay Day 2 — Return to Hanoi, Flight to Hoi An',
+            description: 'Morning on the bay, then fly south to the ancient town of Hoi An',
+            dailyBudgetINR: 9000,
+            items: {
+              create: [
+                {
+                  timeSlot: 'morning',
+                  startTime: '06:00',
+                  endTime: '12:00',
+                  title: 'Sunrise & Cave Exploration',
+                  description: 'Wake early for the magical sunrise over the bay. After breakfast, visit Sung Sot (Surprise Cave) — one of Ha Long\'s largest and most spectacular caves. Return to dock by noon.',
+                  estimatedCostINR: 500,
+                  tags: ['sunrise', 'cave', 'photography', 'morning'],
+                  sortOrder: 0,
+                },
+                {
+                  timeSlot: 'afternoon',
+                  startTime: '13:00',
+                  endTime: '19:00',
+                  title: 'Transfer to Noi Bai Airport → Flight to Da Nang',
+                  description: 'Bus transfer back to Hanoi. Fly to Da Nang (1 hour). Transfer to your hotel in Hoi An (30 min from Da Nang airport by taxi — about ₹400).',
+                  estimatedCostINR: 7000,
+                  transportMode: 'bus',
+                  transportDurationMins: 240,
+                  transportNotes: 'VietJet/Bamboo flights Hanoi→Da Nang from ₹2,000–4,000',
+                  tags: ['transfer', 'flight'],
+                  sortOrder: 1,
+                },
+                {
+                  timeSlot: 'evening',
+                  startTime: '19:30',
+                  endTime: '22:00',
+                  title: 'First Evening in Hoi An Ancient Town',
+                  description: 'Stroll the lantern-lit streets of the Ancient Town. The pedestrian-only evening is magical — grab dinner at Morning Glory Restaurant (excellent vegetarian options) and walk along the Thu Bon River.',
+                  estimatedCostINR: 1500,
+                  transportMode: 'walking',
+                  tags: ['romantic', 'evening', 'dinner', 'lanterns'],
+                  sortOrder: 2,
+                },
+              ],
+            },
+          },
+          {
+            dayNumber: 5,
+            title: 'Hoi An Ancient Town — Tailors, Temples & Cao Lau',
+            description: 'Full day exploring one of Southeast Asia\'s most charming towns',
+            dailyBudgetINR: 6000,
+            items: {
+              create: [
+                {
+                  timeSlot: 'morning',
+                  startTime: '08:00',
+                  endTime: '11:00',
+                  title: 'Ancient Town Heritage Walk',
+                  description: 'Visit the Japanese Covered Bridge, Tan Ky Ancient House, Phuc Kien Assembly Hall, and Quan Cong Temple. Buy an Old Town ticket (₹350) that covers multiple sites. Morning light is perfect for photography.',
+                  estimatedCostINR: 800,
+                  transportMode: 'walking',
+                  tags: ['heritage', 'UNESCO', 'photography', 'morning'],
+                  sortOrder: 0,
+                },
+                {
+                  timeSlot: 'afternoon',
+                  startTime: '12:00',
+                  endTime: '16:00',
+                  title: 'Cao Lau Lunch + Tailor Visit + Tra Que Vegetable Village',
+                  description: 'Lunch: Cao Lau — Hoi An\'s signature thick noodle dish, vegetarian version available. After lunch, visit a tailor for custom-made clothing (24–48 hr turnaround). Then bicycle to Tra Que organic vegetable village.',
+                  estimatedCostINR: 3000,
+                  transportMode: 'walking',
+                  transportNotes: 'Bicycle rental ₹150/day for village visit',
+                  tags: ['food', 'shopping', 'cycling', 'local-experience'],
+                  sortOrder: 1,
+                },
+                {
+                  timeSlot: 'evening',
+                  startTime: '17:00',
+                  endTime: '21:00',
+                  title: 'Lantern Release on Thu Bon River',
+                  description: 'Buy a paper lantern (₹60), write a wish, and release it on the Thu Bon River at dusk — one of Vietnam\'s most beautiful traditions. Dinner at Reaching Out Tea House (silent café, excellent vegetarian food).',
+                  estimatedCostINR: 1500,
+                  tags: ['romantic', 'tradition', 'evening', 'vegetarian'],
+                  sortOrder: 2,
+                },
+              ],
+            },
+          },
+          {
+            dayNumber: 6,
+            title: 'An Bang Beach + Cooking Class',
+            description: 'Beach morning and hands-on Vietnamese cooking experience',
+            dailyBudgetINR: 5500,
+            items: {
+              create: [
+                {
+                  timeSlot: 'morning',
+                  startTime: '09:00',
+                  endTime: '12:00',
+                  title: 'An Bang Beach',
+                  description: 'Hoi An\'s best beach — 3km from town, easily reached by bicycle or Grab. Long stretch of sand, calm waters, good for swimming. Beach clubs have sunloungers and drinks.',
+                  estimatedCostINR: 1000,
+                  transportMode: 'taxi',
+                  transportDurationMins: 15,
+                  tags: ['beach', 'swimming', 'relaxation', 'morning'],
+                  sortOrder: 0,
+                },
+                {
+                  timeSlot: 'afternoon',
+                  startTime: '13:30',
+                  endTime: '17:30',
+                  title: 'Vietnamese Cooking Class',
+                  description: 'Join a hands-on class at Red Bridge Cooking School or Thuan Tinh Island. Learn to make Banh Xeo, fresh spring rolls, and your own bowl of Pho. Vegetarian classes available on request.',
+                  estimatedCostINR: 2500,
+                  transportMode: 'taxi',
+                  transportDurationMins: 15,
+                  tags: ['cooking-class', 'food', 'experience', 'vegetarian-option'],
+                  sortOrder: 1,
+                },
+                {
+                  timeSlot: 'evening',
+                  startTime: '18:30',
+                  endTime: '21:00',
+                  title: 'Pick Up Custom Clothing & Farewell Dinner',
+                  description: 'Collect your tailor-made clothes from yesterday\'s fitting. Farewell dinner at Mango Rooms or White Marble Restaurant for a special last night in Hoi An.',
+                  estimatedCostINR: 2000,
+                  transportMode: 'walking',
+                  tags: ['shopping', 'dinner', 'evening'],
+                  sortOrder: 2,
+                },
+              ],
+            },
+          },
+          {
+            dayNumber: 7,
+            title: 'Da Nang → Home',
+            description: 'Final morning in Central Vietnam before your departure flight',
+            dailyBudgetINR: 4000,
+            items: {
+              create: [
+                {
+                  timeSlot: 'morning',
+                  startTime: '08:00',
+                  endTime: '11:00',
+                  title: 'Marble Mountains, Da Nang',
+                  description: 'If time permits before your flight, visit the Marble Mountains — five marble and limestone hills with caves, tunnels, and pagodas inside. Panoramic views of Da Nang and the coast from the top.',
+                  estimatedCostINR: 500,
+                  transportMode: 'taxi',
+                  transportDurationMins: 30,
+                  transportNotes: 'Grab taxi from Hoi An to Marble Mountains ~₹400, then to Da Nang Airport ~₹250',
+                  tags: ['mountains', 'caves', 'temples', 'views', 'morning'],
+                  sortOrder: 0,
+                },
+                {
+                  timeSlot: 'afternoon',
+                  startTime: '13:00',
+                  endTime: '16:00',
+                  title: 'Da Nang International Airport — Departure',
+                  description: 'Check in for your flight home. Da Nang airport is modern and well-served — arrive 2 hours before international departure.',
+                  estimatedCostINR: 3000,
+                  transportMode: 'taxi',
+                  transportDurationMins: 30,
+                  tags: ['departure', 'airport'],
+                  sortOrder: 1,
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  });
+
+  console.log(`✅ Sample itinerary created: ${sampleItinerary.title}`);
+
+  // ── BLOG POSTS ───────────────────────────────────────────
+  console.log('📝 Seeding blog posts...');
+
+  const blogPosts = [
+    {
+      slug: 'vietnam-budget-guide-indians',
+      title: 'Vietnam on ₹2,500 a Day: The Complete Budget Guide for Indian Travellers',
+      excerpt: 'Vietnam is Southeast Asia\'s best value destination for Indian travellers. Here\'s exactly how to do it — from ₹800 guesthouses to ₹60 street meals — without sacrificing a single experience.',
+      content: 'Full article content here...',
+      coverImageUrl: 'https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=1200',
+      category: 'Budget Travel',
+      tags: ['vietnam', 'budget', 'backpacking', 'street-food', 'tips'],
+      authorName: 'Priya Sharma',
+      readTimeMinutes: 12,
+      seoTitle: 'Vietnam Budget Travel Guide for Indians 2026 | ₹2,500/Day',
+      seoDescription: 'Complete budget breakdown for Indian travellers in Vietnam. Accommodation, food, transport, and activities — all in INR.',
+      publishedAt: new Date('2026-01-15'),
+      status: ContentStatus.PUBLISHED,
+    },
+    {
+      slug: 'thai-food-vegetarian-indians',
+      title: '21 Must-Try Thai Dishes for Indian Vegetarians (And Where to Find Them)',
+      excerpt: 'Vegetarian Indian travellers, rejoice — Thai cuisine has a rich tradition of meatless cooking, and these 21 dishes will make you a lifelong fan.',
+      content: 'Full article content here...',
+      coverImageUrl: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=1200',
+      category: 'Food',
+      tags: ['thailand', 'vegetarian', 'food', 'thai-food', 'vegan'],
+      authorName: 'Ananya Iyer',
+      readTimeMinutes: 8,
+      seoTitle: 'Thai Food for Indian Vegetarians — 21 Dishes to Try 2026',
+      seoDescription: 'Complete guide to Thai vegetarian food for Indians. Pad Thai, Som Tam, Massaman Curry and more — what\'s safe and what to avoid.',
+      publishedAt: new Date('2026-01-20'),
+      status: ContentStatus.PUBLISHED,
+    },
+    {
+      slug: 'singapore-visa-guide-2026',
+      title: 'Singapore Visa for Indians 2026: Step-by-Step Application Guide',
+      excerpt: 'Singapore is a dream destination but the visa process can seem daunting. This complete guide walks you through every document, every step, and common mistakes to avoid.',
+      content: 'Full article content here...',
+      coverImageUrl: 'https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=1200',
+      category: 'Visa Guide',
+      tags: ['singapore', 'visa', 'application', 'documents', 'guide'],
+      authorName: 'Rahul Menon',
+      readTimeMinutes: 10,
+      seoTitle: 'Singapore Visa for Indians 2026 — Complete Guide & Documents',
+      seoDescription: 'Step-by-step Singapore tourist visa guide for Indian passport holders. Documents required, fees, processing time, and tips.',
+      publishedAt: new Date('2026-01-25'),
+      status: ContentStatus.PUBLISHED,
+    },
+    {
+      slug: 'solo-female-travel-southeast-asia',
+      title: 'Solo Female Travel in Southeast Asia: The Indian Woman\'s Safety Guide',
+      excerpt: 'Southeast Asia is one of the world\'s best regions for solo female travel — but knowing the right precautions, apps, and cultural nuances makes all the difference.',
+      content: 'Full article content here...',
+      coverImageUrl: 'https://images.unsplash.com/photo-1539367628448-4bc5c9d171c8?w=1200',
+      category: 'Solo Travel',
+      tags: ['solo-female', 'safety', 'southeast-asia', 'women', 'travel-tips'],
+      authorName: 'Kavitha Nair',
+      readTimeMinutes: 15,
+      seoTitle: 'Solo Female Travel Southeast Asia — Indian Woman\'s Safety Guide 2026',
+      seoDescription: 'Complete safety guide for Indian women travelling solo in Southeast Asia. Apps, precautions, accommodation tips, and cultural advice.',
+      publishedAt: new Date('2026-02-01'),
+      status: ContentStatus.PUBLISHED,
+    },
+    {
+      slug: 'bali-vegetarian-guide-indians',
+      title: 'Bali for Vegetarian Indian Travellers: A Complete Food & Travel Guide',
+      excerpt: 'Bali\'s Hindu culture, organic food movement, and Ubud\'s health-food scene make it a paradise for Indian vegetarians. Here\'s everything you need to know.',
+      content: 'Full article content here...',
+      coverImageUrl: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1200',
+      category: 'Food',
+      tags: ['bali', 'vegetarian', 'vegan', 'food', 'Hindu', 'Ubud'],
+      authorName: 'Divya Krishnamurthy',
+      readTimeMinutes: 11,
+      seoTitle: 'Bali Vegetarian Guide for Indians 2026 — Best Restaurants & Food Tips',
+      seoDescription: 'Complete vegetarian and vegan food guide for Indian travellers in Bali. Best restaurants in Ubud, Seminyak, and Canggu.',
+      publishedAt: new Date('2026-02-05'),
+      status: ContentStatus.PUBLISHED,
+    },
+  ];
+
+  for (const post of blogPosts) {
+    await prisma.blogPost.upsert({
+      where: { slug: post.slug },
+      update: {},
+      create: post,
+    });
+  }
+
+  console.log('\n✅ Seed complete!');
+  console.log('📊 Summary:');
+  console.log('  - 2 Regions');
+  console.log('  - 5 Countries (Vietnam, Thailand, Indonesia, Singapore, Maldives)');
+  console.log('  - 11 Cities');
+  console.log('  - 7 Hanoi POIs');
+  console.log('  - 5 Visa entries');
+  console.log('  - 6 Experiences');
+  console.log('  - 1 Sample itinerary (7-day Vietnam)');
+  console.log('  - 5 Blog posts');
+}
+
+main()
+  .catch((e) => {
+    console.error('❌ Seed failed:', e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });

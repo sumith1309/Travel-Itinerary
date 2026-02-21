@@ -1,0 +1,645 @@
+// ============================================================
+// TRAILS AND MILES — Prisma Schema
+// PostgreSQL 16 via Neon Serverless
+// ============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_DATABASE_URL")
+}
+
+// ============================================================
+// ENUMS
+// ============================================================
+
+enum TravelStyle {
+  LEISURE
+  ADVENTURE
+  LUXURY
+  BUDGET
+  CULTURAL
+}
+
+enum Pace {
+  RELAXED
+  BALANCED
+  FAST
+}
+
+enum CompanionType {
+  SOLO
+  COUPLE
+  FAMILY
+  FRIENDS
+}
+
+enum VisaType {
+  VISA_FREE
+  VISA_ON_ARRIVAL
+  E_VISA
+  EMBASSY_VISA
+}
+
+enum ItineraryStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum DietaryPreference {
+  VEGETARIAN
+  VEGAN
+  JAIN
+  HALAL
+  NO_PREFERENCE
+}
+
+enum ContentStatus {
+  DRAFT
+  REVIEW
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ExperienceCategory {
+  NATURE_LANDSCAPES
+  FOOD_MARKETS
+  CULTURE_HISTORY
+  ADVENTURE_ACTIVITIES
+  LUXURY_STAYS
+  ISLAND_BEACH
+}
+
+enum DifficultyLevel {
+  EASY
+  MODERATE
+  CHALLENGING
+  EXTREME
+}
+
+enum NotificationType {
+  VISA_UPDATE
+  PRICE_DROP
+  SEASONAL_ALERT
+  ITINERARY_REMINDER
+  SYSTEM
+}
+
+// ============================================================
+// USER & AUTH
+// ============================================================
+
+model User {
+  id                String    @id @default(cuid())
+  email             String    @unique
+  name              String?
+  avatarUrl         String?
+  passwordHash      String?
+  emailVerified     DateTime?
+  passportNationality String  @default("IN")
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // NextAuth
+  accounts          Account[]
+  sessions          Session[]
+
+  // Travel data
+  travelProfile     TravelProfile?
+  travelHistory     TravelHistory[]
+
+  // Platform
+  itineraries       Itinerary[]
+  savedItineraries  SavedItinerary[]
+  reviews           Review[]
+  chatSessions      ChatSession[]
+  notifications     Notification[]
+  userEmbedding     UserEmbedding?
+  behaviorEvents    BehaviorEvent[]
+
+  @@index([email])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ============================================================
+// TRAVEL PROFILE
+// ============================================================
+
+model TravelProfile {
+  id                   String              @id @default(cuid())
+  userId               String              @unique
+  defaultTravelStyle   TravelStyle?
+  defaultPace          Pace?
+  budgetMinINR         Int                 @default(20000)
+  budgetMaxINR         Int                 @default(100000)
+  preferredInterests   String[]
+  dietaryPreferences   DietaryPreference[]
+  companionType        CompanionType?
+  accessibilityNeeds   Json?
+  onboardingCompleted  Boolean             @default(false)
+  updatedAt            DateTime            @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model TravelHistory {
+  id             String      @id @default(cuid())
+  userId         String
+  destinationId  String
+  cityId         String?
+  tripDate       DateTime
+  durationDays   Int
+  travelStyle    TravelStyle?
+  budgetSpentINR Decimal?    @db.Decimal(12, 2)
+  rating         Int?
+  highlights     String[]
+  notes          String?     @db.Text
+  createdAt      DateTime    @default(now())
+
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  destination Country @relation(fields: [destinationId], references: [id])
+  city        City?   @relation(fields: [cityId], references: [id])
+
+  @@index([userId, tripDate(sort: Desc)])
+}
+
+// ============================================================
+// DESTINATIONS
+// ============================================================
+
+model Region {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?   @db.Text
+  heroImageUrl String?
+  sortOrder   Int       @default(0)
+  createdAt   DateTime  @default(now())
+
+  countries Country[]
+}
+
+model Country {
+  id           String        @id @default(cuid())
+  regionId     String
+  name         String
+  slug         String        @unique
+  description  String?       @db.Text
+  heroImageUrl String?
+  heroVideoUrl String?
+  currencyCode String        @db.Char(3)
+  currencyName String?
+  timezone     String?
+  language     String?
+  capitalCity  String?
+  bestSeasons  Json?
+  budgetTier   String?
+  safetyRating Int?
+  quickFacts   Json?
+  status       ContentStatus @default(DRAFT)
+  tags         String[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  region        Region          @relation(fields: [regionId], references: [id])
+  cities        City[]
+  visaInfo      VisaInfo[]
+  travelHistory TravelHistory[]
+
+  @@index([slug])
+  @@index([regionId])
+}
+
+model City {
+  id                String        @id @default(cuid())
+  countryId         String
+  name              String
+  slug              String        @unique
+  description       String?       @db.Text
+  heroImageUrl      String?
+  latitude          Decimal?      @db.Decimal(10, 7)
+  longitude         Decimal?      @db.Decimal(10, 7)
+  bestSeasons       Json?
+  budgetTier        String?
+  isCapital         Boolean       @default(false)
+  avgDailyBudgetINR Int?
+  localTransport    Json?
+  safetyTips        String[]
+  foodHighlights    Json?
+  status            ContentStatus @default(DRAFT)
+  tags              String[]
+  sortOrder         Int           @default(0)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  country          Country          @relation(fields: [countryId], references: [id])
+  pointsOfInterest PointOfInterest[]
+  itineraryDays    ItineraryDay[]
+  travelHistory    TravelHistory[]
+
+  @@index([countryId])
+  @@index([slug])
+}
+
+model PointOfInterest {
+  id              String             @id @default(cuid())
+  cityId          String
+  name            String
+  slug            String             @unique
+  category        ExperienceCategory
+  subcategory     String?
+  description     String?            @db.Text
+  shortDescription String?
+  latitude        Decimal?           @db.Decimal(10, 7)
+  longitude       Decimal?           @db.Decimal(10, 7)
+  avgDurationMins Int?
+  avgCostINR      Decimal?           @db.Decimal(10, 2)
+  openingHours    Json?
+  images          Json?
+  tags            String[]
+  ratingAvg       Decimal?           @db.Decimal(3, 2)
+  ratingCount     Int                @default(0)
+  tips            String[]
+  bestTimeToVisit String?
+  accessibilityInfo Json?
+  status          ContentStatus      @default(DRAFT)
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  city           City             @relation(fields: [cityId], references: [id])
+  itineraryItems ItineraryItem[]
+  reviews        Review[]
+
+  @@index([cityId, category])
+  @@index([slug])
+}
+
+// ============================================================
+// EXPERIENCES
+// ============================================================
+
+model Experience {
+  id               String             @id @default(cuid())
+  name             String
+  slug             String             @unique
+  category         ExperienceCategory
+  description      String?            @db.Text
+  shortDescription String?
+  heroImageUrl     String?
+  idealDurationDays Json?
+  budgetRangeINR   Json?
+  bestDestinations String[]
+  tags             String[]
+  status           ContentStatus      @default(DRAFT)
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  @@index([category])
+}
+
+// ============================================================
+// ITINERARIES
+// ============================================================
+
+model Itinerary {
+  id               String          @id @default(cuid())
+  userId           String?
+  title            String
+  description      String?         @db.Text
+  coverImageUrl    String?
+  destinationSlugs String[]
+  durationDays     Int
+  travelStyle      TravelStyle?
+  pace             Pace?
+  companionType    CompanionType?
+  budgetTotalINR   Decimal?        @db.Decimal(12, 2)
+  interests        String[]
+  status           ItineraryStatus @default(DRAFT)
+  isAiGenerated    Boolean         @default(false)
+  isPublic         Boolean         @default(false)
+  isSample         Boolean         @default(false)
+  shareToken       String?         @unique @default(cuid())
+  metadata         Json?
+  viewCount        Int             @default(0)
+  saveCount        Int             @default(0)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  user    User?            @relation(fields: [userId], references: [id], onDelete: SetNull)
+  days    ItineraryDay[]
+  savedBy SavedItinerary[]
+
+  @@index([userId, status])
+  @@index([isPublic, isSample])
+  @@index([shareToken])
+}
+
+model ItineraryDay {
+  id              String   @id @default(cuid())
+  itineraryId     String
+  dayNumber       Int
+  cityId          String?
+  title           String?
+  description     String?  @db.Text
+  dailyBudgetINR  Decimal? @db.Decimal(10, 2)
+  notes           String?  @db.Text
+  weatherAdvisory String?
+  createdAt       DateTime @default(now())
+
+  itinerary Itinerary       @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
+  city      City?           @relation(fields: [cityId], references: [id])
+  items     ItineraryItem[]
+
+  @@unique([itineraryId, dayNumber])
+}
+
+model ItineraryItem {
+  id                   String   @id @default(cuid())
+  dayId                String
+  poiId                String?
+  timeSlot             String
+  startTime            String?
+  endTime              String?
+  title                String
+  description          String?  @db.Text
+  estimatedCostINR     Decimal? @db.Decimal(10, 2)
+  transportMode        String?
+  transportDurationMins Int?
+  transportNotes       String?
+  imageUrl             String?
+  tags                 String[]
+  sortOrder            Int      @default(0)
+  createdAt            DateTime @default(now())
+
+  day ItineraryDay      @relation(fields: [dayId], references: [id], onDelete: Cascade)
+  poi PointOfInterest?  @relation(fields: [poiId], references: [id])
+
+  @@index([dayId, sortOrder])
+}
+
+model SavedItinerary {
+  id          String   @id @default(cuid())
+  userId      String
+  itineraryId String
+  savedAt     DateTime @default(now())
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  itinerary Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, itineraryId])
+}
+
+// ============================================================
+// VISA
+// ============================================================
+
+model VisaInfo {
+  id                    String        @id @default(cuid())
+  countryId             String
+  visaType              VisaType
+  description           String?       @db.Text
+  documentsRequired     Json
+  processingTimeDays    Json?
+  fees                  Json?
+  commonMistakes        String[]
+  tips                  String[]
+  applicationUrl        String?
+  checklistPdfUrl       String?
+  lastVerifiedAt        DateTime?
+  status                ContentStatus @default(PUBLISHED)
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  country Country @relation(fields: [countryId], references: [id])
+
+  @@unique([countryId, visaType])
+  @@index([visaType])
+}
+
+// ============================================================
+// CONTENT
+// ============================================================
+
+model BlogPost {
+  id             String        @id @default(cuid())
+  title          String
+  slug           String        @unique
+  excerpt        String?       @db.Text
+  content        String        @db.Text
+  coverImageUrl  String?
+  category       String
+  tags           String[]
+  authorName     String?
+  authorAvatarUrl String?
+  relatedSlugs   String[]
+  readTimeMinutes Int?
+  seoTitle       String?
+  seoDescription String?
+  status         ContentStatus @default(DRAFT)
+  publishedAt    DateTime?
+  viewCount      Int           @default(0)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@index([slug])
+  @@index([category, status])
+  @@index([publishedAt(sort: Desc)])
+}
+
+model BikeTour {
+  id               String          @id @default(cuid())
+  name             String
+  slug             String          @unique
+  region           String
+  description      String?         @db.Text
+  heroImageUrl     String?
+  routeMapUrl      String?
+  routeGeoJson     Json?
+  durationDays     Int
+  distanceKm       Int?
+  difficulty       DifficultyLevel
+  bestSeasons      Json?
+  safetyTips       String[]
+  gearChecklist    String[]
+  estimatedCostINR Json?
+  highlights       String[]
+  dayWisePlan      Json?
+  status           ContentStatus   @default(DRAFT)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  @@index([region])
+}
+
+model HiddenGem {
+  id               String        @id @default(cuid())
+  name             String
+  slug             String        @unique
+  category         String
+  description      String?       @db.Text
+  storyContent     String?       @db.Text
+  heroImageUrl     String?
+  latitude         Decimal?      @db.Decimal(10, 7)
+  longitude        Decimal?      @db.Decimal(10, 7)
+  accessInfo       Json?
+  bestSeasons      Json?
+  responsibleTips  String[]
+  tags             String[]
+  status           ContentStatus @default(DRAFT)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  @@index([category])
+}
+
+// ============================================================
+// REVIEWS
+// ============================================================
+
+model Review {
+  id        String   @id @default(cuid())
+  userId    String
+  poiId     String
+  rating    Int
+  title     String?
+  content   String?  @db.Text
+  images    Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  poi  PointOfInterest @relation(fields: [poiId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, poiId])
+}
+
+// ============================================================
+// CHATBOT
+// ============================================================
+
+model ChatSession {
+  id                  String   @id @default(cuid())
+  userId              String
+  title               String?
+  context             Json?
+  generatedItineraryId String?
+  isActive            Boolean  @default(true)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  user     User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages ChatMessage[]
+
+  @@index([userId, isActive])
+}
+
+model ChatMessage {
+  id         String   @id @default(cuid())
+  sessionId  String
+  role       String
+  content    String   @db.Text
+  metadata   Json?
+  tokenCount Int?
+  createdAt  DateTime @default(now())
+
+  session ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId, createdAt])
+}
+
+// ============================================================
+// PERSONALIZATION
+// ============================================================
+
+model UserEmbedding {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  embedding Json
+  version   Int      @default(1)
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model BehaviorEvent {
+  id         String   @id @default(cuid())
+  userId     String
+  eventType  String
+  entityType String?
+  entityId   String?
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt(sort: Desc)])
+  @@index([eventType, entityType])
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  type      NotificationType
+  title     String
+  body      String           @db.Text
+  data      Json?
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead, createdAt(sort: Desc)])
+}
+
+// ============================================================
+// NEWSLETTER
+// ============================================================
+
+model NewsletterSubscriber {
+  id             String    @id @default(cuid())
+  email          String    @unique
+  name           String?
+  isActive       Boolean   @default(true)
+  subscribedAt   DateTime  @default(now())
+  unsubscribedAt DateTime?
+}
