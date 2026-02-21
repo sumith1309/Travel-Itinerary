@@ -3,7 +3,7 @@ import { prisma } from '@/lib/db/prisma';
 import { success, withErrorHandler, errorResponse } from '@/lib/utils/api';
 import { withCache, CacheKeys, TTL } from '@/lib/cache/redis';
 import { getSimilarDestinations } from '@/lib/services/recommendations';
-import { buildDestinationContext } from '@/lib/ai/claude';
+import { buildDestinationContext } from '@/lib/ai/openai';
 
 export const GET = withErrorHandler(async (
   _req: NextRequest,

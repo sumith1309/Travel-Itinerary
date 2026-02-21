@@ -11,7 +11,7 @@ import {
   requireAuth,
   optionalAuth,
 } from '@/lib/utils/api';
-import { generateItinerary, buildDestinationContext } from '@/lib/ai/claude';
+import { generateItinerary, buildDestinationContext } from '@/lib/ai/openai';
 import type { GeneratedItinerary } from '@/types';
 
 // GET /api/itineraries

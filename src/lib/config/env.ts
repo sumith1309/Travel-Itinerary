@@ -13,9 +13,9 @@ const envSchema = z.object({
   GOOGLE_CLIENT_ID: z.string().optional(),
   GOOGLE_CLIENT_SECRET: z.string().optional(),
 
-  // Anthropic
-  ANTHROPIC_API_KEY: z.string().startsWith('sk-ant-', 'ANTHROPIC_API_KEY must start with sk-ant-'),
-  AI_MODEL: z.string().default('claude-sonnet-4-5-20250929'),
+  // OpenAI
+  OPENAI_API_KEY: z.string().startsWith('sk-', 'OPENAI_API_KEY must start with sk-'),
+  AI_MODEL: z.string().default('o3'),
   AI_MAX_TOKENS: z.coerce.number().default(4096),
   AI_MAX_TOKENS_ITINERARY: z.coerce.number().default(8192),
 

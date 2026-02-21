@@ -5,7 +5,7 @@
 
 import { prisma } from '@/lib/db/prisma';
 import { cacheGet, cacheSet, CacheKeys, TTL } from '@/lib/cache/redis';
-import { generatePersonalizedRecommendations } from '@/lib/ai/claude';
+import { generatePersonalizedRecommendations } from '@/lib/ai/openai';
 import type { RecommendationResult, CountrySummary } from '@/types';
 
 // ============================================================

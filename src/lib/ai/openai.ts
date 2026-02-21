@@ -1,9 +1,9 @@
 // ============================================================
-// TRAILS AND MILES — Claude AI Service
-// Anthropic SDK integration for chat, streaming, and itinerary generation
+// TRAILS AND MILES — OpenAI AI Service
+// OpenAI SDK integration for chat, streaming, and itinerary generation
 // ============================================================
 
-import Anthropic from '@anthropic-ai/sdk';
+import OpenAI from 'openai';
 import type {
   ChatContext,
   GeneratedItinerary,
@@ -14,18 +14,18 @@ import type {
 } from '@/types';
 
 // Singleton client
-let client: Anthropic | null = null;
+let client: OpenAI | null = null;
 
-function getClient(): Anthropic {
+function getClient(): OpenAI {
   if (!client) {
-    client = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY,
+    client = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
     });
   }
   return client;
 }
 
-const AI_MODEL = process.env.AI_MODEL ?? 'claude-sonnet-4-5-20250929';
+const AI_MODEL = process.env.AI_MODEL ?? 'o3';
 const AI_MAX_TOKENS = parseInt(process.env.AI_MAX_TOKENS ?? '4096', 10);
 const AI_MAX_TOKENS_ITINERARY = parseInt(process.env.AI_MAX_TOKENS_ITINERARY ?? '8192', 10);
 
@@ -214,20 +214,34 @@ ${visaText}
 }
 
 // ============================================================
+// Helper: Build OpenAI messages array
+// ============================================================
+
+function buildMessages(
+  systemPrompt: string,
+  conversationMessages: Array<{ role: string; content: string }>
+): OpenAI.ChatCompletionMessageParam[] {
+  return [
+    { role: 'system', content: systemPrompt },
+    ...conversationMessages.map((m) => ({
+      role: m.role as 'user' | 'assistant',
+      content: m.content,
+    })),
+  ];
+}
+
+// ============================================================
 // Standard Chat (non-streaming)
 // ============================================================
 
 export async function sendChatMessage(context: ChatContext, userMessage: string): Promise<string> {
-  const claude = getClient();
+  const openai = getClient();
 
-  const messages: Anthropic.MessageParam[] = [
+  const conversationMessages = [
     ...context.messages
       .slice(-20)
       .filter((m) => m.role === 'user' || m.role === 'assistant')
-      .map((m) => ({
-        role: m.role as 'user' | 'assistant',
-        content: m.content,
-      })),
+      .map((m) => ({ role: m.role, content: m.content })),
     { role: 'user', content: userMessage },
   ];
 
@@ -236,15 +250,13 @@ export async function sendChatMessage(context: ChatContext, userMessage: string)
     ? `${systemPrompt}\n\n${context.destinationContext}`
     : systemPrompt;
 
-  const response = await claude.messages.create({
+  const response = await openai.chat.completions.create({
     model: AI_MODEL,
-    max_tokens: AI_MAX_TOKENS,
-    system: fullSystem,
-    messages,
+    max_completion_tokens: AI_MAX_TOKENS,
+    messages: buildMessages(fullSystem, conversationMessages),
   });
 
-  const textBlock = response.content.find((b) => b.type === 'text');
-  return textBlock?.type === 'text' ? textBlock.text : '';
+  return response.choices[0]?.message?.content ?? '';
 }
 
 // ============================================================
@@ -256,16 +268,13 @@ export async function streamChatMessage(
   context: ChatContext,
   userMessage: string
 ): Promise<{ stream: ReadableStream; getFullText: () => Promise<string> }> {
-  const claude = getClient();
+  const openai = getClient();
 
-  const messages: Anthropic.MessageParam[] = [
+  const conversationMessages = [
     ...context.messages
       .slice(-20)
       .filter((m) => m.role === 'user' || m.role === 'assistant')
-      .map((m) => ({
-        role: m.role as 'user' | 'assistant',
-        content: m.content,
-      })),
+      .map((m) => ({ role: m.role, content: m.content })),
     { role: 'user', content: userMessage },
   ];
 
@@ -285,20 +294,22 @@ export async function streamChatMessage(
       const encoder = new TextEncoder();
 
       try {
-        const claudeStream = claude.messages.stream({
+        const openaiStream = await openai.chat.completions.create({
           model: AI_MODEL,
-          max_tokens: AI_MAX_TOKENS,
-          system: fullSystem,
-          messages,
+          max_completion_tokens: AI_MAX_TOKENS,
+          messages: buildMessages(fullSystem, conversationMessages),
+          stream: true,
         });
 
-        claudeStream.on('text', (text) => {
-          fullText += text;
-          const chunk = `data: ${JSON.stringify({ text })}\n\n`;
-          controller.enqueue(encoder.encode(chunk));
-        });
+        for await (const chunk of openaiStream) {
+          const text = chunk.choices[0]?.delta?.content;
+          if (text) {
+            fullText += text;
+            const sseChunk = `data: ${JSON.stringify({ text })}\n\n`;
+            controller.enqueue(encoder.encode(sseChunk));
+          }
+        }
 
-        await claudeStream.finalMessage();
         controller.enqueue(encoder.encode(`data: ${JSON.stringify({ done: true })}\n\n`));
         controller.close();
         resolveFullText!(fullText);
@@ -337,7 +348,7 @@ export interface ItineraryGenerationInput {
 export async function generateItinerary(
   input: ItineraryGenerationInput
 ): Promise<GeneratedItinerary> {
-  const claude = getClient();
+  const openai = getClient();
 
   const visitedDestinations = input.travelHistory.map((h) => h.destination.name);
 
@@ -357,20 +368,19 @@ Output ONLY the JSON object.`;
 
   const systemWithContext = `${buildItinerarySystemPrompt()}\n\n${input.destinationContext}`;
 
-  const response = await claude.messages.create({
+  const response = await openai.chat.completions.create({
     model: AI_MODEL,
-    max_tokens: AI_MAX_TOKENS_ITINERARY,
-    system: systemWithContext,
-    messages: [{ role: 'user', content: userRequest }],
+    max_completion_tokens: AI_MAX_TOKENS_ITINERARY,
+    messages: buildMessages(systemWithContext, [{ role: 'user', content: userRequest }]),
   });
 
-  const textBlock = response.content.find((b) => b.type === 'text');
-  if (!textBlock || textBlock.type !== 'text') {
+  const text = response.choices[0]?.message?.content;
+  if (!text) {
     throw new Error('No text response from itinerary generator');
   }
 
   // Extract JSON (handle potential markdown code blocks)
-  let jsonText = textBlock.text.trim();
+  let jsonText = text.trim();
   const jsonMatch = jsonText.match(/```(?:json)?\s*([\s\S]*?)```/);
   if (jsonMatch) jsonText = jsonMatch[1].trim();
 
@@ -388,7 +398,7 @@ export async function generatePersonalizedRecommendations(
   availableDestinations: CountrySummary[],
   limit: number = 10
 ): Promise<RecommendationResult[]> {
-  const claude = getClient();
+  const openai = getClient();
 
   const visitedSlugs = travelHistory.map((h) => h.destination.slug);
   const candidates = availableDestinations.filter((d) => !visitedSlugs.includes(d.slug));
@@ -425,16 +435,18 @@ Output ONLY a JSON array:
   }
 ]`;
 
-  const response = await claude.messages.create({
+  const response = await openai.chat.completions.create({
     model: AI_MODEL,
-    max_tokens: 1024,
-    messages: [{ role: 'user', content: prompt }],
+    max_completion_tokens: 1024,
+    messages: [
+      { role: 'user', content: prompt },
+    ],
   });
 
-  const textBlock = response.content.find((b) => b.type === 'text');
-  if (!textBlock || textBlock.type !== 'text') return [];
+  const text = response.choices[0]?.message?.content;
+  if (!text) return [];
 
-  let jsonText = textBlock.text.trim();
+  let jsonText = text.trim();
   const jsonMatch = jsonText.match(/```(?:json)?\s*([\s\S]*?)```/);
   if (jsonMatch) jsonText = jsonMatch[1].trim();
 
@@ -469,7 +481,7 @@ export async function analyzeUserPreferences(
 ): Promise<string[]> {
   if (events.length < 5) return [];
 
-  const claude = getClient();
+  const openai = getClient();
 
   const eventSummary = events
     .slice(-50)
@@ -487,16 +499,18 @@ ${eventSummary}
 
 Output format: ["tag1", "tag2", ...]`;
 
-  const response = await claude.messages.create({
+  const response = await openai.chat.completions.create({
     model: AI_MODEL,
-    max_tokens: 256,
-    messages: [{ role: 'user', content: prompt }],
+    max_completion_tokens: 256,
+    messages: [
+      { role: 'user', content: prompt },
+    ],
   });
 
-  const textBlock = response.content.find((b) => b.type === 'text');
-  if (!textBlock || textBlock.type !== 'text') return [];
+  const text = response.choices[0]?.message?.content;
+  if (!text) return [];
 
-  let jsonText = textBlock.text.trim();
+  let jsonText = text.trim();
   const jsonMatch = jsonText.match(/```(?:json)?\s*([\s\S]*?)```/);
   if (jsonMatch) jsonText = jsonMatch[1].trim();
 

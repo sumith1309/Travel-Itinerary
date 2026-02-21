@@ -7,7 +7,7 @@ import {
   withErrorHandler,
   requireAuth,
 } from '@/lib/utils/api';
-import { sendChatMessage, streamChatMessage } from '@/lib/ai/claude';
+import { sendChatMessage, streamChatMessage } from '@/lib/ai/openai';
 import type { ChatContext } from '@/types';
 
 // GET /api/chatbot — List user's chat sessions
