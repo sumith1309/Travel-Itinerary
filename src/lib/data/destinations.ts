@@ -1,12 +1,31 @@
 import prisma from '@/lib/db';
 import type { ContentStatus } from '@prisma/client';
 
+/** Convert Prisma Decimal objects to plain numbers so data can cross the RSC boundary */
+function serializeDecimals<T>(obj: T): T {
+  if (obj === null || obj === undefined) return obj;
+  if (obj instanceof Date) return obj;
+  // Duck-type Prisma Decimal: has toNumber() and toFixed() but isn't a plain number
+  if (typeof obj === 'object' && obj !== null && 'toNumber' in obj && typeof (obj as Record<string, unknown>).toNumber === 'function') {
+    return (obj as unknown as { toNumber(): number }).toNumber() as unknown as T;
+  }
+  if (Array.isArray(obj)) return obj.map(serializeDecimals) as unknown as T;
+  if (typeof obj === 'object') {
+    const result: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(obj as Record<string, unknown>)) {
+      result[key] = serializeDecimals(value);
+    }
+    return result as T;
+  }
+  return obj;
+}
+
 export async function getCountries(region?: string, budgetTier?: string) {
   const where: Record<string, unknown> = { status: 'PUBLISHED' as ContentStatus };
   if (region) where.region = { slug: region };
   if (budgetTier) where.budgetTier = budgetTier;
 
-  return prisma.country.findMany({
+  const countries = await prisma.country.findMany({
     where,
     include: {
       region: { select: { name: true, slug: true } },
@@ -15,6 +34,7 @@ export async function getCountries(region?: string, budgetTier?: string) {
     },
     orderBy: { name: 'asc' },
   });
+  return serializeDecimals(countries);
 }
 
 export async function getCountryBySlug(slug: string) {
@@ -52,11 +72,11 @@ export async function getCountryBySlug(slug: string) {
     }),
   ]);
 
-  return { ...country, experiences, itineraries };
+  return serializeDecimals({ ...country, experiences, itineraries });
 }
 
 export async function getCityBySlug(slug: string) {
-  return prisma.city.findUnique({
+  const city = await prisma.city.findUnique({
     where: { slug },
     include: {
       country: {
@@ -68,6 +88,7 @@ export async function getCityBySlug(slug: string) {
       },
     },
   });
+  return city ? serializeDecimals(city) : null;
 }
 
 export async function getRegions() {

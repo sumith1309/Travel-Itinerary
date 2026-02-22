@@ -5173,7 +5173,7 @@ Comfortable walking shoes, modest clothing (covering shoulders and knees for tem
 
 **Cultural Etiquette**
 Remove shoes before entering temples and homes. Use your right hand for eating and greetings. Dress modestly at religious sites. Ask permission before photographing people. Tipping is appreciated but not mandatory — 10% at restaurants, ₹20–50 for small services. Learn a few Hindi words: "Namaste" (hello), "Dhanyavaad" (thank you), "Kitna?" (how much?).`,
-      coverImageUrl: '/images/blog/ultimate-india-travel-guide.jpg',
+      coverImageUrl: 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=1200',
       category: 'destination_guide',
       tags: ['india', 'guide', 'first-time', 'tips'],
       authorName: 'Trails and Miles Team',
@@ -5226,7 +5226,7 @@ Home of the Dalai Lama and the Tibetan exile community. Trek to Triund (9,350 ft
 **Other top picks**: Mathura-Vrindavan (spiritual), Sariska (wildlife), Neemrana (heritage stay), Lansdowne (peace), Kasauli (colonial charm), Dehradun-Rajaji Park (Doon Valley), Haridwar (pilgrimage & aarti).
 
 **Pro Tips**: Book Volvo buses 3–5 days ahead on RedBus. Travel on weekdays to save 30–40% on accommodation. Pack light — one backpack is enough for a weekend. Download offline maps for hill stations with patchy connectivity.`,
-      coverImageUrl: '/images/blog/weekend-getaways-from-delhi.jpg',
+      coverImageUrl: 'https://images.unsplash.com/photo-1587474260584-136574528ed5?w=1200',
       category: 'budget',
       tags: ['delhi', 'weekend', 'budget', 'getaways'],
       authorName: 'Trails and Miles Team',
@@ -5269,7 +5269,7 @@ Economy trip: Standard houseboat ₹6,000 + transport from Kochi ₹1,000 + extr
 
 **Insider Tips**
 Choose a boat with an upper deck for the best views and photography. The evening and early morning hours are the most magical — golden light, fewer boats, and village sounds carrying across the water. Tip the crew ₹300–500 at the end — they work hard and the gesture is appreciated. Carry cash — there are no ATMs on the water.`,
-      coverImageUrl: '/images/blog/kerala-backwaters-houseboat-guide.jpg',
+      coverImageUrl: 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=1200',
       category: 'destination_guide',
       tags: ['kerala', 'backwaters', 'houseboat', 'alleppey'],
       authorName: 'Trails and Miles Team',
@@ -5309,7 +5309,7 @@ Visit in July–September (monsoon) or April–May (summer) for 40–60% savings
 
 **Sample Budget (Per Person/Day)**
 Dorm bed: ₹400 | Breakfast: ₹50 | Lunch thali: ₹120 | Chai & snacks: ₹50 | Sightseeing: ₹200 | Local transport: ₹200 | Dinner: ₹150 | Miscellaneous: ₹100 = **₹1,270/day**. Even with a private room (₹500–800), you stay well under ₹2,000. The royal experience does not require a royal budget.`,
-      coverImageUrl: '/images/blog/rajasthan-budget-guide.jpg',
+      coverImageUrl: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?w=1200',
       category: 'budget',
       tags: ['rajasthan', 'budget', 'jaipur', 'jodhpur', 'udaipur'],
       authorName: 'Trails and Miles Team',
@@ -5352,7 +5352,7 @@ Staring is common and uncomfortable — sunglasses and headphones help create a 
 
 **The Reward**
 Solo female travellers in India often report some of their most meaningful travel experiences — being invited into homes for chai, having deep conversations with local women, discovering inner strength through navigating challenges, and finding a confidence that transforms not just the trip but life itself. India demands more from you as a traveller, and gives back even more.`,
-      coverImageUrl: '/images/blog/solo-female-travel-india.jpg',
+      coverImageUrl: 'https://images.unsplash.com/photo-1506461883276-594a12b11cf3?w=1200',
       category: 'solo',
       tags: ['solo', 'women', 'safety', 'india', 'tips'],
       authorName: 'Trails and Miles Team',
@@ -5397,7 +5397,7 @@ Lucknow is the kebab capital of India. **Tunday Kababi** in Old Lucknow serves t
 Punjab\'s holy city might have India\'s most generous food culture. Start at the Golden Temple\'s **langar** (free community kitchen, serving 50,000 people daily). Then hit **Kesar da Dhaba** for dal makhani slow-cooked for 18 hours (₹100). **Beera Chicken** for tandoori chicken, **Ahuja Lassi** for giant glasses of thick mango lassi, and **Brijwasi Chaat Bhandar** for tikki and gol gappe. The **Lawrence Road** food walk is essential — kulcha, amritsari fish fry, and chole.
 
 **Street Food Safety Tips**: Eat at stalls with high turnover (food is fresher). Stick to freshly cooked items. Carry hand sanitiser. Avoid pre-cut fruit. Drink bottled water or freshly made beverages.`,
-      coverImageUrl: '/images/blog/india-street-food-guide.jpg',
+      coverImageUrl: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=1200',
       category: 'food',
       tags: ['food', 'street-food', 'delhi', 'mumbai', 'kolkata'],
       authorName: 'Trails and Miles Team',
@@ -5448,7 +5448,7 @@ The rains begin to ease. **Onam** celebrations in Kerala, **Ganesh Chaturthi** i
 - Andaman: November–April
 - Kashmir: March–May (tulips), September–November (autumn)
 - Central India Wildlife: November–June`,
-      coverImageUrl: '/images/blog/best-time-visit-india.jpg',
+      coverImageUrl: 'https://images.unsplash.com/photo-1548013146-72479768bada?w=1200',
       category: 'tips',
       tags: ['india', 'seasons', 'weather', 'planning'],
       authorName: 'Trails and Miles Team',
@@ -5500,7 +5500,7 @@ Atal Tunnel exit (first view of Lahaul Valley), Deepak Tal lake (turquoise gem b
 
 **Essential Packing**
 Warm layers (temperatures drop below 0°C at night at passes), windproof jacket, thermal innerwear, sunglasses (UV protection essential at altitude), sunscreen SPF 50+, lip balm, basic medicines (Diamox, Disprin, ORS, anti-nausea), torch/headlamp, power bank (no electricity at many stops), snacks (dry fruits, energy bars, chocolate), and a full tank of patience — delays and road blocks are part of the adventure.`,
-      coverImageUrl: '/images/blog/ladakh-manali-leh-road-guide.jpg',
+      coverImageUrl: 'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=1200',
       category: 'adventure',
       tags: ['ladakh', 'road-trip', 'manali', 'leh', 'adventure'],
       authorName: 'Trails and Miles Team',

@@ -1,5 +1,23 @@
 import prisma from '@/lib/db';
 
+function serializeDecimals<T>(obj: T): T {
+  if (obj === null || obj === undefined) return obj;
+  if (obj instanceof Date) return obj;
+  // Duck-type Prisma Decimal: has toNumber() and toFixed() but isn't a plain number
+  if (typeof obj === 'object' && obj !== null && 'toNumber' in obj && typeof (obj as Record<string, unknown>).toNumber === 'function') {
+    return (obj as unknown as { toNumber(): number }).toNumber() as unknown as T;
+  }
+  if (Array.isArray(obj)) return obj.map(serializeDecimals) as unknown as T;
+  if (typeof obj === 'object') {
+    const result: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(obj as Record<string, unknown>)) {
+      result[key] = serializeDecimals(value);
+    }
+    return result as T;
+  }
+  return obj;
+}
+
 export async function getSampleItineraries() {
   return prisma.itinerary.findMany({
     where: { isSample: true, status: 'PUBLISHED' },
@@ -24,7 +42,7 @@ export async function getFeaturedItineraries() {
 }
 
 export async function getItineraryByShareToken(token: string) {
-  return prisma.itinerary.findUnique({
+  const itinerary = await prisma.itinerary.findUnique({
     where: { shareToken: token },
     include: {
       days: {
@@ -41,4 +59,5 @@ export async function getItineraryByShareToken(token: string) {
       },
     },
   });
+  return itinerary ? serializeDecimals(itinerary) : null;
 }
