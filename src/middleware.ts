@@ -22,6 +22,13 @@ export function middleware(request: NextRequest) {
   if (pathname.startsWith('/api/')) {
     const method = request.method;
 
+    // SSE streaming endpoints — special headers
+    if (pathname.startsWith('/api/chat/stream')) {
+      response.headers.set('Cache-Control', 'no-store, no-cache');
+      response.headers.set('X-Accel-Buffering', 'no');
+      return response;
+    }
+
     if (method === 'GET') {
       // Public cacheable endpoints
       if (

@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
-import { prisma } from '@/lib/db/prisma';
-import { success, withErrorHandler, errorResponse } from '@/lib/utils/api';
+import prisma from '@/lib/db';
+import { success, withErrorHandler, errorResponse } from '@/lib/api-utils';
 import { withCache, CacheKeys, TTL } from '@/lib/cache/redis';
 import { getSimilarDestinations } from '@/lib/services/recommendations';
 import { buildDestinationContext } from '@/lib/ai/openai';

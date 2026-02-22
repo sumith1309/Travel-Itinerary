@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/db/prisma';
-import { chatbotBodySchema } from '@/lib/validators/schemas';
+import prisma from '@/lib/db';
+import { chatbotBodySchema } from '@/lib/validators';
 import {
   success,
   errorResponse,
   withErrorHandler,
   requireAuth,
-} from '@/lib/utils/api';
+} from '@/lib/api-utils';
 import { sendChatMessage, streamChatMessage } from '@/lib/ai/openai';
 import type { ChatContext } from '@/types';
 

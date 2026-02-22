@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
-import { prisma } from '@/lib/db/prisma';
-import { visaQuerySchema } from '@/lib/validators/schemas';
-import { success, withErrorHandler } from '@/lib/utils/api';
+import prisma from '@/lib/db';
+import { visaQuerySchema } from '@/lib/validators';
+import { success, withErrorHandler } from '@/lib/api-utils';
 import { withCache, CacheKeys, TTL } from '@/lib/cache/redis';
 import type { VisaCategoryCounts } from '@/types';
 

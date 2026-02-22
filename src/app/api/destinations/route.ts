@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
-import { prisma } from '@/lib/db/prisma';
-import { destinationsQuerySchema } from '@/lib/validators/schemas';
-import { paginated, withErrorHandler } from '@/lib/utils/api';
+import prisma from '@/lib/db';
+import { destinationsQuerySchema } from '@/lib/validators';
+import { paginated, withErrorHandler } from '@/lib/api-utils';
 import { withCache, CacheKeys, TTL } from '@/lib/cache/redis';
 
 export const GET = withErrorHandler(async (req: NextRequest) => {

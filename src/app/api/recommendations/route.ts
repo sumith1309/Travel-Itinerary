@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
-import { recommendationsQuerySchema } from '@/lib/validators/schemas';
-import { success, withErrorHandler, optionalAuth } from '@/lib/utils/api';
+import { recommendationsQuerySchema } from '@/lib/validators';
+import { success, withErrorHandler, optionalAuth } from '@/lib/api-utils';
 import { getRecommendations, coldStartRecommendations } from '@/lib/services/recommendations';
 
 export const GET = withErrorHandler(async (req: NextRequest) => {

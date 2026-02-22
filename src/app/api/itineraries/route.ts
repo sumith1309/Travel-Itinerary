@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
 import { Prisma } from '@prisma/client';
-import { prisma } from '@/lib/db/prisma';
-import { itinerariesQuerySchema, itineraryBodySchema } from '@/lib/validators/schemas';
+import prisma from '@/lib/db';
+import { itinerariesQuerySchema, itineraryBodySchema } from '@/lib/validators';
 import {
   success,
   paginated,
@@ -10,7 +10,7 @@ import {
   withRateLimit,
   requireAuth,
   optionalAuth,
-} from '@/lib/utils/api';
+} from '@/lib/api-utils';
 import { generateItinerary, buildDestinationContext } from '@/lib/ai/openai';
 import type { GeneratedItinerary } from '@/types';
 

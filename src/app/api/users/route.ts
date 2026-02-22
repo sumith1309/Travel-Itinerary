@@ -1,8 +1,8 @@
 import { NextRequest } from 'next/server';
 import { Prisma } from '@prisma/client';
-import { prisma } from '@/lib/db/prisma';
-import { userPatchSchema, userPostSchema } from '@/lib/validators/schemas';
-import { success, withErrorHandler, requireAuth } from '@/lib/utils/api';
+import prisma from '@/lib/db';
+import { userPatchSchema, userPostSchema } from '@/lib/validators';
+import { success, withErrorHandler, requireAuth } from '@/lib/api-utils';
 import { cacheDel, CacheKeys } from '@/lib/cache/redis';
 
 // GET /api/users — Current user profile with stats

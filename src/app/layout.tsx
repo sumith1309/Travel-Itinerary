@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import { Outfit, Playfair_Display } from 'next/font/google';
+import { Outfit, Playfair_Display, JetBrains_Mono } from 'next/font/google';
+import { Providers } from './providers';
 import './globals.css';
 
 const outfit = Outfit({
@@ -11,6 +12,12 @@ const outfit = Outfit({
 const playfairDisplay = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-playfair',
+  display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains',
   display: 'swap',
 });
 
@@ -50,8 +57,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${outfit.variable} ${playfairDisplay.variable} font-sans`}>
-        {children}
+      <body
+        className={`${outfit.variable} ${playfairDisplay.variable} ${jetbrainsMono.variable} font-sans`}
+      >
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
-import { prisma } from '@/lib/db/prisma';
-import { registerSchema } from '@/lib/validators/schemas';
-import { success, errorResponse, withRateLimit } from '@/lib/utils/api';
+import prisma from '@/lib/db';
+import { registerSchema } from '@/lib/validators';
+import { success, errorResponse, withRateLimit } from '@/lib/api-utils';
 import { ZodError } from 'zod';
 
 async function handler(req: NextRequest): Promise<NextResponse> {

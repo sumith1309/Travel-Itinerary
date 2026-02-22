@@ -458,3 +458,76 @@ export interface FoodHighlights {
   indianFoodAvailable: boolean;
   topRestaurants?: string[];
 }
+
+// ============================================================
+// Phase 3: AI Intelligence Layer Types
+// ============================================================
+
+export interface AIRecommendation {
+  destinationSlug: string;
+  score: number;
+  reason: string;
+  archetype_match: string;
+  seasonal_fit: 'perfect' | 'good' | 'okay' | 'poor';
+  visa_ease: string;
+  budget_match: 'under' | 'match' | 'stretch';
+  unique_angle: string;
+  suggested_duration: number;
+  suggested_style: string;
+  best_month: string;
+  confidence: 'high' | 'medium' | 'low';
+}
+
+export interface InferredPreferences {
+  inferred_archetype: string;
+  confidence: number;
+  inferred_interests: string[];
+  inferred_budget_tier: 'budget' | 'moderate' | 'luxury' | 'value_seeker';
+  inferred_travel_readiness: 'browsing' | 'planning' | 'ready_to_book';
+  inferred_companions: string;
+  suggested_destinations: string[];
+  signals: Array<{ event: string; inference: string; confidence: number }>;
+}
+
+export interface BehaviorWeights {
+  destinationViews: Record<string, number>;
+  categoryInterest: Record<string, number>;
+  searchTerms: string[];
+  highIntentSignals: number;
+  travelReadiness: 'browsing' | 'planning' | 'ready';
+}
+
+export interface StreamEvent {
+  type: 'text' | 'itinerary_trigger' | 'done' | 'error';
+  content?: string;
+  params?: Record<string, unknown>;
+  message?: string;
+}
+
+export interface DetectedIntent {
+  intent: string;
+  entities: Record<string, string>;
+  confidence: number;
+}
+
+export interface ItineraryBuilderData {
+  destinationSlugs: string[];
+  destinationName: string;
+  durationDays: number;
+  travelStyle: string;
+  pace: string;
+  companionType: string;
+  budgetTotalINR: number;
+  dietaryPreferences: string[];
+  interests: string[];
+  specialRequests?: string;
+}
+
+export interface OnboardingStepData {
+  travelStyle: string | null;
+  pace: string | null;
+  budgetMin: number;
+  budgetMax: number;
+  interests: string[];
+  dietaryPreferences: string[];
+}

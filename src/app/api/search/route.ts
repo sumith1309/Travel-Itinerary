@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
-import { prisma } from '@/lib/db/prisma';
-import { searchQuerySchema } from '@/lib/validators/schemas';
-import { success, withErrorHandler, withRateLimit } from '@/lib/utils/api';
+import prisma from '@/lib/db';
+import { searchQuerySchema } from '@/lib/validators';
+import { success, withErrorHandler, withRateLimit } from '@/lib/api-utils';
 import { withCache, CacheKeys, TTL } from '@/lib/cache/redis';
 import type { SearchResult } from '@/types';
 
