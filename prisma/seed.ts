@@ -39,6 +39,17 @@ async function main() {
     },
   });
 
+  const domesticIndia = await prisma.region.upsert({
+    where: { slug: 'domestic-india' },
+    update: {},
+    create: {
+      name: 'Domestic India',
+      slug: 'domestic-india',
+      description: 'Explore incredible India — from the Himalayas to the backwaters, ancient temples to modern metros. No visa, no passport, just adventure.',
+      sortOrder: 0,
+    },
+  });
+
   // ── COUNTRIES ───────────────────────────────────────────
   console.log('🌍 Seeding countries...');
 
@@ -241,6 +252,48 @@ async function main() {
         indianFoodAvailability: 'medium',
         simCardCost: '₹800–1200 for tourist SIM (Dhiraagu at airport)',
         upiAccepted: false,
+        drivingSide: 'left',
+        tipExpected: false,
+      },
+    },
+  });
+
+  // India - Domestic
+  const india = await prisma.country.upsert({
+    where: { slug: 'india' },
+    update: {},
+    create: {
+      regionId: domesticIndia.id,
+      name: 'India',
+      slug: 'india',
+      description: 'Incredible India needs no introduction — a subcontinent of staggering diversity. From the snow-capped Himalayas to tropical beaches, ancient temples to buzzing metros, royal palaces to serene backwaters. For Indian travellers, domestic trips mean no visa hassles, familiar food, UPI payments everywhere, and incredible value.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=1600',
+      currencyCode: 'INR',
+      currencyName: 'Indian Rupee',
+      timezone: 'Asia/Kolkata',
+      language: 'Hindi, English + 22 official languages',
+      capitalCity: 'New Delhi',
+      budgetTier: 'budget',
+      safetyRating: 4,
+      status: ContentStatus.PUBLISHED,
+      tags: ['domestic', 'culture', 'temples', 'beaches', 'mountains', 'heritage', 'food', 'adventure', 'family-friendly', 'budget-friendly', 'no-visa'],
+      bestSeasons: {
+        months: [10, 11, 12, 1, 2, 3],
+        description: 'Oct–Mar is ideal for most of India — pleasant weather, festival season',
+        peak: [12, 1],
+        shoulder: [10, 11, 2, 3],
+        avoid: [6, 7, 8],
+      },
+      quickFacts: {
+        population: '1.4 billion',
+        capital: 'New Delhi',
+        language: 'Hindi, English (+ 22 official languages)',
+        currency: 'Indian Rupee (INR) — UPI accepted everywhere',
+        electricalPlug: 'Type C/D/M (230V) — Indian plugs work directly',
+        emergencyNumber: '112 (emergency services)',
+        indianFoodAvailability: 'high',
+        simCardCost: '₹200–500 for prepaid SIM (Jio/Airtel with unlimited data)',
+        upiAccepted: true,
         drivingSide: 'left',
         tipExpected: false,
       },
@@ -589,6 +642,265 @@ async function main() {
     },
   });
 
+  // India cities
+  const delhi = await prisma.city.upsert({
+    where: { slug: 'delhi' },
+    update: {},
+    create: {
+      countryId: india.id,
+      name: 'Delhi',
+      slug: 'delhi',
+      description: 'India\'s capital is a city of contrasts — Mughal monuments beside colonial boulevards, ancient bazaars beside luxury malls, street food paradise beside fine dining. From the Red Fort to India Gate, Chandni Chowk to Connaught Place, Delhi offers layers of history and culture.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1587474260584-136574528ed5?w=1600',
+      latitude: 28.6139,
+      longitude: 77.2090,
+      isCapital: true,
+      avgDailyBudgetINR: 4000,
+      budgetTier: 'budget',
+      status: ContentStatus.PUBLISHED,
+      tags: ['capital', 'heritage', 'mughal', 'street-food', 'shopping', 'history', 'monuments', 'metro'],
+      safetyTips: [
+        'Use Delhi Metro for safe, air-conditioned travel — avoid peak hours',
+        'Chandni Chowk can be crowded — keep valuables secure',
+        'Book Uber/Ola instead of street taxis for transparent pricing',
+        'Women travelers: avoid isolated areas after dark',
+      ],
+      foodHighlights: {
+        mustTry: ['Parathas at Paranthe Wali Gali', 'Chaat at Chandni Chowk', 'Butter Chicken at Karim\'s', 'Chole Bhature', 'Kebabs at Nizamuddin'],
+        vegetarianOptions: ['Extensive vegetarian options everywhere', 'Street food is predominantly vegetarian', 'Haldiram\'s, Bikanervala for safe options'],
+        indianFoodAvailable: true,
+        topRestaurants: ['Karim\'s (Jama Masjid)', 'Indian Accent', 'Paranthe Wali Gali', 'Dolma Aunty Momos'],
+      },
+      localTransport: {
+        metro: 'Delhi Metro — extensive network, ₹10–60 per journey',
+        uber: 'Uber/Ola widely available',
+        auto: 'Auto-rickshaws — negotiate or insist on meter',
+        bus: 'DTC buses — cheap but crowded',
+      },
+      sortOrder: 1,
+    },
+  });
+
+  const jaipur = await prisma.city.upsert({
+    where: { slug: 'jaipur' },
+    update: {},
+    create: {
+      countryId: india.id,
+      name: 'Jaipur',
+      slug: 'jaipur',
+      description: 'The Pink City is Rajasthan\'s crown jewel — majestic forts, ornate palaces, and vibrant bazaars. Amber Fort, Hawa Mahal, and City Palace showcase Rajput grandeur, while Johari Bazaar offers jewellery and textiles. A perfect blend of history, culture, and shopping.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1477587458883-47145ed94245?w=1600',
+      latitude: 26.9124,
+      longitude: 75.7873,
+      isCapital: false,
+      avgDailyBudgetINR: 3500,
+      budgetTier: 'budget',
+      status: ContentStatus.PUBLISHED,
+      tags: ['royal', 'forts', 'palaces', 'shopping', 'jewellery', 'rajasthan', 'heritage', 'photography'],
+      safetyTips: [
+        'Hire registered guides at monuments — avoid touts',
+        'Negotiate at bazaars — bargaining is expected',
+        'Stay hydrated in summer — temperatures can exceed 45°C',
+      ],
+      foodHighlights: {
+        mustTry: ['Dal Baati Churma', 'Laal Maas', 'Ghevar', 'Mirchi Vada', 'Pyaz Kachori'],
+        vegetarianOptions: ['Predominantly vegetarian cuisine', 'Rawat Mishtan for Pyaz Kachori', 'Chokhi Dhani for Rajasthani thali'],
+        indianFoodAvailable: true,
+        topRestaurants: ['Chokhi Dhani', 'Rawat Mishtan Bhandar', 'Laxmi Misthan Bhandar'],
+      },
+      localTransport: {
+        uber: 'Uber/Ola available',
+        auto: 'Auto-rickshaws — negotiate or meter',
+        bus: 'Local buses and RTDC tours',
+      },
+      sortOrder: 2,
+    },
+  });
+
+  const goaCity = await prisma.city.upsert({
+    where: { slug: 'goa' },
+    update: {},
+    create: {
+      countryId: india.id,
+      name: 'Goa',
+      slug: 'goa',
+      description: 'India\'s beach paradise needs no introduction — Portuguese heritage, palm-fringed beaches, vibrant nightlife, and legendary seafood. From the party vibes of Baga and Calangute to the serene sands of Palolem and Agonda, Goa has something for everyone.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=1600',
+      latitude: 15.2993,
+      longitude: 74.1240,
+      isCapital: false,
+      avgDailyBudgetINR: 5000,
+      budgetTier: 'moderate',
+      status: ContentStatus.PUBLISHED,
+      tags: ['beaches', 'nightlife', 'portuguese', 'seafood', 'water-sports', 'parties', 'relaxation', ' Churches'],
+      safetyTips: [
+        'Swim only at beaches with lifeguards — currents can be strong',
+        'Avoid isolated beaches after dark',
+        'Rent scooters with caution — wear helmets, drive on left',
+      ],
+      foodHighlights: {
+        mustTry: ['Goan Fish Curry', 'Prawn Balchão', 'Bebinca', 'Vindaloo', 'Xacuti'],
+        vegetarianOptions: ['Many vegetarian cafes in Anjuna/Vagator', 'Traditional Hindu Goan cuisine is vegetarian', 'North Goa has extensive veg options'],
+        indianFoodAvailable: true,
+        topRestaurants: ['Martin\'s Corner', 'Fisherman\'s Wharf', 'Thalassa', 'Gunpowder'],
+      },
+      localTransport: {
+        scooter: 'Scooter rental ₹300–500/day — most popular option',
+        taxi: 'Pre-paid taxis from airport',
+        bus: 'Local buses connect major towns',
+        ferry: 'Ferries to Divar and Chorao islands',
+      },
+      sortOrder: 3,
+    },
+  });
+
+  const ladakh = await prisma.city.upsert({
+    where: { slug: 'ladakh' },
+    update: {},
+    create: {
+      countryId: india.id,
+      name: 'Ladakh',
+      slug: 'ladakh',
+      description: 'The Land of High Passes is India\'s adventure capital — stark mountain landscapes, ancient Buddhist monasteries, and crystal-clear lakes. Pangong Lake, Nubra Valley, and Khardung La (world\'s highest motorable pass) make this a bucket-list destination. Best visited May–September.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=1600',
+      latitude: 34.1526,
+      longitude: 77.5771,
+      isCapital: false,
+      avgDailyBudgetINR: 7000,
+      budgetTier: 'moderate',
+      status: ContentStatus.PUBLISHED,
+      tags: ['mountains', 'adventure', 'buddhist', 'monasteries', 'lakes', 'motorbike', 'high-altitude', 'photography'],
+      safetyTips: [
+        'Acclimatize for 24-48 hours in Leh before heading to higher altitudes',
+        'Inner Line Permit required for Pangong, Nubra, Tso Moriri',
+        'AMS (Acute Mountain Sickness) is real — stay hydrated, avoid alcohol first 24 hours',
+        'Roads close October–April due to snow',
+      ],
+      foodHighlights: {
+        mustTry: ['Momos', 'Thukpa', 'Skyu', 'Butter Tea', 'Chhurpi'],
+        vegetarianOptions: ['Many vegetarian options — Buddhist influence', 'Tibetan vegetarian dishes widely available'],
+        indianFoodAvailable: true,
+        topRestaurants: ['Gesmo Restaurant', 'Tibetan Kitchen', 'Bon Appetit'],
+      },
+      localTransport: {
+        taxi: 'Shared and private taxis for sightseeing',
+        motorbike: 'Rent motorbikes in Leh — ₹1000–1500/day',
+        bus: 'Limited bus service to major destinations',
+      },
+      sortOrder: 4,
+    },
+  });
+
+  const kerala = await prisma.city.upsert({
+    where: { slug: 'kerala' },
+    update: {},
+    create: {
+      countryId: india.id,
+      name: 'Kerala',
+      slug: 'kerala',
+      description: 'God\'s Own Country lives up to its name — serene backwaters, hill stations with tea plantations, pristine beaches, and a rich cultural heritage. Houseboat stays in Alleppey, wildlife in Thekkady, and tea gardens in Munnar make Kerala perfect for families and couples.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=1600',
+      latitude: 10.8505,
+      longitude: 76.2711,
+      isCapital: false,
+      avgDailyBudgetINR: 4500,
+      budgetTier: 'moderate',
+      status: ContentStatus.PUBLISHED,
+      tags: ['backwaters', 'houseboats', 'hill-station', 'beaches', 'ayurveda', 'wildlife', 'tea-plantations', 'family-friendly'],
+      safetyTips: [
+        'Houseboat bookings should be done through authorized operators',
+        'Ayurveda treatments — choose certified centers only',
+        'Monsoon (Jun-Sep) is great for Ayurveda but expect heavy rain',
+      ],
+      foodHighlights: {
+        mustTry: ['Sadya (vegetarian feast)', 'Appam with Stew', 'Karimeen Pollichathu', 'Puttu and Kadala', 'Malabar Biryani'],
+        vegetarianOptions: ['Kerala has extensive vegetarian cuisine', 'Sadya is purely vegetarian', 'Many vegetarian restaurants in all towns'],
+        indianFoodAvailable: true,
+        topRestaurants: ['Malabar Junction', 'Paragon Restaurant', 'Villa Maya'],
+      },
+      localTransport: {
+        houseboat: 'Houseboats in Alleppey/Kumarakom — ₹7000–15000/night',
+        taxi: 'Taxis and auto-rickshaws available',
+        bus: 'KSRTC buses connect major towns',
+        train: 'Scenic train routes through Western Ghats',
+      },
+      sortOrder: 5,
+    },
+  });
+
+  const mumbai = await prisma.city.upsert({
+    where: { slug: 'mumbai' },
+    update: {},
+    create: {
+      countryId: india.id,
+      name: 'Mumbai',
+      slug: 'mumbai',
+      description: 'Maximum City is India\'s financial and entertainment capital — a city of dreams, contrasts, and endless energy. From the colonial architecture of South Mumbai to the beaches of Juhu, from street food at Chowpatty to fine dining in Bandra, Mumbai never sleeps.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1566552881560-0be862a7c445?w=1600',
+      latitude: 19.0760,
+      longitude: 72.8777,
+      isCapital: false,
+      avgDailyBudgetINR: 5500,
+      budgetTier: 'moderate',
+      status: ContentStatus.PUBLISHED,
+      tags: ['metro', 'bollywood', 'nightlife', 'street-food', 'colonial', 'beaches', 'shopping', 'urban'],
+      safetyTips: [
+        'Local trains are efficient but extremely crowded — avoid rush hours',
+        'Use Uber/Ola for safer travel at night',
+        'Keep valuables secure in crowded areas like markets',
+      ],
+      foodHighlights: {
+        mustTry: ['Vada Pav', 'Pav Bhaji', 'Bhel Puri at Chowpatty', 'Bombay Duck', 'Parsi Dhansak'],
+        vegetarianOptions: ['Mumbai is a vegetarian paradise', 'Street food is predominantly vegetarian', 'Gujarati thalis widely available'],
+        indianFoodAvailable: true,
+        topRestaurants: ['Cafe Leopold', 'Mohammed Ali Road (Ramzan special)', 'Britannia & Co.', 'Cafe Mondegar'],
+      },
+      localTransport: {
+        local: 'Mumbai Local — lifeline of the city, ₹5–50',
+        metro: 'Mumbai Metro expanding rapidly',
+        uber: 'Uber/Ola widely available',
+        bus: 'BEST buses cover entire city',
+      },
+      sortOrder: 6,
+    },
+  });
+
+  const varanasi = await prisma.city.upsert({
+    where: { slug: 'varanasi' },
+    update: {},
+    create: {
+      countryId: india.id,
+      name: 'Varanasi',
+      slug: 'varanasi',
+      description: 'The spiritual heart of India — one of the world\'s oldest continuously inhabited cities. The ghats along the Ganges, the evening Ganga Aarti at Dashashwamedh Ghat, and the narrow lanes of the old city offer an experience unlike anywhere else. A must-visit for cultural and spiritual seekers.',
+      heroImageUrl: 'https://images.unsplash.com/photo-1565159337139-e8a20f6a73d3?w=1600',
+      latitude: 25.3176,
+      longitude: 82.9739,
+      isCapital: false,
+      avgDailyBudgetINR: 2500,
+      budgetTier: 'budget',
+      status: ContentStatus.PUBLISHED,
+      tags: ['spiritual', 'ghats', 'temples', 'ganga', 'heritage', 'culture', 'ancient', 'religious'],
+      safetyTips: [
+        'Respect religious customs — dress modestly at temples and ghats',
+        'Boat rides — negotiate price beforehand',
+        'Be prepared for crowds, especially during festivals',
+      ],
+      foodHighlights: {
+        mustTry: ['Kachori Sabzi', 'Chaat at Godowlia', 'Malaiyyo (winter)', 'Thandai', 'Banarasi Paan'],
+        vegetarianOptions: ['Varanasi is predominantly vegetarian', 'Pure veg restaurants everywhere', 'Street food is mostly sattvic'],
+        indianFoodAvailable: true,
+        topRestaurants: ['Kachori Gali', 'Blue Lassi', 'Deena Chaat Bhandar'],
+      },
+      localTransport: {
+        auto: 'Auto-rickshaws — negotiate or meter',
+        boat: 'Boat rides on Ganges — sunrise/sunset best',
+        walking: 'Old city is best explored on foot',
+      },
+      sortOrder: 7,
+    },
+  });
+
   // ── POINTS OF INTEREST (Hanoi) ───────────────────────────
   console.log('📍 Seeding Hanoi POIs...');
 
@@ -683,21 +995,6 @@ async function main() {
       bestTimeToVisit: 'Around 4pm or 7:30pm (train times, but verify locally as schedules change)',
       tips: ['Trains pass around 4pm and 7:30pm but times change — ask your hotel', 'Stand well clear of the tracks when the train passes', 'Many cafés on the street charge a small seating fee (₹100)'],
     },
-    {
-      slug: 'water-puppet-theatre',
-      name: 'Thang Long Water Puppet Theatre',
-      category: ExperienceCategory.CULTURE_HISTORY,
-      subcategory: 'Traditional Performance',
-      description: 'Water puppetry is an art form unique to northern Vietnam, originating in the 11th century when Red River Delta farmers staged performances on flooded rice paddies. The 45-minute show features 18 scenes depicting legends, folk tales, and farming life — all performed by puppets controlled by hidden artists standing waist-deep in water, accompanied by a live traditional orchestra.',
-      shortDescription: '1,000-year-old Vietnamese art form — puppets perform on water to live traditional music',
-      latitude: 21.0336,
-      longitude: 105.8524,
-      avgDurationMins: 60,
-      avgCostINR: 600,
-      tags: ['traditional', 'performance', 'culture', 'evening-activity', 'family-friendly', 'unique'],
-      bestTimeToVisit: 'Evening shows at 6pm or 8pm — book ahead during peak season',
-      tips: ['Book tickets in advance online — ₹500–800 depending on seat', 'Shows run multiple times daily', 'First two rows get slightly splashed — exciting or bring a poncho', 'No English narration but show is visual and engaging'],
-    },
   ];
 
   for (const poi of poisData) {
@@ -706,6 +1003,128 @@ async function main() {
       update: {},
       create: {
         cityId: hanoi.id,
+        name: poi.name,
+        slug: poi.slug,
+        category: poi.category,
+        subcategory: poi.subcategory,
+        description: poi.description,
+        shortDescription: poi.shortDescription,
+        latitude: poi.latitude,
+        longitude: poi.longitude,
+        avgDurationMins: poi.avgDurationMins,
+        avgCostINR: poi.avgCostINR,
+        tags: poi.tags,
+        bestTimeToVisit: poi.bestTimeToVisit,
+        tips: poi.tips,
+        status: ContentStatus.PUBLISHED,
+        ratingAvg: 4.5,
+        ratingCount: Math.floor(Math.random() * 200) + 50,
+      },
+    });
+  }
+
+  // ── POINTS OF INTEREST (Delhi) ───────────────────────────────
+  console.log('📍 Seeding Delhi POIs...');
+
+  const delhiPoisData = [
+    {
+      slug: 'red-fort-delhi',
+      name: 'Red Fort (Lal Qila)',
+      category: ExperienceCategory.CULTURE_HISTORY,
+      subcategory: 'Monument',
+      description: 'A UNESCO World Heritage Site and symbol of India\'s independence. Built by Mughal Emperor Shah Jahan in 1648, the massive red sandstone fort housed Mughal emperors for nearly 200 years. The Prime Minister hoists the national flag here on Independence Day.',
+      shortDescription: 'Iconic Mughal fort and UNESCO World Heritage Site',
+      latitude: 28.6562,
+      longitude: 77.2410,
+      avgDurationMins: 90,
+      avgCostINR: 500,
+      tags: ['heritage', 'mughal', 'UNESCO', 'photography', 'history', 'monument'],
+      bestTimeToVisit: 'Early morning (8-10am) for fewer crowds and better photos',
+      tips: ['Closed Mondays', 'Light and sound show in evenings — ₹100', 'Combine with Jama Masjid visit'],
+    },
+    {
+      slug: 'qutub-minar',
+      name: 'Qutub Minar',
+      category: ExperienceCategory.CULTURE_HISTORY,
+      subcategory: 'Monument',
+      description: 'The world\'s tallest brick minaret at 73 meters, built in the 12th-13th centuries. A UNESCO World Heritage Site showcasing Indo-Islamic architecture. The surrounding Qutub Complex includes the Iron Pillar (4th century) that hasn\'t rusted in 1600 years.',
+      shortDescription: '73-meter UNESCO World Heritage minaret',
+      latitude: 28.5245,
+      longitude: 77.1855,
+      avgDurationMins: 60,
+      avgCostINR: 400,
+      tags: ['heritage', 'UNESCO', 'photography', 'history', 'monument', 'islamic-architecture'],
+      bestTimeToVisit: 'Late afternoon for golden hour photography',
+      tips: ['Entry fee: ₹40 (Indians), ₹600 (foreigners)', 'Metro: Qutub Minar station on Yellow Line'],
+    },
+    {
+      slug: 'india-gate',
+      name: 'India Gate',
+      category: ExperienceCategory.CULTURE_HISTORY,
+      subcategory: 'Memorial',
+      description: 'The iconic war memorial honoring 70,000 Indian soldiers who died in World War I. Designed by Edwin Lutyens, it stands at the heart of New Delhi. The surrounding lawns are perfect for evening picnics, and the monument is beautifully illuminated at night.',
+      shortDescription: 'Iconic war memorial in the heart of New Delhi',
+      latitude: 28.6129,
+      longitude: 77.2295,
+      avgDurationMins: 45,
+      avgCostINR: 0,
+      tags: ['memorial', 'colonial', 'evening', 'photography', 'free', 'landmark'],
+      bestTimeToVisit: 'Evening (after 6pm) for illumination and cooler weather',
+      tips: ['Free entry — open 24 hours', 'Great for evening picnics on the lawns', 'Combine with Rashtrapati Bhavan visit'],
+    },
+    {
+      slug: 'chandni-chowk',
+      name: 'Chandni Chowk Market',
+      category: ExperienceCategory.FOOD_MARKETS,
+      subcategory: 'Market & Food',
+      description: 'One of India\'s oldest and busiest markets, dating back to the 17th century. The narrow lanes are a sensory overload — spices, textiles, jewellery, street food, and chaos. Paranthe Wali Gali is legendary for stuffed parathas, and the area is a food lover\'s paradise.',
+      shortDescription: 'Historic market and street food paradise in Old Delhi',
+      latitude: 28.6562,
+      longitude: 77.2300,
+      avgDurationMins: 120,
+      avgCostINR: 500,
+      tags: ['market', 'street-food', 'shopping', 'heritage', 'chaos', 'photography', 'old-delhi'],
+      bestTimeToVisit: 'Morning (9am-12pm) for food, avoid Sundays',
+      tips: ['Best street food: Paranthe Wali Gali, Natraj Dahi Bhalla, Jalebi Wala', 'Cycle rickshaw tours available — ₹200-300', 'Carry cash — many vendors don\'t accept cards'],
+    },
+    {
+      slug: 'humayuns-tomb',
+      name: 'Humayun\'s Tomb',
+      category: ExperienceCategory.CULTURE_HISTORY,
+      subcategory: 'Monument',
+      description: 'A stunning garden tomb and UNESCO World Heritage Site, built in 1570. This was the inspiration for the Taj Mahal — same symmetry, same red sandstone and white marble. The Persian-style charbagh gardens and serene atmosphere make it less crowded than other Delhi monuments.',
+      shortDescription: 'UNESCO garden tomb that inspired the Taj Mahal',
+      latitude: 28.5933,
+      longitude: 77.2507,
+      avgDurationMins: 75,
+      avgCostINR: 400,
+      tags: ['heritage', 'UNESCO', 'mughal', 'gardens', 'photography', 'peaceful'],
+      bestTimeToVisit: 'Early morning or late afternoon for best light and fewer crowds',
+      tips: ['Entry fee: ₹40 (Indians), ₹600 (foreigners)', 'Less crowded than Red Fort — great for photography', 'ISA Khan\'s Tomb within the complex is also beautiful'],
+    },
+    {
+      slug: 'akshardham-temple',
+      name: 'Akshardham Temple',
+      category: ExperienceCategory.CULTURE_HISTORY,
+      subcategory: 'Temple',
+      description: 'A stunning modern Hindu temple complex on the banks of the Yamuna River. Built in 2005 using traditional techniques, it showcases 10,000 years of Indian culture. The evening water show (Sahaj Anand) and boat ride through Indian history are spectacular.',
+      shortDescription: 'Magnificent modern Hindu temple with cultural exhibitions',
+      latitude: 28.6127,
+      longitude: 77.2773,
+      avgDurationMins: 150,
+      avgCostINR: 250,
+      tags: ['temple', 'modern', 'culture', 'exhibitions', 'water-show', 'photography', 'spiritual'],
+      bestTimeToVisit: 'Afternoon to catch the evening water show (starts around 7pm)',
+      tips: ['No cameras or phones allowed inside — free locker available', 'Dress modestly — shoulders and knees covered', 'Water show is highly recommended — ₹100 extra'],
+    },
+  ];
+
+  for (const poi of delhiPoisData) {
+    await prisma.pointOfInterest.upsert({
+      where: { slug: poi.slug },
+      update: {},
+      create: {
+        cityId: delhi.id,
         name: poi.name,
         slug: poi.slug,
         category: poi.category,
@@ -906,6 +1325,38 @@ async function main() {
         'Book an all-inclusive resort package to avoid bill shock — à la carte dining and activities are expensive',
         'The outer atolls (Raa, Baa, Lhaviyani) have stunning reefs but longer travel times from Malé',
         'Local guesthouses on inhabited islands are much cheaper than resort islands',
+      ],
+      status: ContentStatus.PUBLISHED,
+      lastVerifiedAt: new Date('2025-12-01'),
+    },
+  });
+
+  // India Domestic - No Visa Required
+  await prisma.visaInfo.upsert({
+    where: { countryId_visaType: { countryId: india.id, visaType: VisaType.VISA_FREE } },
+    update: {},
+    create: {
+      countryId: india.id,
+      visaType: VisaType.VISA_FREE,
+      description: 'No visa required for Indian citizens travelling within India. Simply carry any valid government-issued photo ID (Aadhaar Card, Driving Licence, Voter ID, or Passport) for identification at hotels, airports, and monument entries.',
+      documentsRequired: [
+        { name: 'Valid Photo ID', description: 'Aadhaar Card, Driving Licence, Voter ID, or Passport. Required for hotel check-ins and monument entries.', mandatory: true },
+        { name: 'Train/Flight Tickets', description: 'E-tickets accepted. IRCTC account recommended for train bookings.', mandatory: false },
+        { name: 'Hotel Bookings', description: 'Confirmation email/printout for check-in', mandatory: false },
+      ],
+      processingTimeDays: { min: 0, max: 0 },
+      fees: { currency: 'INR', amount: 0, inrApprox: 0 },
+      commonMistakes: [
+        'Not carrying ID proof — hotels require it for check-in',
+        'Forgetting permits for restricted areas (Ladakh beyond Leh, Northeast states, Andaman)',
+        'Not booking trains in advance — IRCTC bookings fill up quickly',
+      ],
+      tips: [
+        'Book trains 120 days in advance on IRCTC for best availability',
+        'Some monuments require ID for entry — carry Aadhaar or Passport',
+        'Inner Line Permit needed for Arunachal Pradesh, Nagaland, Mizoram, Manipur',
+        'Protected Area Permit needed for parts of Ladakh (Nubra, Pangong, Tso Moriri)',
+        'UPI accepted almost everywhere — no need to carry large amounts of cash',
       ],
       status: ContentStatus.PUBLISHED,
       lastVerifiedAt: new Date('2025-12-01'),
@@ -1434,11 +1885,11 @@ async function main() {
 
   console.log('\n✅ Seed complete!');
   console.log('📊 Summary:');
-  console.log('  - 2 Regions');
-  console.log('  - 5 Countries (Vietnam, Thailand, Indonesia, Singapore, Maldives)');
-  console.log('  - 11 Cities');
-  console.log('  - 7 Hanoi POIs');
-  console.log('  - 5 Visa entries');
+  console.log('  - 3 Regions (East & Southeast Asia, South Asia, Domestic India)');
+  console.log('  - 6 Countries (Vietnam, Thailand, Indonesia, Singapore, Maldives, India)');
+  console.log('  - 18 Cities (11 international + 7 Indian)');
+  console.log('  - 13 POIs (7 Hanoi + 6 Delhi)');
+  console.log('  - 6 Visa entries (5 international + India domestic)');
   console.log('  - 6 Experiences');
   console.log('  - 1 Sample itinerary (7-day Vietnam)');
   console.log('  - 5 Blog posts');

@@ -11,7 +11,7 @@ import {
   requireAuth,
   optionalAuth,
 } from '@/lib/api-utils';
-import { generateItinerary, buildDestinationContext } from '@/lib/ai/openai';
+import { generateItinerary, buildDestinationContext, generateDestinationContext } from '@/lib/ai/openai';
 import type { GeneratedItinerary } from '@/types';
 
 // GET /api/itineraries
@@ -138,7 +138,12 @@ async function postHandler(req: NextRequest) {
     },
   });
 
-  const destinationContext = destinationData
+  // Identify known and unknown destinations
+  const knownSlugs = new Set(destinationData.map((d) => d.slug));
+  const unknownSlugs = generateData.destinationSlugs.filter((s) => !knownSlugs.has(s));
+
+  // Build context for known destinations from database
+  const knownDestinationContext = destinationData
     .map((country) =>
       buildDestinationContext({
         countryName: country.name,
@@ -161,6 +166,38 @@ async function postHandler(req: NextRequest) {
     )
     .join('\n\n');
 
+  // Generate AI context for unknown destinations
+  let unknownDestinationContext = '';
+  if (unknownSlugs.length > 0) {
+    const unknownContexts = await Promise.all(
+      unknownSlugs.map(async (slug) => {
+        try {
+          const displayName = slug
+            .split('-')
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+          return await generateDestinationContext(displayName, generateData.durationDays);
+        } catch (error) {
+          console.warn(`[Itinerary] Failed to generate context for ${slug}:`, error);
+          return '';
+        }
+      })
+    );
+    unknownDestinationContext = unknownContexts.filter(Boolean).join('\n\n');
+  }
+
+  const destinationContext = [knownDestinationContext, unknownDestinationContext]
+    .filter(Boolean)
+    .join('\n\n');
+
+  // Fallback context if all destinations are unknown and AI generation failed
+  const finalDestinationContext = destinationContext || 
+    `=== DESTINATION CONTEXT ===
+User wants to visit: ${generateData.destinationSlugs.join(', ')}
+Destination not in database - AI will generate recommendations based on general knowledge.
+The AI should use its knowledge to create a comprehensive itinerary.
+=== END DESTINATION CONTEXT ===`;
+
   // Call Claude to generate itinerary
   const generated: GeneratedItinerary = await generateItinerary({
     destinationSlugs: generateData.destinationSlugs,
@@ -173,7 +210,7 @@ async function postHandler(req: NextRequest) {
     dietaryPreferences: generateData.dietaryPreferences,
     userProfile: travelProfile,
     travelHistory: travelHistory as Parameters<typeof generateItinerary>[0]['travelHistory'],
-    destinationContext,
+    destinationContext: finalDestinationContext,
   });
 
   // Save to database with nested days and items

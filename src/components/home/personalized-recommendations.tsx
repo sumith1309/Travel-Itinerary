@@ -9,14 +9,14 @@ import { fadeUp, staggerContainer, tapSpring } from '@/lib/animations';
 import { formatINR } from '@/lib/utils';
 
 interface Recommendation {
-  slug: string;
-  name: string;
-  tagline: string | null;
-  imageUrl: string | null;
+  country: {
+    slug: string;
+    name: string;
+    heroImageUrl: string | null;
+  };
   score: number;
   reason: string;
-  tags: string[];
-  budgetRange?: { min: number; max: number };
+  matchTags?: string[];
 }
 
 export function PersonalizedRecommendations() {
@@ -102,18 +102,18 @@ export function PersonalizedRecommendations() {
           {!loading && recs.length > 0 && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {recs.map((rec) => (
-                <motion.div key={rec.slug} variants={fadeUp}>
-                  <Link href={`/destinations/${rec.slug}`}>
+                <motion.div key={rec.country.slug} variants={fadeUp}>
+                  <Link href={`/destinations/${rec.country.slug}`}>
                     <motion.div
                       {...tapSpring}
                       className="neu-raised rounded-2xl overflow-hidden group cursor-pointer hover:shadow-card-hover transition-shadow"
                     >
                       {/* Image */}
                       <div className="relative h-40 bg-sand-100 overflow-hidden">
-                        {rec.imageUrl ? (
+                        {rec.country.heroImageUrl ? (
                           <img
-                            src={rec.imageUrl}
-                            alt={rec.name}
+                            src={rec.country.heroImageUrl}
+                            alt={rec.country.name}
                             className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
                           />
                         ) : (
@@ -130,14 +130,14 @@ export function PersonalizedRecommendations() {
                       {/* Content */}
                       <div className="p-4">
                         <h3 className="font-display text-lg font-semibold text-midnight mb-1">
-                          {rec.name}
+                          {rec.country.name}
                         </h3>
                         <p className="text-xs text-stone line-clamp-2 mb-2">
                           {rec.reason}
                         </p>
-                        {rec.tags.length > 0 && (
+                        {(rec.matchTags || []).length > 0 && (
                           <div className="flex flex-wrap gap-1">
-                            {rec.tags.slice(0, 3).map((tag) => (
+                            {(rec.matchTags || []).slice(0, 3).map((tag) => (
                               <span
                                 key={tag}
                                 className="rounded-full bg-forest/10 px-2 py-0.5 text-[10px] font-medium text-forest"

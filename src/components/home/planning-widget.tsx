@@ -10,6 +10,17 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@
 export function PlanningWidget() {
   const router = useRouter();
   const [destination, setDestination] = useState('');
+  const [duration, setDuration] = useState('');
+  const [style, setStyle] = useState('');
+
+  const handlePlanTrip = () => {
+    const params = new URLSearchParams();
+    if (destination.trim()) params.set('dest', destination.trim());
+    if (duration) params.set('days', duration);
+    if (style) params.set('style', style);
+    
+    router.push(`/plan?${params.toString()}`);
+  };
 
   return (
     <div className="relative z-20 -mt-20 mx-auto max-w-4xl px-4 sm:px-6">
@@ -20,7 +31,7 @@ export function PlanningWidget() {
               Destination
             </label>
             <Input
-              placeholder="Where to?"
+              placeholder="Anywhere in the world..."
               value={destination}
               onChange={(e) => setDestination(e.target.value)}
               className="h-12 bg-sand-50 border-sand-200 rounded-xl text-sm"
@@ -30,7 +41,7 @@ export function PlanningWidget() {
             <label className="text-[11px] font-semibold text-forest/60 uppercase tracking-wider block">
               Duration
             </label>
-            <Select>
+            <Select value={duration} onValueChange={setDuration}>
               <SelectTrigger className="h-12 bg-sand-50 border-sand-200 rounded-xl text-sm">
                 <SelectValue placeholder="How long?" />
               </SelectTrigger>
@@ -47,7 +58,7 @@ export function PlanningWidget() {
             <label className="text-[11px] font-semibold text-forest/60 uppercase tracking-wider block">
               Travel Style
             </label>
-            <Select>
+            <Select value={style} onValueChange={setStyle}>
               <SelectTrigger className="h-12 bg-sand-50 border-sand-200 rounded-xl text-sm">
                 <SelectValue placeholder="Your style" />
               </SelectTrigger>
@@ -65,9 +76,9 @@ export function PlanningWidget() {
               className="w-full h-12"
               size="lg"
               variant="secondary"
-              onClick={() => router.push('/itineraries')}
+              onClick={handlePlanTrip}
             >
-              <Sparkles className="h-4 w-4" />
+              <Sparkles className="h-4 w-4 mr-2" />
               Plan Trip
             </Button>
           </div>

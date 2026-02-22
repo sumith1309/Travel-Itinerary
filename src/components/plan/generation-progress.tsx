@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Loader2, Check, Sparkles, MapPin } from 'lucide-react';
+import { Loader2, Check, Sparkles, MapPin, LogIn } from 'lucide-react';
+import { signIn } from 'next-auth/react';
 import { GENERATION_STAGES } from '@/lib/constants';
 
 interface GenerationProgressProps {
@@ -49,6 +50,8 @@ export function GenerationProgress({
   }, [isGenerating]);
 
   if (error) {
+    const isAuthError = error.includes('sign in') || error.includes('sign-in');
+    
     return (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -59,17 +62,25 @@ export function GenerationProgress({
           <span className="text-3xl">😔</span>
         </div>
         <h3 className="font-display text-xl font-bold text-midnight mb-2">
-          Something went wrong
+          {isAuthError ? 'Sign in required' : 'Something went wrong'}
         </h3>
         <p className="text-sm text-stone text-center max-w-sm mb-6">{error}</p>
-        {onRetry && (
+        {isAuthError ? (
+          <button
+            onClick={() => signIn('google', { callbackUrl: window.location.href })}
+            className="rounded-xl bg-forest px-6 py-3 text-sm font-semibold text-white hover:bg-forest/90 transition-colors flex items-center gap-2"
+          >
+            <LogIn className="h-4 w-4" />
+            Sign in with Google
+          </button>
+        ) : onRetry ? (
           <button
             onClick={onRetry}
             className="rounded-xl bg-forest px-6 py-3 text-sm font-semibold text-white hover:bg-forest/90 transition-colors"
           >
             Try again
           </button>
-        )}
+        ) : null}
       </motion.div>
     );
   }
@@ -166,7 +177,7 @@ export function GenerationProgress({
         transition={{ delay: 3 }}
         className="text-xs text-stone mt-8 text-center"
       >
-        This usually takes 15–30 seconds
+        This usually takes 3–5 minutes with GPT-5.2 Thinking
       </motion.p>
     </motion.div>
   );

@@ -28,9 +28,10 @@ function getClient(): OpenAI {
   return client;
 }
 
-const AI_MODEL = process.env.AI_MODEL ?? 'gpt-4o';
-const AI_MAX_TOKENS = parseInt(process.env.AI_MAX_TOKENS ?? '4096', 10);
-const AI_MAX_TOKENS_ITINERARY = parseInt(process.env.AI_MAX_TOKENS_ITINERARY ?? '8192', 10);
+const AI_MODEL = process.env.AI_MODEL ?? 'gpt-5.2';
+const AI_MAX_TOKENS = parseInt(process.env.AI_MAX_TOKENS ?? '8192', 10);
+const AI_MAX_TOKENS_ITINERARY = parseInt(process.env.AI_MAX_TOKENS_ITINERARY ?? '16384', 10);
+const AI_REASONING_EFFORT = (process.env.AI_REASONING_EFFORT ?? 'high') as 'low' | 'medium' | 'high';
 
 // ============================================================
 // System Prompts
@@ -336,6 +337,7 @@ export async function sendChatMessage(context: ChatContext, userMessage: string)
   const response = await openai.chat.completions.create({
     model: AI_MODEL,
     max_completion_tokens: AI_MAX_TOKENS,
+    reasoning_effort: AI_REASONING_EFFORT,
     messages: buildMessages(fullSystem, conversationMessages),
   });
 
@@ -379,6 +381,7 @@ export async function streamChatMessage(
         const openaiStream = await openai.chat.completions.create({
           model: AI_MODEL,
           max_completion_tokens: AI_MAX_TOKENS,
+          reasoning_effort: AI_REASONING_EFFORT,
           messages: buildMessages(fullSystem, conversationMessages),
           stream: true,
         });
@@ -490,6 +493,7 @@ Output ONLY the JSON object.`;
   const response = await openai.chat.completions.create({
     model: AI_MODEL,
     max_completion_tokens: AI_MAX_TOKENS_ITINERARY,
+    reasoning_effort: AI_REASONING_EFFORT,
     messages: buildMessages(systemWithContext, [{ role: 'user', content: userRequest }]),
   });
 
@@ -623,7 +627,8 @@ Output ONLY a JSON array of up to 10 recommendations:
 
   const response = await openai.chat.completions.create({
     model: AI_MODEL,
-    max_completion_tokens: 2048,
+    max_completion_tokens: 1024,
+    reasoning_effort: AI_REASONING_EFFORT,
     messages: [{ role: 'user', content: prompt }],
   });
 
@@ -668,6 +673,7 @@ Output format: ["tag1", "tag2", ...]`;
   const response = await openai.chat.completions.create({
     model: AI_MODEL,
     max_completion_tokens: 256,
+    reasoning_effort: 'low',
     messages: [{ role: 'user', content: prompt }],
   });
 
@@ -720,6 +726,7 @@ Return JSON:
   const response = await openai.chat.completions.create({
     model: AI_MODEL,
     max_completion_tokens: 1024,
+    reasoning_effort: AI_REASONING_EFFORT,
     messages: [{ role: 'user', content: prompt }],
   });
 
@@ -746,6 +753,7 @@ export async function detectIntent(
   const response = await openai.chat.completions.create({
     model: AI_MODEL,
     max_completion_tokens: 256,
+    reasoning_effort: 'low',
     messages: [
       {
         role: 'system',
@@ -838,6 +846,7 @@ export async function explainRecommendation(
   const response = await openai.chat.completions.create({
     model: AI_MODEL,
     max_completion_tokens: 512,
+    reasoning_effort: 'low',
     messages: [
       {
         role: 'user',
@@ -855,3 +864,169 @@ Write as if speaking directly to them. Use ₹ for any prices.`,
 }
 
 export { buildDestinationContext };
+
+// ============================================================
+// AI-Generated Destination Context (for unknown destinations)
+// ============================================================
+
+export async function generateDestinationContext(
+  destinationName: string,
+  durationDays: number
+): Promise<string> {
+  const openai = getClient();
+
+  const prompt = `Generate comprehensive travel context for "${destinationName}" for an Indian traveller planning a ${durationDays}-day trip.
+
+Return ONLY valid JSON with this structure:
+{
+  "name": "Full destination name",
+  "country": "Country name",
+  "region": "Geographic region (e.g., Southeast Asia, Europe, North America)",
+  "description": "2-3 sentence overview for Indian travellers",
+  "currency": "Local currency name and code (e.g., Japanese Yen - JPY)",
+  "currencyToINR": "Approximate conversion (e.g., 1 JPY ≈ ₹0.55)",
+  "language": "Primary language(s)",
+  "bestSeasons": {
+    "months": [list of best month numbers 1-12],
+    "description": "When to visit and why"
+  },
+  "visaForIndians": "visa-free|voa|e-visa|embassy|unknown",
+  "visaNotes": "Brief visa information for Indian passport holders",
+  "budgetTier": "budget|moderate|premium|luxury",
+  "avgDailyBudgetINR": estimated daily budget in INR for a mid-range traveller,
+  "topCities": [
+    {
+      "name": "City name",
+      "description": "1 sentence",
+      "avgDailyBudgetINR": estimated budget,
+      "topAttractions": ["Attraction 1", "Attraction 2", "Attraction 3"]
+    }
+  ],
+  "foodHighlights": {
+    "mustTry": ["Dish 1", "Dish 2", "Dish 3"],
+    "vegetarianFriendly": true/false,
+    "indianFoodAvailable": true/false,
+    "notes": "Food notes for Indian travellers"
+  },
+  "gettingThere": {
+    "fromIndia": "How to reach from major Indian cities",
+    "avgFlightTime": "Average flight time from Delhi/Mumbai",
+    "avgFlightCostINR": "Approximate round-trip flight cost"
+  },
+  "localTransport": "Brief local transport options",
+  "safetyNotes": "Key safety tips for Indian travellers",
+  "culturalNotes": "Important cultural considerations",
+  "highlights": ["Top highlight 1", "Top highlight 2", "Top highlight 3"]
+}`;
+
+  const response = await openai.chat.completions.create({
+    model: AI_MODEL,
+    max_completion_tokens: 2048,
+    reasoning_effort: AI_REASONING_EFFORT,
+    messages: [
+      {
+        role: 'system',
+        content: `You are a travel encyclopedia specializing in destinations for Indian travellers. 
+Provide accurate, up-to-date travel information. Be specific with costs in INR.
+For visa information, always reference requirements for Indian passport holders.
+If you're unsure about specific details, provide reasonable estimates based on similar destinations.`,
+      },
+      {
+        role: 'user',
+        content: prompt,
+      },
+    ],
+  });
+
+  const text = response.choices[0]?.message?.content;
+  if (!text) {
+    throw new Error('Failed to generate destination context');
+  }
+
+  const data = parseJSONResponse<{
+    name: string;
+    country: string;
+    region: string;
+    description: string;
+    currency: string;
+    currencyToINR: string;
+    language: string;
+    bestSeasons: { months: number[]; description: string };
+    visaForIndians: string;
+    visaNotes: string;
+    budgetTier: string;
+    avgDailyBudgetINR: number;
+    topCities: Array<{
+      name: string;
+      description: string;
+      avgDailyBudgetINR: number;
+      topAttractions: string[];
+    }>;
+    foodHighlights: {
+      mustTry: string[];
+      vegetarianFriendly: boolean;
+      indianFoodAvailable: boolean;
+      notes: string;
+    };
+    gettingThere: {
+      fromIndia: string;
+      avgFlightTime: string;
+      avgFlightCostINR: number;
+    };
+    localTransport: string;
+    safetyNotes: string;
+    culturalNotes: string;
+    highlights: string[];
+  }>(text);
+
+  const citiesText = data.topCities
+    .map(
+      (city) =>
+        `  ${city.name} (avg ₹${city.avgDailyBudgetINR}/day):
+    Description: ${city.description}
+    Top Attractions: ${city.topAttractions.join(', ')}`
+    )
+    .join('\n\n');
+
+  return `=== DESTINATION DATABASE: ${data.name} (${data.country}) ===
+
+Overview: ${data.description}
+
+Region: ${data.region}
+Currency: ${data.currency} (${data.currencyToINR})
+Language: ${data.language}
+Budget Tier: ${data.budgetTier}
+Average Daily Budget: ₹${data.avgDailyBudgetINR}
+
+Best Time to Visit:
+  Months: ${data.bestSeasons.months.join(', ')}
+  ${data.bestSeasons.description}
+
+Visa for Indian Passport Holders:
+  Type: ${data.visaForIndians.toUpperCase().replace('-', ' ')}
+  ${data.visaNotes}
+
+Getting There from India:
+  ${data.gettingThere.fromIndia}
+  Flight Time: ${data.gettingThere.avgFlightTime}
+  Approximate Flight Cost: ₹${data.gettingThere.avgFlightCostINR} round-trip
+
+Cities and Attractions:
+${citiesText}
+
+Food Highlights:
+  Must Try: ${data.foodHighlights.mustTry.join(', ')}
+  Vegetarian Friendly: ${data.foodHighlights.vegetarianFriendly ? 'Yes' : 'Limited'}
+  Indian Food Available: ${data.foodHighlights.indianFoodAvailable ? 'Yes' : 'Limited'}
+  Notes: ${data.foodHighlights.notes}
+
+Local Transport: ${data.localTransport}
+
+Safety Notes: ${data.safetyNotes}
+
+Cultural Notes: ${data.culturalNotes}
+
+Top Highlights: ${data.highlights.join(' | ')}
+
+=== END DESTINATION DATA ===`;
+}

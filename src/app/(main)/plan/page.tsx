@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Sparkles } from 'lucide-react';
 import { useItineraryBuilder } from '@/lib/hooks/use-itinerary-builder';
@@ -29,6 +31,7 @@ const stepVariants = {
 };
 
 export default function PlanPage() {
+  const searchParams = useSearchParams();
   const builder = useItineraryBuilder();
 
   const {
@@ -63,6 +66,24 @@ export default function PlanPage() {
     generateItinerary,
     setGenerationError,
   } = builder;
+
+  // Handle URL parameters from home page widget
+  useEffect(() => {
+    const dest = searchParams.get('dest');
+    const days = searchParams.get('days');
+    const style = searchParams.get('style');
+
+    if (dest && !destinationSlugs.length) {
+      const slug = dest.toLowerCase().replace(/\s+/g, '-');
+      setDestination([slug], dest);
+    }
+    if (days && !durationDays) {
+      setDuration(parseInt(days, 10) || 5);
+    }
+    if (style && !travelStyle) {
+      setTravelStyle(style);
+    }
+  }, [searchParams, destinationSlugs.length, durationDays, travelStyle, setDestination, setDuration, setTravelStyle]);
 
   // If generating, show progress animation
   if (isGenerating || generationError) {

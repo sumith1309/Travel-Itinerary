@@ -75,6 +75,9 @@ export function useItineraryBuilder() {
 
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
+        if (res.status === 401) {
+          throw new Error('Please sign in to generate your itinerary. Your progress will be saved.');
+        }
         throw new Error(body.detail ?? `Generation failed (${res.status})`);
       }
 
